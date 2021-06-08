@@ -1,6 +1,5 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const TerserWebpackPlugin = require('terser-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
@@ -45,13 +44,12 @@ module.exports = {
     },
     devServer: {
         host: 'localhost',
-        port: 3000,
+        port: 7000,
         historyApiFallback: true,
         liveReload: false,
     },
     optimization: {
 	    minimize: true,
-	    minimizer: [new TerserWebpackPlugin()],
 	    splitChunks: {
 	        chunks: 'all',
 	        maxInitialRequests: 5,
