@@ -1,0 +1,9 @@
+.select {
+    position: fixed;
+    display: inline-block;
+    width: 100%;
+    max-width: 800px;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+}

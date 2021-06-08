@@ -1,0 +1,68 @@
+export const EVENT_TYPES = [
+    "cast", 
+    "damage", 
+    "tick", 
+    "applybuff", 
+    "removebuff",
+    "applydebuff",
+    "removedebuff",
+] as const
+
+export type EventType = typeof EVENT_TYPES[number]
+
+export interface EventFields
+{
+    timestamp: number
+    sourceID: number
+    targetKey: string
+}
+
+export interface CastEvent extends EventFields
+{
+    type: "cast"
+    actionID: number
+}
+
+export interface DamageEvent extends EventFields
+{
+    type: "damage"
+    actionID: number
+}
+
+export interface TickEvent extends EventFields
+{
+    type: "tick"
+    statusID: number
+}
+export interface ApplyBuffEvent extends EventFields
+{
+    type: "applybuff"
+    statusID: number
+}
+
+export interface RemoveBuffEvent extends EventFields
+{
+    type: "removebuff"
+    statusID: number
+}
+
+export interface ApplyDebuffEvent extends EventFields
+{
+    type: "applydebuff"
+    statusID: number
+}
+
+export interface RemoveDebuffEvent extends EventFields
+{
+    type: "removedebuff"
+    statusID: number
+}
+
+export type FFLogsEvent = 
+    | CastEvent
+    | DamageEvent
+    | TickEvent
+    | ApplyBuffEvent
+    | RemoveBuffEvent
+    | ApplyDebuffEvent
+    | RemoveDebuffEvent

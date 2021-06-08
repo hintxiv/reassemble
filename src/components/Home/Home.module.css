@@ -1,0 +1,17 @@
+body {
+    background-color: #242526;
+}
+
+.input {
+    width: 100%
+}
+
+.home {
+    position: fixed;
+    display: inline-block;
+    width: 100%;
+    max-width: 900px;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+}
