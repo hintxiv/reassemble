@@ -1,4 +1,5 @@
-import { Box, CircularProgress, Grid, Paper } from '@material-ui/core'
+import { Box, CircularProgress, Grid, IconButton, Paper } from '@material-ui/core'
+import { Clear, Sync } from '@material-ui/icons'
 import { getStats } from 'parse/etro/api'
 import { Friend } from 'parse/fflogs/fight'
 import { FFLogsParser } from 'parse/fflogs/parser'
@@ -7,9 +8,10 @@ import { RouteComponentProps } from 'react-router-dom'
 import { Stats } from 'simulator/entity/player/stats'
 import { Simulator } from 'simulator/simulator'
 import { DamageGraph, GraphData } from './DamageGraph'
+import { BasePanel } from './Gearsets/BasePanel'
+import { ComparisonPanel } from './Gearsets/ComparisonPanel'
+import { SetSelect } from './Gearsets/SetSelect'
 import styles from './Result.module.css'
-import { StatsTable } from './Stats/GearsetPanel'
-import { SetSelect } from './Stats/SetSelect'
 
 interface RouterProps {
     rid: string
@@ -30,7 +32,8 @@ export interface GearsetInfo {
 
 interface State {
     ready: boolean
-    gearsets: GearsetInfo[]
+    baseGearset?: GearsetInfo
+    compareGearset?: GearsetInfo
 }
 
 export class Result extends React.Component<Props, State> {
@@ -45,11 +48,10 @@ export class Result extends React.Component<Props, State> {
         super(props)
         this.state = {
             ready: false,
-            gearsets: [],
+            baseGearset: undefined,
         }
     }
 
-    // componentWillMount?
     async componentDidMount() {
         await this.setup(this.reportID, this.fightID, this.gearsetID)
     }
@@ -66,11 +68,11 @@ export class Result extends React.Component<Props, State> {
         await this.loadData(gearsetID)
 
         if (this.props.match.params.gid2) {
-            await this.loadData(this.props.match.params.gid2)
+            await this.loadData(this.props.match.params.gid2, true)
         }
     }
 
-    private async loadData(gearsetID: string) {
+    private async loadData(gearsetID: string, isCompare = false) {
         this.setState({ ready: false })
 
         const { name, stats } = await getStats(gearsetID)
@@ -83,33 +85,65 @@ export class Result extends React.Component<Props, State> {
             data: { id: name, data: damageArray },
         }
 
-        this.setState({
-            gearsets: [...this.state.gearsets, gearsetInfo],
-            ready: true,
-        })
+        if (isCompare) {
+            this.setState({ compareGearset: gearsetInfo, ready: true })
+        } else {
+            this.setState({ baseGearset: gearsetInfo, ready: true })
+        }
     }
 
-    private etroLinkCallback = async (etroLink: string) => {
+    private onSetSelect = async (etroLink: string) => {
         const gearsetRegex = /(?<=gearset\/)(.*)/i
 
         try {
             const url = new URL(etroLink)
             const gearsetID = url.pathname.match(gearsetRegex)[0]
 
-            await this.loadData(gearsetID)
+            await this.loadData(gearsetID, true)
 
-            this.props.history.push(this.props.location.pathname + '/' + gearsetID)
+            this.props.history.replace(this.props.location.pathname + '/' + gearsetID)
 
         } catch (e) {
             return
         }
     }
 
-    private statsPanel = () => {
-        if (this.state.gearsets.length === 2) {
-            return <StatsTable gearset={this.state.gearsets[1]} compare={this.state.gearsets[0]} />
+    private onSync = async () => {
+        await this.loadData(this.props.match.params.gid2, true)
+    }
+
+    private onClear = async () => {
+        const reportID = this.props.match.params.rid
+        const fightID = parseInt(this.props.match.params.fid)
+        const playerID = parseInt(this.props.match.params.pid)
+        const gearsetID = this.props.match.params.gid
+
+        this.setState({ compareGearset: undefined })
+
+        this.props.history.replace(`/${reportID}/${fightID}/${playerID}/${gearsetID}`)
+    }
+
+    private comparePanel = () => {
+        if (this.state.compareGearset) {
+            return <div>
+                <ComparisonPanel gearset={this.state.baseGearset} compare={this.state.compareGearset} />
+                <Box className={styles.buttons}>
+                    <IconButton onClick = {this.onSync}>
+                        <Sync />
+                    </IconButton>
+                    <IconButton onClick={this.onClear}>
+                        <Clear />
+                    </IconButton>
+                </Box>
+            </div>
         }
-        return <SetSelect onClick={this.etroLinkCallback} />
+        return <SetSelect onClick={this.onSetSelect} />
+    }
+
+    private getGearsets = () => {
+        return this.state.compareGearset ?
+            [this.state.baseGearset, this.state.compareGearset] :
+            [this.state.baseGearset]
     }
 
     render() {
@@ -120,16 +154,16 @@ export class Result extends React.Component<Props, State> {
         return <div className={styles.result}>
             <Paper>
                 <Box p={2}>
-                    <DamageGraph gearsets={this.state.gearsets} />
+                    <DamageGraph gearsets={this.getGearsets()} />
                 </Box>
             </Paper>
             <Box mt={2} overflow="hidden">
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
-                        <StatsTable gearset={this.state.gearsets[0]} />
+                        <BasePanel gearset={this.state.baseGearset} />
                     </Grid>
                     <Grid item xs={6}>
-                        {this.statsPanel()}
+                        {this.comparePanel()}
                     </Grid>
                 </Grid>
             </Box>

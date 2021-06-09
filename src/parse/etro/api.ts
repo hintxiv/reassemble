@@ -1,5 +1,5 @@
-import ky, {Options} from 'ky'
-import {Stats} from 'simulator/entity/player/stats'
+import ky, { Options } from 'ky'
+import { Stats } from 'simulator/entity/player/stats'
 
 const statLookup: Record<string, keyof Stats> = {
     ['Weapon Damage']: 'weapondamage',

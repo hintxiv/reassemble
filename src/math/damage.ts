@@ -1,10 +1,10 @@
-import {JobInfo} from 'data/jobs'
-import {DamageInstance} from 'simulator/damage'
-import {Stats} from 'simulator/entity/player/stats'
+import { JobInfo } from 'data/jobs'
+import { DamageInstance } from 'simulator/damage'
+import { Stats } from 'simulator/entity/player/stats'
 import * as Funcs from './functions'
-import {JOB_MODS} from './modifiers/job'
-import {Level} from './modifiers/level'
-import {PET_MODS} from './modifiers/pet'
+import { JOB_MODS } from './modifiers/job'
+import { Level } from './modifiers/level'
+import { PET_MODS } from './modifiers/pet'
 
 const PARTY_BONUS = 1.05  // assume the full 5% buff
 

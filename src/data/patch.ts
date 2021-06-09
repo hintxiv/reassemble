@@ -8,4 +8,4 @@ export interface Patch
  * Fancier patch handling is probably a good idea in the future
  * TODO
  */
-export const CURRENT: Patch = {major: 5, minor: 4}
+export const CURRENT: Patch = {major: 5, minor: 5}
