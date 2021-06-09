@@ -2,6 +2,19 @@ import { range } from 'utilities/other'
 import * as Funcs from './functions'
 import { Level } from './modifiers/level'
 
+export const TIERED_STATS = [
+    'strength',
+    'dexterity',
+    'intelligence',
+    'mind',
+    'critical',
+    'determination',
+    'direct',
+    'skillspeed',
+    'spellspeed',
+    'tenacity',
+]
+
 export type TieredStat =
     | 'strength'
     | 'dexterity'

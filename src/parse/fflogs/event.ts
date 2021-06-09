@@ -1,14 +1,11 @@
-export const EVENT_TYPES = [
-    'cast',
-    'damage',
-    'tick',
-    'applybuff',
-    'removebuff',
-    'applydebuff',
-    'removedebuff',
-] as const
-
-export type EventType = typeof EVENT_TYPES[number]
+export type EventType =
+    | 'cast'
+    | 'damage'
+    | 'tick'
+    | 'applybuff'
+    | 'removebuff'
+    | 'applydebuff'
+    | 'removedebuff'
 
 export interface EventFields
 {

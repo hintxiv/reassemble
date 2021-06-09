@@ -8,8 +8,9 @@ import { Stats } from 'simulator/entity/player/stats'
 import { Simulator } from 'simulator/simulator'
 import { DamageGraph, GraphData } from './DamageGraph'
 import styles from './Result.module.css'
-import { StatsTable } from './Stats/GearsetPanel'
-import { SetSelect } from './Stats/SetSelect'
+import { ComparisonPanel } from './Gearsets/ComparisonPanel'
+import { BasePanel } from './Gearsets/BasePanel'
+import { SetSelect } from './Gearsets/SetSelect'
 
 interface RouterProps {
     rid: string
@@ -97,16 +98,17 @@ export class Result extends React.Component<Props, State> {
 
             await this.loadData(gearsetID)
 
-            this.props.history.push(this.props.location.pathname + '/' + gearsetID)
+            //this.props.history.push(this.props.location.pathname + '/' + gearsetID)
+            this.props.history.replace(this.props.location.pathname + '/' + gearsetID)
 
         } catch (e) {
             return
         }
     }
 
-    private statsPanel = () => {
+    private comparePanel = () => {
         if (this.state.gearsets.length === 2) {
-            return <StatsTable gearset={this.state.gearsets[1]} compare={this.state.gearsets[0]} />
+            return <ComparisonPanel gearset={this.state.gearsets[1]} compare={this.state.gearsets[0]} />
         }
         return <SetSelect onClick={this.etroLinkCallback} />
     }
@@ -125,10 +127,10 @@ export class Result extends React.Component<Props, State> {
             <Box mt={2} overflow="hidden">
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
-                        <StatsTable gearset={this.state.gearsets[0]} />
+                        <BasePanel gearset={this.state.gearsets[0]} />
                     </Grid>
                     <Grid item xs={6}>
-                        {this.statsPanel()}
+                        {this.comparePanel()}
                     </Grid>
                 </Grid>
             </Box>
