@@ -1,8 +1,8 @@
-import { Attribute, JobInfo } from './job'
-import { Bard } from 'simulator/entity/player/jobs/bard'
+import {Bard} from 'simulator/entity/player/jobs/bard'
+import {Attribute, JobInfo} from './job'
 
 export const BRD_INFO: JobInfo = {
-    name: "Bard",
+    name: 'Bard',
     playerCtor: Bard,
     mainStat: Attribute.DEX,
     weaponDelay: 3.04,

@@ -1,4 +1,4 @@
-import { preserve } from 'utilities/types'
+import {preserve} from 'utilities/types'
 
 export interface LevelModifier
 {

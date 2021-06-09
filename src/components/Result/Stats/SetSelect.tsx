@@ -1,20 +1,18 @@
-import * as React from 'react'
 import { Paper, TextField } from '@material-ui/core'
+import * as React from 'react'
 
-interface Props
-{
-    onClick: Function
+interface Props {
+    onClick: (etroLink: string) => Promise<void>
 }
 
-export class SetSelect extends React.Component<Props>
-{
+export class SetSelect extends React.Component<Props> {
     private onEtroChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.props.onClick(event.target.value)
     }
 
     render() {
         return <Paper>
-            <TextField 
+            <TextField
                 id="etro"
                 label="Compare..."
                 variant="outlined"

@@ -1,5 +1,5 @@
-import { Action, Debuff, Status } from './types'
 import { ALL, BRD, DNC, MCH, RAIDBUFFS } from './packs'
+import { Action, Debuff, Status } from './types'
 
 const ACTIONS = {
     ...ALL.ACTIONS,
@@ -24,8 +24,7 @@ const DEBUFFS = {
 /**
  * Just a passthrough for easy importing / access to data
  */
-export class DataProvider
-{
+export class DataProvider {
     private actionMap = new Map<number, Action>()
     private statusMap = new Map<number, Status>()
     private debuffMap = new Map<number, Debuff>()
@@ -58,7 +57,7 @@ export class DataProvider
 
     public findAction(actionID: number): Action | undefined {
         return this.actionMap.get(actionID)
-    } 
+    }
 
     public findStatus(statusID: number): Status | undefined {
         return this.statusMap.get(statusID)
@@ -66,5 +65,5 @@ export class DataProvider
 
     public findDebuff(statusID: number): Debuff | undefined {
         return this.debuffMap.get(statusID)
-    } 
+    }
 }

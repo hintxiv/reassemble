@@ -1,8 +1,8 @@
-import { Attribute, JobInfo } from './job'
-import { Dancer } from 'simulator/entity/player/jobs/dancer'
+import {Dancer} from 'simulator/entity/player/jobs/dancer'
+import {Attribute, JobInfo} from './job'
 
 export const DNC_INFO: JobInfo = {
-    name: "Dancer",
+    name: 'Dancer',
     playerCtor: Dancer,
     mainStat: Attribute.DEX,
     weaponDelay: 3.12,

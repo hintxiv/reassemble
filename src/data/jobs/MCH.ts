@@ -1,8 +1,8 @@
-import { Attribute, JobInfo } from './job'
-import { Machinist } from 'simulator/entity/player/jobs/machinist'
+import {Machinist} from 'simulator/entity/player/jobs/machinist'
+import {Attribute, JobInfo} from './job'
 
 export const MCH_INFO: JobInfo = {
-    name: "Machinist",
+    name: 'Machinist',
     playerCtor: Machinist,
     mainStat: Attribute.DEX,
     weaponDelay: 2.64,

@@ -1,3 +1,5 @@
+// Automatically generated. Do not edit.
+/* eslint-disable */
 declare namespace HomeModuleCssNamespace {
   export interface IHomeModuleCss {
     home: string;

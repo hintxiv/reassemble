@@ -1,8 +1,8 @@
 import { MCH_INFO } from 'data/jobs/MCH'
-import { ALL, MCH } from 'data/packs'
-import { CastEvent, DamageEvent } from 'parse/fflogs/event'
-import { Player } from '../player'
+import { MCH } from 'data/packs'
+import { CastEvent } from 'parse/fflogs/event'
 import { Buff } from 'simulator/buff'
+import { Player } from '../player'
 
 const REASSEMBLED: Buff = {
     statusID: MCH.STATUSES.REASSEMBLED.id,
@@ -24,8 +24,7 @@ const BATTERY_GEN = {
 // No status for this, need to fake it
 const HYPERCHARGE_DURATION_MS = 8000
 
-export class Machinist extends Player
-{
+export class Machinist extends Player {
     jobInfo = MCH_INFO
 
     private battery: number = 0
@@ -37,26 +36,24 @@ export class Machinist extends Player
 
         Object.values(MCH.ACTIONS).forEach(action => {
             if (PET_ACTIONS.includes(action.id)) {
-                this.addHandler("cast", action.id, this.onPetCast)
-            }
-            else if (action.type === "Weaponskill") {
-                this.addHandler("cast", action.id, this.onWeaponskillCast)
-            } 
-            else {
-                this.addHandler("cast", action.id, this.onCast)
+                this.addHandler('cast', action.id, this.onPetCast)
+            } else if (action.type === 'Weaponskill') {
+                this.addHandler('cast', action.id, this.onWeaponskillCast)
+            } else {
+                this.addHandler('cast', action.id, this.onCast)
             }
 
-            this.addHandler("damage", action.id, this.onDamage)
+            this.addHandler('damage', action.id, this.onDamage)
         })
 
         Object.values(MCH.DEBUFFS).forEach(debuff => {
-            this.addHandler("tick", debuff.id, this.onTick)
+            this.addHandler('tick', debuff.id, this.onTick)
         })
 
-        this.addHandler("cast", MCH.ACTIONS.WILDFIRE.id, this.onWildfireCast)
-        this.addHandler("cast", MCH.ACTIONS.AUTOMATON_QUEEN.id, this.onSummon)
-        this.addHandler("cast", MCH.ACTIONS.HEATED_CLEAN_SHOT.id, this.onBatteryCast)
-        this.addHandler("cast", MCH.ACTIONS.AIR_ANCHOR.id, this.onBatteryCast)
+        this.addHandler('cast', MCH.ACTIONS.WILDFIRE.id, this.onWildfireCast)
+        this.addHandler('cast', MCH.ACTIONS.AUTOMATON_QUEEN.id, this.onSummon)
+        this.addHandler('cast', MCH.ACTIONS.HEATED_CLEAN_SHOT.id, this.onBatteryCast)
+        this.addHandler('cast', MCH.ACTIONS.AIR_ANCHOR.id, this.onBatteryCast)
     }
 
     private onWildfireCast(event: CastEvent) {
@@ -90,13 +87,12 @@ export class Machinist extends Player
     }
 
     private onPetCast(event: CastEvent) {
-        const pet = "Automaton Queen"
+        const pet = 'Automaton Queen'
 
         if (event.actionID === MCH.ACTIONS.PILE_BUNKER.id) {
             const addedPotency = (this.queenSummonedAt * 8) - 400
             this.addCast(event, this.activeBuffs, { addedPotency: addedPotency, pet: pet })
-        } 
-        else {
+        } else {
             this.addCast(event, this.activeBuffs, { pet: pet })
         }
     }

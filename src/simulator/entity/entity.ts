@@ -1,16 +1,16 @@
-import { DataProvider } from "data/provider"
-import { Status } from "data/types"
-import { 
-    ApplyBuffEvent, 
-    ApplyDebuffEvent, 
-    CastEvent, 
-    DamageEvent, 
-    EventType, 
-    FFLogsEvent, 
-    RemoveBuffEvent, 
-    RemoveDebuffEvent
-} from "parse/fflogs/event"
-import { EventHandler } from "simulator/handlers"
+import { DataProvider } from 'data/provider'
+import { Status } from 'data/types'
+import {
+    ApplyBuffEvent,
+    ApplyDebuffEvent,
+    CastEvent,
+    DamageEvent,
+    EventType,
+    FFLogsEvent,
+    RemoveBuffEvent,
+    RemoveDebuffEvent,
+} from 'parse/fflogs/event'
+import { EventHandler } from 'simulator/handlers'
 
 export type EventKey = `${EventType}-${number}`  // Type - ID
 export type CastKey = `${number}-${number}`  // TargetID - ActionID
@@ -19,8 +19,7 @@ export type CastKey = `${number}-${number}`  // TargetID - ActionID
  * Represents an Entity in the report
  * @param id - FFLogs actor ID
  */
-export abstract class Entity
-{
+export abstract class Entity {
     public key: string
 
     protected data = new DataProvider()
@@ -33,7 +32,7 @@ export abstract class Entity
 
     public processEvent(event: FFLogsEvent) {
         const key = this.getEventKey(event)
-    
+
         if (this.handlers.has(key)) {
             const handler = this.handlers.get(key)
             handler(event)
@@ -43,14 +42,14 @@ export abstract class Entity
     /**
      * Adds an EventHandler to the entity. The generics say:
      *  "the handler must only consume events with the given type"
-     * 
+     *
      *   -> Only one handler per action / type combination is permitted!
      */
-    protected addHandler< T extends EventType, E extends Extract<FFLogsEvent, {type: T}> > 
-     (type: T, id: number, handler: EventHandler<E>) {
-         const key = `${type}-${id}`
- 
-         this.handlers.set(key, handler.bind(this))
+    protected addHandler<T extends EventType, E extends Extract<FFLogsEvent, { type: T }>>
+    (type: T, id: number, handler: EventHandler<E>) {
+        const key = `${type}-${id}`
+
+        this.handlers.set(key, handler.bind(this))
     }
 
     protected hasStatus(statusID: number) {

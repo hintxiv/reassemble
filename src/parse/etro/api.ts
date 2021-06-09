@@ -1,20 +1,20 @@
-import ky, { Options } from 'ky'
-import { Stats } from 'simulator/entity/player/stats'
+import ky, {Options} from 'ky'
+import {Stats} from 'simulator/entity/player/stats'
 
 const statLookup: Record<string, keyof Stats> = {
-    ["Weapon Damage"]: "weapondamage",
-    ["Weapon DMG"]: "weapondamage",
-    STR: "strength",
-    DEX: "dexterity",
-    VIT: "vitality",
-    INT: "intelligence",
-    MND: "mind",
-    CRT: "critical",
-    DET: "determination",
-    DH: "direct",
-    SKS: "skillspeed",
-    SPS: "spellspeed",
-    TEN: "tenacity",
+    ['Weapon Damage']: 'weapondamage',
+    ['Weapon DMG']: 'weapondamage',
+    STR: 'strength',
+    DEX: 'dexterity',
+    VIT: 'vitality',
+    INT: 'intelligence',
+    MND: 'mind',
+    CRT: 'critical',
+    DET: 'determination',
+    DH: 'direct',
+    SKS: 'skillspeed',
+    SPS: 'spellspeed',
+    TEN: 'tenacity',
 }
 
 const options: Options = {
@@ -23,10 +23,22 @@ const options: Options = {
 
 const etro = ky.create(options)
 
-export async function getStats(id: string): Promise<{name: string, stats: Stats}>
+interface EtroResponseGearset
 {
+    name: string
+    totalParams: Array< {name: string, value: number} >
+    // ... some other stuff too, but we only care about these fields
+}
+
+async function getGearset(id: string): Promise<EtroResponseGearset> {
+    const response = await etro.get(`gearsets/${id}/`)
+
+    return response.json()
+}
+
+export async function getStats(id: string): Promise<{name: string, stats: Stats}> {
     const gearset = await getGearset(id)
-    
+
     const name = gearset.name
 
     const stats: Stats = {
@@ -44,18 +56,11 @@ export async function getStats(id: string): Promise<{name: string, stats: Stats}
         tenacity: 0,
     }
 
-    gearset.totalParams.forEach((p: {name: string, value: number}) => {
+    gearset.totalParams.forEach(p => {
         if (p.name in statLookup) {
             stats[statLookup[p.name]] = p.value
         }
     })
 
     return {name, stats}
-}
-
-async function getGearset(id: string): Promise<any>
-{
-    const response = await etro.get(`gearsets/${id}/`)
-
-    return response.json()
 }

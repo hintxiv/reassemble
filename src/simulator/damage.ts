@@ -1,7 +1,7 @@
-import { ActionType } from '../data/types'
-import { Buff } from './buff'
+import {ActionType} from '../data/types'
+import {Buff} from './buff'
 
-export type DamageType = ActionType | "DoT"
+export type DamageType = ActionType | 'DoT'
 
 export interface DamageOptions
 {
@@ -31,5 +31,5 @@ export interface DamageInstance
     options: DamageOptions
 }
 
-export type SolvedDamageInstance = 
+export type SolvedDamageInstance =
     DamageInstance & {damage: number}

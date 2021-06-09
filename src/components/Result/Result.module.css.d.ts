@@ -1,3 +1,5 @@
+// Automatically generated. Do not edit.
+/* eslint-disable */
 declare namespace ResultModuleCssNamespace {
   export interface IResultModuleCss {
     loading: string;

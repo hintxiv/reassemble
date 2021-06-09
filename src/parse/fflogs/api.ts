@@ -1,5 +1,6 @@
 import ky, { Options } from 'ky'
 import { Fight, Friend, PetFriend } from './fight'
+import { Report, ReportFight, ReportFriend, ReportPetFriend } from './report'
 
 const NO_FAKE_FRIENDS = [
     'Ground Effect',
@@ -12,22 +13,11 @@ const options: Options = {
     searchParams: {
         api_key: process.env.FFLOGS_API_KEY,
         translate: true,
-    }, 
+    },
     timeout: 20000, // up to 20s for potentially large requests
 }
 
 const fflogs = ky.create(options)
-
-interface ReportFight
-{
-    id: number
-    start_time: number
-    end_time: number
-}
-
-type ReportFriend = Friend & { fights: ReportFight[] }
-
-type ReportPetFriend = PetFriend & { fights: ReportFight[] }
 
 export interface FFLogsQuery
 {
@@ -37,14 +27,28 @@ export interface FFLogsQuery
     filter?: string
 }
 
+interface FFLogsResponseEvent
+{
+    timestamp: number
+    sourceID: number
+    type: string
+    ability?: {
+        guid: number
+    }
+    tick?: boolean
+    targetID?: number
+    targetInstance?: number
+    // ... some other stuff too, but we only care about these fields
+}
+
 export async function fetchFight(reportID: string, fightID: number): Promise<Fight> {
-    const report: any = await fflogs.get(`fights/${reportID}/`).json()
+    const report: Report = await fflogs.get(`fights/${reportID}/`).json()
     const friends: Friend[] = []
     const friendlyPets: PetFriend[] = []
 
     report.friendlies.forEach((friend: ReportFriend) => {
         if (!NO_FAKE_FRIENDS.includes(friend.name)) {
-            if (friend.fights.some(fight => fight.id === fightID )) {
+            if (friend.fights.some(fight => fight.id === fightID)) {
                 friends.push(friend)
             }
         }
@@ -70,17 +74,17 @@ export async function fetchFight(reportID: string, fightID: number): Promise<Fig
 }
 
 export async function fetchLastFightID(reportID: string): Promise<number> {
-    const report: any = await fflogs.get(`fights/${reportID}/`).json()
+    const report: Report = await fflogs.get(`fights/${reportID}/`).json()
 
     return report.fights.slice(-1)[0].id
 }
 
-export async function fetchEvents(fight: Fight, query: FFLogsQuery): Promise<any> {
-    const searchParams = query as Record<keyof FFLogsQuery, string | number> 
+export async function fetchEvents(fight: Fight, query: FFLogsQuery): Promise<{events: FFLogsResponseEvent[]}> {
+    const searchParams = query as Record<keyof FFLogsQuery, string | number>
 
     const events = await fflogs.get(
         `events/summary/${fight.reportID}`,
-        {searchParams: searchParams}    
+        {searchParams: searchParams}
     )
 
     return events.json()

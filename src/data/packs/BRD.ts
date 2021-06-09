@@ -1,5 +1,5 @@
-import { Action, Debuff, Status } from '../types'
-import { preserve } from 'utilities/types'
+import {preserve} from 'utilities/types'
+import {Action, Debuff, Status} from '../types'
 
 /**
  * TODO - potencies for sidewinder (target debuff check), apex arrow, pp (estimate?)
@@ -7,86 +7,86 @@ import { preserve } from 'utilities/types'
 export const ACTIONS = preserve<Action>()({
     BLOODLETTER: {
         id: 110,
-        type: "Ability",
+        type: 'Ability',
         potency: 150,
     },
     QUICK_NOCK: {
         id: 106,
-        type: "Weaponskill",
+        type: 'Weaponskill',
         potency: 510,
         multihit: true,
     },
     MAGES_BALLAD: {
         id: 114,
-        type: "Spell",
+        type: 'Spell',
         potency: 100,
     },
     ARMYS_PAEON: {
         id: 116,
-        type: "Spell",
+        type: 'Spell',
         potency: 100,
     },
     RAIN_OF_DEATH: {
         id: 117,
-        type: "Ability",
+        type: 'Ability',
         potency: 130,
         multihit: true,
     },
     THE_WANDERERS_MINUET: {
         id: 3559,
-        type: "Spell",
+        type: 'Spell',
         potency: 100,
     },
     PITCH_PERFECT: {
         id: 7404,
-        type: "Ability",
+        type: 'Ability',
         potency: 450,  // TODO
     },
     EMPYREAL_ARROW: {
         id: 3558,
-        type: "Ability",
+        type: 'Ability',
         potency: 230,
     },
     IRON_JAWS: {
         id: 3560,
-        type: "Weaponskill",
+        type: 'Weaponskill',
         potency: 100,
     },
     SIDEWINDER: {
         id: 3562,
-        type: "Ability",
+        type: 'Ability',
         potency: 350,  // TODO
     },
     CAUSTIC_BITE: {
         id: 7406,
-        type: "Weaponskill",
+        type: 'Weaponskill',
         potency: 150,
     },
     STORMBITE: {
         id: 7407,
-        type: "Weaponskill",
+        type: 'Weaponskill',
         potency: 100,
     },
     SHADOWBITE: {
         id: 16494,
-        type: "Ability",
+        type: 'Ability',
         potency: 220,  // TODO
         multihit: true,
     },
     BURST_SHOT: {
         id: 16495,
-        type: "Weaponskill",
+        type: 'Weaponskill',
         potency: 250,
     },
     APEX_ARROW: {
         id: 16496,
-        type: "Weaponskill",
+        type: 'Weaponskill',
         potency: 600,  // TODO
         multihit: true,
     },
     REFULGENT_ARROW: {
         id: 7409,
-        type: "Weaponskill",
+        type: 'Weaponskill',
         potency: 340,
     },
 })

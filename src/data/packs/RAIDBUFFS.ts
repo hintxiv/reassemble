@@ -1,5 +1,5 @@
-import { Debuff, Status } from '../types'
-import { preserve } from 'utilities/types'
+import {preserve} from 'utilities/types'
+import {Debuff, Status} from '../types'
 
 /**
  * TODO

@@ -1,33 +1,29 @@
+import { Line } from '@nivo/line'
 import * as React from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { Line } from '@nivo/line'
 import { GearsetInfo } from './Result'
 
-const firstColor = "hsl(220, 100%, 60%)"
-const secondColor = "hsl(40, 100%, 60%)"
+const firstColor = 'hsl(220, 100%, 60%)'
+const secondColor = 'hsl(40, 100%, 60%)'
 
-interface Point
-{
+interface Point {
     x: number
     y: number
 }
 
-export interface GraphData
-{
+export interface GraphData {
     id: string | number
     data: Point[]
 }
 
-interface Props 
-{
+interface Props {
     gearsets: GearsetInfo[]
 }
 
-export class DamageGraph extends React.Component<Props>
-{
+export class DamageGraph extends React.Component<Props> {
     private data = this.props.gearsets
         .reduce((data: GraphData[], gearset) => data = [...data, gearset.data], [])
-    
+
     private getColor = (line: GraphData) => {
         if (line.id === this.props.gearsets[0].name) {
             return firstColor
@@ -38,7 +34,7 @@ export class DamageGraph extends React.Component<Props>
     render() {
         return <AutoSizer disableHeight>
             {({ width }) => (
-                <div style={{width: width + 'px'}}>
+                <div style={{ width: width + 'px' }}>
                     <Line
                         margin={{ top: 20, right: 10, bottom: 60, left: 60 }}
                         height={500}
@@ -48,11 +44,11 @@ export class DamageGraph extends React.Component<Props>
                         isInteractive={true}
                         useMesh={true}
                         colors={this.getColor}
-                        curve='basis'
+                        curve="basis"
                         enablePoints={false}
                         enableGridX={false}
                         enableGridY={false}
-                        xScale={{type: 'linear'}}
+                        xScale={{ type: 'linear' }}
                         axisLeft={{
                             orient: 'left',
                             tickSize: 0,
@@ -61,7 +57,7 @@ export class DamageGraph extends React.Component<Props>
                             tickValues: 5,
                             legend: 'DPS',
                             legendOffset: -50,
-                            legendPosition: 'middle'
+                            legendPosition: 'middle',
                         }}
                         axisBottom={{
                             orient: 'bottom',
@@ -71,51 +67,51 @@ export class DamageGraph extends React.Component<Props>
                             tickValues: 10,
                             legend: '',
                             legendOffset: 0,
-                            legendPosition: 'middle'
+                            legendPosition: 'middle',
                         }}
                         legends={[{
-                            anchor: "top-right",
-                            direction: "column",
+                            anchor: 'top-right',
+                            direction: 'column',
                             translateX: -20,
                             translateY: 0,
                             itemWidth: 80,
                             itemHeight: 25,
-                            itemDirection: "right-to-left",
+                            itemDirection: 'right-to-left',
                             symbolSize: 12,
-                            symbolShape: "circle",
+                            symbolShape: 'circle',
                         }]}
                         theme={{
-                            textColor: "#FFFFFF",
-                            fontFamily: "Roboto",
+                            textColor: '#FFFFFF',
+                            fontFamily: 'Roboto',
                             axis: {
                                 domain: {
                                     line: {
-                                        stroke: "#FFFFFF",
-                                        "strokeWidth": 1
-                                    }
+                                        stroke: '#FFFFFF',
+                                        'strokeWidth': 1,
+                                    },
                                 },
                                 ticks: {
                                     line: {
-                                        stroke: "#FFFFFF",
-                                        strokeWidth: 1
-                                    }
-                                }
+                                        stroke: '#FFFFFF',
+                                        strokeWidth: 1,
+                                    },
+                                },
                             },
                             grid: {
                                 line: {
-                                    stroke: "#FFFFFF",
-                                    strokeWidth: 1
-                                }
+                                    stroke: '#FFFFFF',
+                                    strokeWidth: 1,
+                                },
                             },
                             tooltip: {
                                 container: {
-                                    color: "black",
-                                }
-                            }, 
+                                    color: 'black',
+                                },
+                            },
                         }}
                     />
                 </div>
-        )}
+            )}
         </AutoSizer>
     }
 }
