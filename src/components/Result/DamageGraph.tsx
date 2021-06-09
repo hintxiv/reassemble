@@ -3,8 +3,8 @@ import * as React from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { GearsetInfo } from './Result'
 
-const firstColor = 'hsl(220, 100%, 60%)'
-const secondColor = 'hsl(40, 100%, 60%)'
+const firstColor = 'hsl(40, 100%, 60%)'
+const secondColor = 'hsl(220, 100%, 60%)'
 
 interface Point {
     x: number
@@ -23,6 +23,7 @@ interface Props {
 export class DamageGraph extends React.Component<Props> {
     private data = this.props.gearsets
         .reduce((data: GraphData[], gearset) => data = [...data, gearset.data], [])
+        .reverse()
 
     private getColor = (line: GraphData) => {
         if (line.id === this.props.gearsets[0].name) {
@@ -36,7 +37,7 @@ export class DamageGraph extends React.Component<Props> {
             {({ width }) => (
                 <div style={{ width: width + 'px' }}>
                     <Line
-                        margin={{ top: 20, right: 10, bottom: 60, left: 60 }}
+                        margin={{ top: 20, right: 20, bottom: 60, left: 70 }}
                         height={500}
                         width={width}
                         data={this.data}
@@ -56,7 +57,7 @@ export class DamageGraph extends React.Component<Props> {
                             tickRotation: 0,
                             tickValues: 5,
                             legend: 'DPS',
-                            legendOffset: -50,
+                            legendOffset: -60,
                             legendPosition: 'middle',
                         }}
                         axisBottom={{
@@ -68,6 +69,9 @@ export class DamageGraph extends React.Component<Props> {
                             legend: '',
                             legendOffset: 0,
                             legendPosition: 'middle',
+                            // Convert seconds to mm:ss
+                            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+                            format: (s: number) => `${Math.floor(s / 60)}:${(s % 60).toFixed().padStart(2, '0')}`,
                         }}
                         legends={[{
                             anchor: 'top-right',
@@ -77,23 +81,18 @@ export class DamageGraph extends React.Component<Props> {
                             itemWidth: 80,
                             itemHeight: 25,
                             itemDirection: 'right-to-left',
-                            symbolSize: 12,
+                            symbolSize: 13,
                             symbolShape: 'circle',
                         }]}
                         theme={{
                             textColor: '#FFFFFF',
                             fontFamily: 'Roboto',
+                            fontSize: 14,
                             axis: {
                                 domain: {
                                     line: {
                                         stroke: '#FFFFFF',
-                                        'strokeWidth': 1,
-                                    },
-                                },
-                                ticks: {
-                                    line: {
-                                        stroke: '#FFFFFF',
-                                        strokeWidth: 1,
+                                        'strokeWidth': 2,
                                     },
                                 },
                             },
