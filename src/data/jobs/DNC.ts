@@ -1,5 +1,5 @@
-import {Dancer} from 'simulator/entity/player/jobs/dancer'
-import {Attribute, JobInfo} from './job'
+import { Dancer } from 'simulator/entity/player/jobs/dancer'
+import { Attribute, JobInfo } from './job'
 
 export const DNC_INFO: JobInfo = {
     name: 'Dancer',
@@ -8,7 +8,7 @@ export const DNC_INFO: JobInfo = {
     weaponDelay: 3.12,
     trait: 120,
     iconPath: '/jobicons/dnc.svg',
-    latest: {major: 5, minor: 4},
+    latest: {major: 5, minor: 5},
     damageMap: {
         Ability: Attribute.DEX,
         Auto: Attribute.DEX,

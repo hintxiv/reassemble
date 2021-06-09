@@ -37,7 +37,7 @@ export function getTiers(stat: TieredStat, a: number, b: number, level: Level = 
     let prev = tierFn(smaller, level)
     let tiers = 0
 
-    for (const i of range(smaller, larger)) {
+    for (const i of range(smaller, larger + 1)) {
         const next = tierFn(i, level)
         if (next > prev) {
             tiers += 1

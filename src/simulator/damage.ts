@@ -1,5 +1,5 @@
-import {ActionType} from '../data/types'
-import {Buff} from './buff'
+import { ActionType } from '../data/types'
+import { Buff } from './buff'
 
 export type DamageType = ActionType | 'DoT'
 

@@ -49,7 +49,6 @@ export class Result extends React.Component<Props, State> {
         }
     }
 
-    // componentWillMount?
     async componentDidMount() {
         await this.setup(this.reportID, this.fightID, this.gearsetID)
     }

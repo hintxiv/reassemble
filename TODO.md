@@ -5,6 +5,8 @@
 * [ ] Don't push comparison URL to browser history
 
 ## Before public release
+* [X] Automate linting + build tests on PR
+* [X] Automate deploy on push to main
 * [ ] Pet racial stats... *sigh*
 * [ ] Input validation / feedback for malformed URLs
 * [ ] Precast actions / statuses
@@ -19,10 +21,10 @@
 * [ ] Gear / level sync (ultimates only?)
 * [ ] High / low roll RNG range in DPS output (for ""crit farm sets"")
 * [ ] Zoom graph for a specific killtime
-* [ ] Meld autosolver 
+* [ ] Meld autosolver
 
 ## Done
-* [X] Pets             
+* [X] Pets
 * [X] Debuff raid buffs
     * [X] Call getDebuffsJSON in parser, somehow sync it up by timestamp in the parser's event generator
     * [X] "Enemy" class with targetKey, maintain debuffs
