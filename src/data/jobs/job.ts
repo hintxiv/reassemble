@@ -1,9 +1,9 @@
-import { DamageType } from '../../simulator/damage'
-import { Patch } from '../patch'
-import { Player } from 'simulator/entity'
-import { CastHandler, DamageHandler } from 'simulator/handlers'
+import {Player} from 'simulator/entity'
+import {CastHandler, DamageHandler} from 'simulator/handlers'
+import {DamageType} from '../../simulator/damage'
+import {Patch} from '../patch'
 
-export const enum Attribute 
+export const enum Attribute
 {
     HP, MP, STR, VIT, DEX, INT, MND
 }
@@ -13,9 +13,9 @@ type DamageMap = {
 }
 
 export type Job =
-    | "Bard"
-    | "Dancer"
-    | "Machinist"
+    | 'Bard'
+    | 'Dancer'
+    | 'Machinist'
 
 export interface JobInfo
 {

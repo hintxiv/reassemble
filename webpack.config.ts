@@ -1,9 +1,9 @@
+/* eslint-disable */
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
-
 
 module.exports = {
     entry: './src/components/index.tsx',
@@ -20,10 +20,15 @@ module.exports = {
                 test: /\.css$/i,
                 use: [
                     "style-loader",
-                    "@teamsupercell/typings-for-css-modules-loader",
+                    {
+                        loader: "@teamsupercell/typings-for-css-modules-loader",
+                        options: {
+                            banner: '// Automatically generated. Do not edit.\n/* eslint-disable */',
+                        },
+                    },
                     {
                         loader: "css-loader",
-                        options: { modules: true }
+                        options: { modules: true },
                     },
                 ],
             },
@@ -38,8 +43,8 @@ module.exports = {
     },
     output: {
         filename: '[name].[fullhash:8].js',
-	sourceMapFilename: '[name].[fullhash:8].map',
-	chunkFilename: '[id].[fullhash:8].js',
+        sourceMapFilename: '[name].[fullhash:8].map',
+        chunkFilename: '[id].[fullhash:8].js',
         publicPath: '/',
     },
     devServer: {
@@ -49,12 +54,12 @@ module.exports = {
         liveReload: false,
     },
     optimization: {
-	    minimize: true,
-	    splitChunks: {
-	        chunks: 'all',
-	        maxInitialRequests: 5,
-	    },
-	    runtimeChunk: 'single',
+        minimize: true,
+        splitChunks: {
+            chunks: 'all',
+            maxInitialRequests: 5,
+        },
+        runtimeChunk: 'single',
     },
     plugins: [
         new HtmlWebpackPlugin({

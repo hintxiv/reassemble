@@ -1,9 +1,9 @@
-import { Attribute } from 'data/jobs'
+import {Attribute} from 'data/jobs'
 
-type PetModifiers = { 
-    [key in Attribute]?: number 
-} & { 
-    trait?: number 
+type PetModifiers = {
+    [key in Attribute]?: number
+} & {
+    trait?: number
 }
 
 export const PET_MODS: Record<string, PetModifiers> = {

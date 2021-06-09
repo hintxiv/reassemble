@@ -1,7 +1,7 @@
 import { DNC_INFO } from 'data/jobs/DNC'
-import { ALL, DNC } from 'data/packs'
-import { Player } from '../player'
+import { DNC } from 'data/packs'
 import { Buff } from 'simulator/buff'
+import { Player } from '../player'
 
 const STANDARD_FINISH: Buff = {
     statusID: DNC.STATUSES.STANDARD_FINISH.id,
@@ -14,8 +14,7 @@ const DEVILMENT: Buff = {
     directRate: 0.2,
 }
 
-export class Dancer extends Player
-{
+export class Dancer extends Player {
     jobInfo = DNC_INFO
 
     protected init() {
@@ -25,8 +24,8 @@ export class Dancer extends Player
         this.addBuff(DEVILMENT)
 
         Object.values(DNC.ACTIONS).forEach(action => {
-            this.addHandler("cast", action.id, this.onCast)
-            this.addHandler("damage", action.id, this.onDamage)
+            this.addHandler('cast', action.id, this.onCast)
+            this.addHandler('damage', action.id, this.onDamage)
         })
     }
 }

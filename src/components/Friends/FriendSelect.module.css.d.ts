@@ -1,3 +1,5 @@
+// Automatically generated. Do not edit.
+/* eslint-disable */
 declare namespace FriendSelectModuleCssNamespace {
   export interface IFriendSelectModuleCss {
     select: string;

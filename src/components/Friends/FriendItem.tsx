@@ -1,33 +1,30 @@
-import * as React from 'react'
 import { Button, createStyles, Icon, Theme, WithStyles, withStyles } from '@material-ui/core'
 import { JobInfo, JOBS } from 'data/jobs'
 import { CURRENT } from 'data/patch'
 import { Friend } from 'parse/fflogs/fight'
+import * as React from 'react'
 
-const styles = (theme: Theme) => createStyles({
+const styles = (_theme: Theme) => createStyles({
     imageIcon: {
         display: 'flex',
         height: 'inherit',
         width: 'inherit',
-    }, 
+    },
     iconRoot: {
         textAlign: 'center',
-    }
+    },
 })
 
-interface Props extends WithStyles<typeof styles>
-{
-    onClick: Function,
+interface Props extends WithStyles<typeof styles> {
+    onClick: (playerID: number) => Promise<void>,
     friend: Friend,
 }
 
-interface State
-{
+interface State {
     job: JobInfo | null,
 }
 
-class FriendItemComponent extends React.Component<Props, State>
-{
+class FriendItemComponent extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props)

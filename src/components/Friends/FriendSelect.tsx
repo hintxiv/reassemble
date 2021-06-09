@@ -1,28 +1,24 @@
+import { Box, Grid, Paper } from '@material-ui/core'
+import { Friend } from 'parse/fflogs/fight'
+import { FFLogsParser } from 'parse/fflogs/parser'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { Box, Grid, Paper, Typography } from '@material-ui/core'
 import { FriendItem } from './FriendItem'
-import { FFLogsParser } from 'parse/fflogs/parser'
-import { Friend } from 'parse/fflogs/fight'
-
 import styles from './FriendSelect.module.css'
 
-interface RouterProps
-{
+interface RouterProps {
     rid: string
     fid: string
     gid: string
 }
 
-interface Props extends RouteComponentProps<RouterProps> {}
+type Props = RouteComponentProps<RouterProps>
 
-interface State
-{
+interface State {
     friends?: Friend[]
 }
 
-export class FriendSelect extends React.Component<Props, State>
-{
+export class FriendSelect extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props)
         this.state = {}
@@ -39,7 +35,7 @@ export class FriendSelect extends React.Component<Props, State>
         this.setState({ friends: parser.fight.friends })
     }
 
-    private playerIDCallback = (playerID: number) => {
+    private playerIDCallback = async (playerID: number) => {
         const reportID = this.props.match.params.rid
         const fightID = parseInt(this.props.match.params.fid)
         const gearsetID = this.props.match.params.gid

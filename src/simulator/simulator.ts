@@ -1,16 +1,15 @@
-import { DamageInstance } from 'simulator/damage'
 import { JOBS } from 'data/jobs'
 import { expectedDamage } from 'math/damage'
 import { FFLogsEvent } from 'parse/fflogs/event'
 import { Friend } from 'parse/fflogs/fight'
 import { FFLogsParser } from 'parse/fflogs/parser'
+import { DamageInstance } from 'simulator/damage'
 import { Enemy, Player } from 'simulator/entity'
 import { Stats } from 'simulator/entity/player/stats'
 import { RAID_DEBUFFS } from 'simulator/raidbuffs'
 import { CastHandler, DamageHandler } from './handlers'
 
-export class Simulator
-{
+export class Simulator {
     private parser: FFLogsParser
     private damageInstances: DamageInstance[] = []
 
@@ -61,7 +60,7 @@ export class Simulator
             .map(debuff => debuff.statusID)
 
         const eventGenerator = this.parser.getEvents(this.player.id, debuffIDs)
-        
+
         for await (const event of eventGenerator) {
             this.processEvent(event)
         }
@@ -76,18 +75,21 @@ export class Simulator
             await this.extractDamage()
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const duration = (this.parser.fight.end - this.parser.fight.start) / 1000
+
         let totalDamage = 0
-        const damageArray: Array<{x: number, y: number}> = []
+        const damageArray: Array<{ x: number, y: number }> = []
 
         this.damageInstances.forEach(instance => {
+            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
             const damage = expectedDamage(instance, this.player.jobInfo, 80, stats)
             totalDamage += damage
 
             const timeSoFar = (instance.timestamp - this.parser.fight.start) / 1000
             const dpsSoFar = totalDamage / timeSoFar
 
-            damageArray.push({x: timeSoFar, y: dpsSoFar})
+            damageArray.push({ x: timeSoFar, y: dpsSoFar })
         })
 
         return damageArray

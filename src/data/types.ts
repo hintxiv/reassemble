@@ -1,8 +1,8 @@
-export type ActionType = 
-    | "Ability"
-    | "Auto"
-    | "Spell"
-    | "Weaponskill" 
+export type ActionType =
+    | 'Ability'
+    | 'Auto'
+    | 'Spell'
+    | 'Weaponskill'
 
 interface ComboInfo
 {

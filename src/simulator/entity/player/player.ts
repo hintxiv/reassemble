@@ -1,15 +1,14 @@
-import { CastInstance, DamageOptions } from 'simulator/damage'
 import { JobInfo } from 'data/jobs'
 import { ALL } from 'data/packs'
 import { Action, Status } from 'data/types'
-import { CastKey, Entity } from '../entity'
-import { CastHandler, DamageHandler } from '../../handlers'
 import { CastEvent, DamageEvent, TickEvent } from 'parse/fflogs/event'
-import { RAID_BUFFS } from '../../raidbuffs'
 import { Buff } from 'simulator/buff'
+import { CastInstance, DamageOptions } from 'simulator/damage'
+import { CastHandler, DamageHandler } from '../../handlers'
+import { RAID_BUFFS } from '../../raidbuffs'
+import { CastKey, Entity } from '../entity'
 
-export abstract class Player extends Entity
-{
+export abstract class Player extends Entity {
     public jobInfo: JobInfo
 
     public id: number
@@ -20,7 +19,7 @@ export abstract class Player extends Entity
 
     private castCallback: CastHandler
     private damageCallback: DamageHandler
-    
+
     constructor(id: number, castCallback: CastHandler, damageCallback: DamageHandler) {
         super(id.toString())
 
@@ -33,14 +32,14 @@ export abstract class Player extends Entity
     protected init() {
         // Add handlers to maintain activeStatuses
         Object.values(this.data.statuses).forEach(status => {
-            this.addHandler("applybuff", status.id, this.onApplyStatus)
-            this.addHandler("removebuff", status.id, this.onRemoveStatus)
+            this.addHandler('applybuff', status.id, this.onApplyStatus)
+            this.addHandler('removebuff', status.id, this.onRemoveStatus)
         })
 
         // Add handlers for common actions
         Object.values(ALL.ACTIONS).forEach(action => {
-            this.addHandler("cast", action.id, this.onCast)
-            this.addHandler("damage", action.id, this.onDamage)
+            this.addHandler('cast', action.id, this.onCast)
+            this.addHandler('damage', action.id, this.onDamage)
         })
 
         // Add handlers for raid buffs
@@ -79,7 +78,7 @@ export abstract class Player extends Entity
         }
 
         this.casts.set(this.getCastKey(event), cast)
-        
+
         // Break combos
         if (action.breaksCombo) {
             this.combos.clear()
@@ -139,7 +138,7 @@ export abstract class Player extends Entity
         const key = this.getCastKey(event)
 
         if (!this.casts.has(key)) {
-            console.warn("Damage event found without a matching cast")
+            console.warn('Damage event found without a matching cast')
             console.warn(event)
             return
         }

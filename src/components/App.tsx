@@ -1,10 +1,10 @@
+import { AppBar, createMuiTheme, ThemeProvider, Toolbar, Typography } from '@material-ui/core'
+import { blue } from '@material-ui/core/colors'
 import * as React from 'react'
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom'
-import { AppBar, createMuiTheme, ThemeProvider, Toolbar, Typography } from '@material-ui/core'
 import { FriendSelect } from './Friends/FriendSelect'
 import { Home } from './Home/Home'
 import { Result } from './Result/Result'
-import { blue } from '@material-ui/core/colors'
 
 const theme = createMuiTheme({
     palette: {
@@ -12,11 +12,10 @@ const theme = createMuiTheme({
         primary: {
             main: blue[900],
         },
-    }
+    },
 })
 
-class AppComponent extends React.Component<RouteComponentProps>
-{
+class AppComponent extends React.Component<RouteComponentProps> {
     private wantsToGoHome = () => {
         if (this.props.location.pathname !== '/') {
             this.props.history.push('/')
@@ -26,11 +25,11 @@ class AppComponent extends React.Component<RouteComponentProps>
     render() {
         return <ThemeProvider theme={theme}>
             <AppBar>
-              <Toolbar>
-                <Typography variant="h5" onClick={this.wantsToGoHome}>
-                    Reassemble
-                </Typography>
-              </Toolbar>
+                <Toolbar>
+                    <Typography variant="h5" onClick={this.wantsToGoHome}>
+                        Reassemble
+                    </Typography>
+                </Toolbar>
             </AppBar>
             <Switch>
                 <Route exact path="/" component={Home} />

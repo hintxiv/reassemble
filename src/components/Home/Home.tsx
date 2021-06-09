@@ -1,22 +1,19 @@
-import * as React from 'react'
-import { RouteComponentProps } from 'react-router-dom'
 import { Paper, Grid, TextField, Button, Box } from '@material-ui/core'
 import { fetchLastFightID } from 'parse/fflogs/api'
-
+import * as React from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 import styles from './Home.module.css'
 
-interface Props extends RouteComponentProps {}
-interface State
-{
+type Props = RouteComponentProps
+interface State {
     fflogs?: string
     etro?: string
 }
 
-export class Home extends React.Component<Props, State>
-{
-    private decomposeFFLogsURL(url: URL): {reportID: string, fightID: string} {
+export class Home extends React.Component<Props, State> {
+    private decomposeFFLogsURL(url: URL): { reportID: string, fightID: string } {
         const reportRegex = /(?<=reports\/)(?:(?!\/).)+/i
-        const fightRegex = /(?<=#fight=)(?:(?!\&).)+/i
+        const fightRegex = /(?<=#fight=)(?:(?!&).)+/i
 
         const reportID = url.pathname.match(reportRegex)
         const fightID = url.hash.match(fightRegex)
@@ -61,7 +58,7 @@ export class Home extends React.Component<Props, State>
             return
         }
 
-        const {reportID, fightID} = this.decomposeFFLogsURL(fflogsLink)
+        const { reportID, fightID } = this.decomposeFFLogsURL(fflogsLink)
         const gearsetID = this.decomposeEtroURL(etroLink)
 
         let parsedFightID
@@ -80,19 +77,19 @@ export class Home extends React.Component<Props, State>
                 <Box p={2}>
                     <Grid container spacing={8} alignItems="flex-end">
                         <Grid item md={true} sm={true} xs={true}>
-                            <TextField 
+                            <TextField
                                 id="fflogs"
                                 label="FFLogs Link"
                                 variant="outlined"
                                 placeholder="https://www.fflogs.com/reports/..."
                                 fullWidth
-                                onChange={this.onFFlogsChange} 
+                                onChange={this.onFFlogsChange}
                             />
                         </Grid>
                     </Grid>
                     <Grid container spacing={8} alignItems="flex-end">
                         <Grid item md={true} sm={true} xs={true}>
-                            <TextField 
+                            <TextField
                                 id="etro"
                                 label="Etro Link"
                                 variant="outlined"
@@ -103,10 +100,10 @@ export class Home extends React.Component<Props, State>
                         </Grid>
                     </Grid>
                     <Grid container justify="center" style={{ marginTop: '10px' }}>
-                        <Button 
-                            variant="contained" 
-                            color="primary" 
-                            style={{ textTransform: "none" }} 
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ textTransform: 'none' }}
                             onClick={this.onClick}
                         >
                             Simulate

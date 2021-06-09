@@ -1,5 +1,5 @@
-import { RAIDBUFFS as DATA } from 'data/packs'
-import { Buff } from 'simulator/buff'
+import {RAIDBUFFS as DATA} from 'data/packs'
+import {Buff} from 'simulator/buff'
 
 export const RAID_BUFFS: Buff[] = [
     {

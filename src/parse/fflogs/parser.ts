@@ -1,9 +1,8 @@
 import { fetchEvents, fetchFight, FFLogsQuery } from './api'
 import { EventFields, FFLogsEvent } from './event'
-import { Fight, Friend } from './fight'
+import { Fight } from './fight'
 
-export class FFLogsParser
-{
+export class FFLogsParser {
     public reportID: string
     public fightID: number
     public fight: Fight
@@ -31,7 +30,7 @@ export class FFLogsParser
 
         const debuffsQuery: FFLogsQuery = {
             start: this.fight.start,
-            end: this.fight.end,    
+            end: this.fight.end,
             filter: debuffFilter,
         }
 
@@ -52,18 +51,27 @@ export class FFLogsParser
                 targetKey: `${targetID}-${targetInstance}`,
             }
 
-            if (['applybuff', 'removebuff', 'applydebuff', 'removedebuff'].includes(e.type)) {
-                yield {type: e.type, statusID: e.ability.guid, ...fields}    
+            if (e.type === 'applybuff') {
+                yield { type: e.type, statusID: e.ability.guid, ...fields }
+
+            } else if (e.type === 'removebuff') {
+                yield { type: e.type, statusID: e.ability.guid, ...fields }
+
+            } else if (e.type === 'applydebuff') {
+                yield { type: e.type, statusID: e.ability.guid, ...fields }
+
+            } else if (e.type === 'removedebuff') {
+                yield { type: e.type, statusID: e.ability.guid, ...fields }
 
             } else if (e.type === 'cast') {
-                yield {type: e.type, actionID: e.ability.guid, ...fields}
+                yield { type: e.type, actionID: e.ability.guid, ...fields }
 
             } else if (e.type === 'damage') {
                 if (e.tick) {
-                    yield {type: 'tick', statusID: e.ability.guid, ...fields}
+                    yield { type: 'tick', statusID: e.ability.guid, ...fields }
 
                 } else {
-                    yield {type: 'damage', actionID: e.ability.guid, ...fields}
+                    yield { type: 'damage', actionID: e.ability.guid, ...fields }
                 }
             }
         }

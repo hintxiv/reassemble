@@ -1,20 +1,20 @@
+import { range } from 'utilities/other'
 import * as Funcs from './functions'
 import { Level } from './modifiers/level'
-import { range } from 'utilities/other'
 
-export type TieredStat = 
-    | "strength"
-    | "dexterity"
-    | "intelligence"
-    | "mind"
-    | "critical"
-    | "determination"
-    | "direct"
-    | "skillspeed"
-    | "spellspeed"
-    | "tenacity"
+export type TieredStat =
+    | 'strength'
+    | 'dexterity'
+    | 'intelligence'
+    | 'mind'
+    | 'critical'
+    | 'determination'
+    | 'direct'
+    | 'skillspeed'
+    | 'spellspeed'
+    | 'tenacity'
 
-const TIERING_MAP: Record<TieredStat, Function> = {
+const TIERING_MAP: Record<TieredStat, (stat: number, level?: Level) => number> = {
     strength: Funcs.fAP,
     dexterity: Funcs.fAP,
     intelligence: Funcs.fAP,
@@ -24,10 +24,10 @@ const TIERING_MAP: Record<TieredStat, Function> = {
     direct: Funcs.dhRate,
     skillspeed: Funcs.fSPD,
     spellspeed: Funcs.fSPD,
-    tenacity: () => {}, // TODO
+    tenacity: () => 0, // TODO
 }
 
-export function getTiers(stat: TieredStat, level: Level, a: number, b: number) {
+export function getTiers(stat: TieredStat, a: number, b: number, level: Level = 80) {
     if (a === b) { return 0 }
 
     const tierFn = TIERING_MAP[stat]
