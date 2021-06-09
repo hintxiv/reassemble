@@ -1,5 +1,5 @@
 import { AppBar, createMuiTheme, ThemeProvider, Toolbar, Typography } from '@material-ui/core'
-import { blue, red } from '@material-ui/core/colors'
+import { blue } from '@material-ui/core/colors'
 import * as React from 'react'
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom'
 import { FriendSelect } from './Friends/FriendSelect'
@@ -11,9 +11,6 @@ const theme = createMuiTheme({
         type: 'dark',
         primary: {
             main: blue[900],
-        },
-        warning: {
-            main: red[900],
         },
     },
 })
