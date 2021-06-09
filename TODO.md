@@ -1,7 +1,7 @@
 ## Before beta
 * [X] Fix nivo bug in prod
 * [X] Fix stat tiers being slightly off
-* [ ] "X" and "refresh" buttons beside the current comparison set
+* [X] "X" and "refresh" buttons beside the current comparison set
 * [X] Don't push comparison URL to browser history
 * [ ] Page titles for each route
 * [ ] Reassemble icon
