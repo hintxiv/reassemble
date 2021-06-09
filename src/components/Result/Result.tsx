@@ -8,10 +8,10 @@ import { RouteComponentProps } from 'react-router-dom'
 import { Stats } from 'simulator/entity/player/stats'
 import { Simulator } from 'simulator/simulator'
 import { DamageGraph, GraphData } from './DamageGraph'
-import styles from './Result.module.css'
-import { ComparisonPanel } from './Gearsets/ComparisonPanel'
 import { BasePanel } from './Gearsets/BasePanel'
+import { ComparisonPanel } from './Gearsets/ComparisonPanel'
 import { SetSelect } from './Gearsets/SetSelect'
+import styles from './Result.module.css'
 
 interface RouterProps {
     rid: string
