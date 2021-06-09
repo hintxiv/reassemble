@@ -3,8 +3,8 @@ import * as React from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { GearsetInfo } from './Result'
 
-const firstColor = 'hsl(40, 100%, 60%)'
-const secondColor = 'hsl(220, 100%, 60%)'
+const firstColor = 'hsl(220, 100%, 60%)'
+const secondColor = 'hsl(40, 100%, 60%)'
 
 interface Point {
     x: number
@@ -21,15 +21,16 @@ interface Props {
 }
 
 export class DamageGraph extends React.Component<Props> {
-    private data = this.props.gearsets
-        .reduce((data: GraphData[], gearset) => data = [...data, gearset.data], [])
-        .reverse()
-
     private getColor = (line: GraphData) => {
         if (line.id === this.props.gearsets[0].name) {
             return firstColor
         }
         return secondColor
+    }
+
+    private getData = () => {
+        return this.props.gearsets
+            .reduce((data: GraphData[], gearset) => data = [...data, gearset.data], [])
     }
 
     render() {
@@ -40,7 +41,7 @@ export class DamageGraph extends React.Component<Props> {
                         margin={{ top: 20, right: 20, bottom: 60, left: 70 }}
                         height={500}
                         width={width}
-                        data={this.data}
+                        data={this.getData()}
                         animate={true}
                         isInteractive={true}
                         useMesh={true}

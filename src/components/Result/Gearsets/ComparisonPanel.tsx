@@ -1,6 +1,5 @@
 import { Box, Table, TableBody, TableCell, TableRow, Typography } from '@material-ui/core'
-import ArrowDownward from '@material-ui/icons/ArrowDownward'
-import ArrowUpward from '@material-ui/icons/ArrowUpward'
+import { ArrowDownward, ArrowUpward } from '@material-ui/icons'
 import { getTiers, TieredStat, TIERED_STATS } from 'math/tiers'
 import * as React from 'react'
 import { Stats } from 'simulator/entity/player/stats'

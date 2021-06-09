@@ -1,4 +1,5 @@
-import { Box, CircularProgress, Grid, Paper } from '@material-ui/core'
+import { Box, CircularProgress, Grid, IconButton, Paper } from '@material-ui/core'
+import { Clear, Sync } from '@material-ui/icons'
 import { getStats } from 'parse/etro/api'
 import { Friend } from 'parse/fflogs/fight'
 import { FFLogsParser } from 'parse/fflogs/parser'
@@ -83,10 +84,10 @@ export class Result extends React.Component<Props, State> {
             data: { id: name, data: damageArray },
         }
 
-        this.setState({
-            gearsets: [...this.state.gearsets, gearsetInfo],
+        this.setState(prevState => ({
+            gearsets: [...prevState.gearsets, gearsetInfo],
             ready: true,
-        })
+        }))
     }
 
     private etroLinkCallback = async (etroLink: string) => {
@@ -106,9 +107,32 @@ export class Result extends React.Component<Props, State> {
         }
     }
 
+    private onClear = async () => {
+        const reportID = this.props.match.params.rid
+        const fightID = parseInt(this.props.match.params.fid)
+        const playerID = parseInt(this.props.match.params.pid)
+        const gearsetID = this.props.match.params.gid
+
+        this.setState(prevState => ({
+            gearsets: prevState.gearsets.splice(-1, 1),
+        }))
+
+        this.props.history.replace(`/${reportID}/${fightID}/${playerID}/${gearsetID}`)
+    }
+
     private comparePanel = () => {
         if (this.state.gearsets.length === 2) {
-            return <ComparisonPanel gearset={this.state.gearsets[1]} compare={this.state.gearsets[0]} />
+            return <div>
+                <ComparisonPanel gearset={this.state.gearsets[1]} compare={this.state.gearsets[0]} />
+                <Box className={styles.buttons}>
+                    <IconButton>
+                        <Sync />
+                    </IconButton>
+                    <IconButton onClick={this.onClear}>
+                        <Clear />
+                    </IconButton>
+                </Box>
+            </div>
         }
         return <SetSelect onClick={this.etroLinkCallback} />
     }

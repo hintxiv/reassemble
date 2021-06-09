@@ -21,3 +21,12 @@
     bottom: 0;
     right: 0;
 }
+
+.buttons {
+    position: absolute;
+    z-index: 999;
+    height: 2em;
+    width: 6em;
+    top: 53%;
+    left: 93%;
+}

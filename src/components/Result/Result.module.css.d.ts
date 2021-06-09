@@ -2,6 +2,7 @@
 /* eslint-disable */
 declare namespace ResultModuleCssNamespace {
   export interface IResultModuleCss {
+    buttons: string;
     loading: string;
     result: string;
   }
