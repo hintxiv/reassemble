@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core'
 import { useTheme } from '@nivo/core'
 import { SliceTooltipProps } from '@nivo/line'
 import * as PropTypes from 'prop-types'
@@ -31,16 +32,20 @@ const SliceTooltipComponent = ({ slice }: SliceTooltipProps) => {
 
     return <div style={theme.tooltip.container}>
         <div>
-            <strong>{ formatSeconds(slice.points[0].data.x) }</strong>
+            <Typography variant="h6" align="center">{ formatSeconds(slice.points[0].data.x) }</Typography>
             <table style={{ ...tableStyle, ...theme.tooltip.table }}>
                 <tbody>
                     {rows.map((row, i) => (
                         <tr key={i}>
-                            {row.map((column, j) => (
-                                <td key={j} style={theme.tooltip.tableCell }>
-                                    {column}
-                                </td>
-                            ))}
+                            <td key={`chip-${i}`} style={theme.tooltip.tableCell }>
+                                {row[0]}
+                            </td>
+                            <td key={`gearset-${i}`} style={theme.tooltip.tableCell }>
+                                <Typography variant="subtitle2" align="left">{row[1]}</Typography>
+                            </td>
+                            <td key={`dps-${i}`} style={theme.tooltip.tableCell }>
+                                <Typography variant="body1" align="right">{row[2]}</Typography>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
