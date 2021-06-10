@@ -3,12 +3,13 @@ import { ArrowDownward, ArrowUpward } from '@material-ui/icons'
 import { getTiers, TieredStat, TIERED_STATS } from 'math/tiers'
 import * as React from 'react'
 import { Stats } from 'simulator/entity/player/stats'
+import { formatDamage, PROPER_STAT_NAME } from '../format'
 import { GearsetInfo } from '../Result'
-import { Format, GearsetPanel } from './GearsetPanel'
+import { GearsetPanel } from './GearsetPanel'
 
 export interface Props {
     gearset: GearsetInfo
-    compare: GearsetInfo
+    base: GearsetInfo
 }
 
 export class ComparisonPanel extends React.Component<Props> {
@@ -32,10 +33,10 @@ export class ComparisonPanel extends React.Component<Props> {
         return <span>{formatted}{icon}</span>
     }
 
-    private formatDamage = (damage: number, compare: number) => {
+    private formatResult = (damage: number, compare: number) => {
         const delta = (damage - compare) / compare
         return <span>
-            {damage.toFixed(2)}
+            {formatDamage(damage)}
             <Box display="inline" ml={1}>
                 <Typography display="inline" color="textSecondary" style={{ verticalAlign: '2px' }}>
                     {this.formatDelta(delta, true)}
@@ -60,11 +61,11 @@ export class ComparisonPanel extends React.Component<Props> {
     private makeStatRow = (stat: keyof Stats) => {
         return <TableRow key={`${stat}-compare`}>
             <TableCell component="th" scope="row">
-                {Format[stat]}
+                {PROPER_STAT_NAME[stat]}
             </TableCell>
             <TableCell align="right">
                 <Typography color="textSecondary">
-                    {this.formatStatDelta(stat, this.props.compare.stats[stat], this.stats[stat])}
+                    {this.formatStatDelta(stat, this.props.base.stats[stat], this.stats[stat])}
                 </Typography>
             </TableCell>
             <TableCell align="right" width="10%"><Typography>{this.stats[stat]}</Typography></TableCell>
@@ -72,7 +73,9 @@ export class ComparisonPanel extends React.Component<Props> {
     }
 
     render() {
-        return <GearsetPanel name={this.name} result={this.formatDamage(this.props.gearset.expected, this.props.compare.expected)}>
+        const result = this.formatResult(this.props.gearset.expected, this.props.base.expected)
+
+        return <GearsetPanel gearset={this.props.gearset} result={result}>
             <Table>
                 <TableBody>
                     {Object.keys(this.stats)

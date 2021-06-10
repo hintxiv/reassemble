@@ -1,8 +1,8 @@
 import { Line, SliceTooltipProps } from '@nivo/line'
 import * as React from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
+import { formatSeconds } from '../format'
 import { GearsetInfo } from '../Result'
-import { formatSeconds } from './formatSeconds'
 import { SliceTooltip } from './Tooltip'
 
 const firstColor = 'hsl(220, 100%, 60%)'

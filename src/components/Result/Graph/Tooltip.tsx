@@ -1,18 +1,23 @@
 import { useTheme } from '@nivo/core'
 import { SliceTooltipProps } from '@nivo/line'
+import * as PropTypes from 'prop-types'
 import React, { CSSProperties, memo } from 'react'
-import { formatSeconds } from './formatSeconds'
+import { formatDamage, formatSeconds } from '../format'
 
 const tableStyle = {
     width: '100%',
     borderCollapse: 'collapse' as CSSProperties['borderCollapse'],
 }
 
-const Chip = ({ key, color }: {key: React.Key, color: string}) => (
-    <span key={key} style={{ display: 'block', borderRadius: '50%', width: '12px', height: '12px', background: color }} />
+const Chip = ({ color }: {key: React.Key, color: string}) => (
+    <span style={{ display: 'block', borderRadius: '50%', width: '12px', height: '12px', background: color }} />
 )
 
-export const SliceTooltip = memo(({ slice }: SliceTooltipProps) => {
+Chip.propTypes = {
+    color: PropTypes.string.isRequired,
+}
+
+const SliceTooltipComponent = ({ slice }: SliceTooltipProps) => {
     const theme = useTheme()
 
     const rows = slice.points
@@ -21,15 +26,13 @@ export const SliceTooltip = memo(({ slice }: SliceTooltipProps) => {
         .map(point => [
             <Chip key="chip" color={point.serieColor} />,
             point.serieId,
-            <strong key="value">{point.data.y}</strong>,
+            <strong key="value">{formatDamage(point.data.y)}</strong>,
         ])
 
     return <div style={theme.tooltip.container}>
         <div>
+            <strong>{ formatSeconds(slice.points[0].data.x) }</strong>
             <table style={{ ...tableStyle, ...theme.tooltip.table }}>
-                <thead>
-                    <strong>{ formatSeconds(slice.points[0].data.x as number) }</strong>
-                </thead>
                 <tbody>
                     {rows.map((row, i) => (
                         <tr key={i}>
@@ -44,4 +47,6 @@ export const SliceTooltip = memo(({ slice }: SliceTooltipProps) => {
             </table>
         </div>
     </div>
-})
+}
+
+export const SliceTooltip = memo(SliceTooltipComponent)

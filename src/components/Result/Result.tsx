@@ -24,6 +24,7 @@ interface RouterProps {
 type Props = RouteComponentProps<RouterProps>
 
 export interface GearsetInfo {
+    id: string
     name: string
     expected: number
     stats: Stats
@@ -79,6 +80,7 @@ export class Result extends React.Component<Props, State> {
         const result = await this.simulator.calculateDamage(stats)
 
         const gearsetInfo: GearsetInfo = {
+            id: gearsetID,
             name: name,
             stats: stats,
             expected: result.expected,
@@ -135,7 +137,7 @@ export class Result extends React.Component<Props, State> {
     private comparePanel = () => {
         if (this.state.compareGearset) {
             return <div>
-                <ComparisonPanel gearset={this.state.baseGearset} compare={this.state.compareGearset} />
+                <ComparisonPanel gearset={this.state.compareGearset} base={this.state.baseGearset} />
                 <Box className={styles.buttons}>
                     <IconButton onClick = {this.onSync}>
                         <Sync />
