@@ -1,7 +1,9 @@
-import { Line } from '@nivo/line'
+import { Line, SliceTooltipProps } from '@nivo/line'
 import * as React from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { GearsetInfo } from './Result'
+import { GearsetInfo } from '../Result'
+import { formatSeconds } from './formatSeconds'
+import { SliceTooltip } from './Tooltip'
 
 const firstColor = 'hsl(220, 100%, 60%)'
 const secondColor = 'hsl(40, 100%, 60%)'
@@ -31,6 +33,10 @@ export class DamageGraph extends React.Component<Props> {
     private getData = () => {
         return this.props.gearsets
             .reduce((data: GraphData[], gearset) => data = [...data, gearset.data], [])
+    }
+
+    private getTooltip = ({ slice }: SliceTooltipProps) => {
+        return <SliceTooltip axis="x" slice={slice} />
     }
 
     render() {
@@ -72,7 +78,7 @@ export class DamageGraph extends React.Component<Props> {
                             legendPosition: 'middle',
                             // Convert seconds to mm:ss
                             // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-                            format: (s: number) => `${Math.floor(s / 60)}:${(s % 60).toFixed().padStart(2, '0')}`,
+                            format: formatSeconds,
                         }}
                         legends={[{
                             anchor: 'top-right',
@@ -85,6 +91,8 @@ export class DamageGraph extends React.Component<Props> {
                             symbolSize: 13,
                             symbolShape: 'circle',
                         }]}
+                        enableSlices="x"
+                        sliceTooltip={this.getTooltip}
                         theme={{
                             textColor: '#FFFFFF',
                             fontFamily: 'Roboto',

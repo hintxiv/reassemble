@@ -67,16 +67,13 @@ export class Simulator {
     }
 
     /**
-     * Yeah rewrite this shit :)
+     * Computes expected damage for each damage event using the given Stats
      */
     public async calculateDamage(stats: Stats) {
         // Cache damage instances from the report
         if (this.damageInstances.length === 0) {
             await this.extractDamage()
         }
-
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const duration = (this.parser.fight.end - this.parser.fight.start) / 1000
 
         let totalDamage = 0
         const damageArray: Array<{ x: number, y: number }> = []
@@ -92,6 +89,12 @@ export class Simulator {
             damageArray.push({ x: timeSoFar, y: dpsSoFar })
         })
 
-        return damageArray
+        const duration = (this.parser.fight.end - this.parser.fight.start) / 1000
+        const expected = totalDamage / duration
+
+        return {
+            data: damageArray,
+            expected: expected,
+        }
     }
 }

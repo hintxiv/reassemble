@@ -30,6 +30,3 @@ export interface DamageInstance
     falloff?: number
     options: DamageOptions
 }
-
-export type SolvedDamageInstance =
-    DamageInstance & {damage: number}

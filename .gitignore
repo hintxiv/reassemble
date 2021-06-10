@@ -7,9 +7,6 @@
 # yarn
 yarn.lock
 
-# package
-package-lock.json
-
 # local
 .env
 TODO.md

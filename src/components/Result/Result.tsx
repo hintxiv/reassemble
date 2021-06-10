@@ -7,10 +7,10 @@ import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { Stats } from 'simulator/entity/player/stats'
 import { Simulator } from 'simulator/simulator'
-import { DamageGraph, GraphData } from './DamageGraph'
 import { BasePanel } from './Gearsets/BasePanel'
 import { ComparisonPanel } from './Gearsets/ComparisonPanel'
 import { SetSelect } from './Gearsets/SetSelect'
+import { DamageGraph, GraphData } from './Graph/DamageGraph'
 import styles from './Result.module.css'
 
 interface RouterProps {
@@ -76,19 +76,28 @@ export class Result extends React.Component<Props, State> {
         this.setState({ ready: false })
 
         const { name, stats } = await getStats(gearsetID)
-        const damageArray = await this.simulator.calculateDamage(stats)
+        const result = await this.simulator.calculateDamage(stats)
 
         const gearsetInfo: GearsetInfo = {
             name: name,
             stats: stats,
-            expected: damageArray.slice(-1)[0].y,
-            data: { id: name, data: damageArray },
+            expected: result.expected,
+            data: {
+                id: name,
+                data: result.data,
+            },
         }
 
         if (isCompare) {
-            this.setState({ compareGearset: gearsetInfo, ready: true })
+            this.setState({
+                compareGearset: gearsetInfo,
+                ready: true,
+            })
         } else {
-            this.setState({ baseGearset: gearsetInfo, ready: true })
+            this.setState({
+                baseGearset: gearsetInfo,
+                ready: true,
+            })
         }
     }
 
