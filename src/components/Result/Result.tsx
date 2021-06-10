@@ -7,10 +7,10 @@ import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { Stats } from 'simulator/entity/player/stats'
 import { Simulator } from 'simulator/simulator'
-import { DamageGraph, GraphData } from './DamageGraph'
 import { BasePanel } from './Gearsets/BasePanel'
 import { ComparisonPanel } from './Gearsets/ComparisonPanel'
 import { SetSelect } from './Gearsets/SetSelect'
+import { DamageGraph, GraphData } from './Graph/DamageGraph'
 import styles from './Result.module.css'
 
 interface RouterProps {
@@ -24,6 +24,7 @@ interface RouterProps {
 type Props = RouteComponentProps<RouterProps>
 
 export interface GearsetInfo {
+    id: string
     name: string
     expected: number
     stats: Stats
@@ -76,19 +77,29 @@ export class Result extends React.Component<Props, State> {
         this.setState({ ready: false })
 
         const { name, stats } = await getStats(gearsetID)
-        const damageArray = await this.simulator.calculateDamage(stats)
+        const result = await this.simulator.calculateDamage(stats)
 
         const gearsetInfo: GearsetInfo = {
+            id: gearsetID,
             name: name,
             stats: stats,
-            expected: damageArray.slice(-1)[0].y,
-            data: { id: name, data: damageArray },
+            expected: result.expected,
+            data: {
+                id: name,
+                data: result.data,
+            },
         }
 
         if (isCompare) {
-            this.setState({ compareGearset: gearsetInfo, ready: true })
+            this.setState({
+                compareGearset: gearsetInfo,
+                ready: true,
+            })
         } else {
-            this.setState({ baseGearset: gearsetInfo, ready: true })
+            this.setState({
+                baseGearset: gearsetInfo,
+                ready: true,
+            })
         }
     }
 
@@ -126,7 +137,7 @@ export class Result extends React.Component<Props, State> {
     private comparePanel = () => {
         if (this.state.compareGearset) {
             return <div>
-                <ComparisonPanel gearset={this.state.baseGearset} compare={this.state.compareGearset} />
+                <ComparisonPanel gearset={this.state.compareGearset} base={this.state.baseGearset} />
                 <Box className={styles.buttons}>
                     <IconButton onClick = {this.onSync}>
                         <Sync />
