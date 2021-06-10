@@ -5,7 +5,7 @@ import { Stats } from 'simulator/entity/player/stats'
 export function formatSeconds(seconds: number | DatumValue) {
     const s = <number> seconds // this should never be a string / date
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    return `${Math.floor(s / 60)}:${(s % 60).toFixed().padStart(2, '0')}`
+    return `${Math.floor(s / 60)}:${Math.floor(s % 60).toFixed().padStart(2, '0')}`
 }
 
 export function formatDamage(damage: number | DatumValue) {
