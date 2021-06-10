@@ -64,6 +64,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src', 'components', 'index.html'),
+            favicon: 'public/reassemble-icon.png',
         }),
         new webpack.DefinePlugin({
             'process.env': JSON.stringify(dotenv.config().parsed),
