@@ -1,4 +1,4 @@
-import { Paper, Grid, TextField, Button, Box } from '@material-ui/core'
+import { Grid, TextField, Button, Box } from '@material-ui/core'
 import { fetchLastFightID } from 'parse/fflogs/api'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
@@ -73,44 +73,42 @@ export class Home extends React.Component<Props, State> {
 
     render() {
         return <div className={styles.home}>
-            <Paper>
-                <Box p={2}>
-                    <Grid container spacing={8} alignItems="flex-end">
-                        <Grid item md={true} sm={true} xs={true}>
-                            <TextField
-                                id="fflogs"
-                                label="FFLogs Link"
-                                variant="outlined"
-                                placeholder="https://www.fflogs.com/reports/..."
-                                fullWidth
-                                onChange={this.onFFlogsChange}
-                            />
-                        </Grid>
+            <Box p={2}>
+                <Grid container spacing={8} alignItems="flex-end">
+                    <Grid item md={true} sm={true} xs={true}>
+                        <TextField
+                            id="fflogs"
+                            label="FFLogs Link"
+                            variant="outlined"
+                            placeholder="https://www.fflogs.com/reports/..."
+                            fullWidth
+                            onChange={this.onFFlogsChange}
+                        />
                     </Grid>
-                    <Grid container spacing={8} alignItems="flex-end">
-                        <Grid item md={true} sm={true} xs={true}>
-                            <TextField
-                                id="etro"
-                                label="Etro Link"
-                                variant="outlined"
-                                placeholder="https://etro.gg/gearset/..."
-                                fullWidth
-                                onChange={this.onEtroChange}
-                            />
-                        </Grid>
+                </Grid>
+                <Grid container spacing={8} alignItems="flex-end">
+                    <Grid item md={true} sm={true} xs={true}>
+                        <TextField
+                            id="etro"
+                            label="Etro Link"
+                            variant="outlined"
+                            placeholder="https://etro.gg/gearset/..."
+                            fullWidth
+                            onChange={this.onEtroChange}
+                        />
                     </Grid>
-                    <Grid container justify="center" style={{ marginTop: '10px' }}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            style={{ textTransform: 'none' }}
-                            onClick={this.onClick}
-                        >
-                            Simulate
-                        </Button>
-                    </Grid>
-                </Box>
-            </Paper>
+                </Grid>
+                <Grid container justify="center" style={{ marginTop: '20px' }}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.onClick}
+                        style={{ width: '20%' }}
+                    >
+                        Simulate
+                    </Button>
+                </Grid>
+            </Box>
         </div>
     }
 }

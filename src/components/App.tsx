@@ -15,6 +15,24 @@ const theme = createMuiTheme({
     },
 })
 
+const routes = [
+    {
+        path: '/',
+        component: Home,
+        crumb: () => <Typography variant="subtitle1">Home</Typography>,
+    },
+    {
+        path: '/:rid/:fid/:gid',
+        component: FriendSelect,
+        crumb: (fight: string) => <Typography variant="subtitle2">{fight}</Typography>,
+    },
+    {
+        path: '/:rid/:fid/:pid/:gid/:gid?',
+        component: Result,
+        crumb: (player: string) => <Typography variant="subtitle2">{player}</Typography>,
+    },
+]
+
 class AppComponent extends React.Component<RouteComponentProps> {
     private wantsToGoHome = () => {
         if (this.props.location.pathname !== '/') {
@@ -24,17 +42,17 @@ class AppComponent extends React.Component<RouteComponentProps> {
 
     render() {
         return <ThemeProvider theme={theme}>
-            <AppBar>
+            <AppBar style={{alignItems: 'center'}}>
                 <Toolbar>
-                    <Typography variant="h5" onClick={this.wantsToGoHome}>
+                    <Typography variant="h5" align="center" onClick={this.wantsToGoHome}>
                         Reassemble
                     </Typography>
                 </Toolbar>
             </AppBar>
             <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/:rid/:fid/:gid" component={FriendSelect} />
-                <Route exact path="/:rid/:fid/:pid/:gid/:gid2?" component={Result} />
+                {routes.map(({ path, component }, key) => (
+                    <Route exact path={path} key={key} component={component} />
+                ))}
             </Switch>
         </ThemeProvider>
     }
