@@ -1,4 +1,4 @@
-import { Paper, Grid, TextField, Button, Box } from '@material-ui/core'
+import { Grid, TextField, Button, Box } from '@material-ui/core'
 import { fetchLastFightID } from 'parse/fflogs/api'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
