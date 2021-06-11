@@ -27,7 +27,7 @@ const routes = [
         crumb: (fight: string) => <Typography variant="subtitle2">{fight}</Typography>,
     },
     {
-        path: '/:rid/:fid/:pid/:gid/:gid?',
+        path: '/:rid/:fid/:pid/:gid/:gid2?',
         component: Result,
         crumb: (player: string) => <Typography variant="subtitle2">{player}</Typography>,
     },
