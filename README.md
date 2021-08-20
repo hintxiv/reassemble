@@ -6,8 +6,7 @@ with your exact kill time, party composition, and playstyle by leveraging FFLogs
 
 ## Usage
 
-An extremely WIP build is available for testing at http://142.93.57.143/. To use it, simply enter an FFLogs fight
-link and an Etro gearset link. 
+An extremely WIP build is available for testing at http://142.93.57.143/. To use it, simply enter an FFLogs fight and get started. 
 
 Currently, only the physical ranged jobs are supported (Bard, Dancer, Machinist).
 
