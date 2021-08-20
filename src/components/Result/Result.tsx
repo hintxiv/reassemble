@@ -79,6 +79,13 @@ export class Result extends React.Component<Props, State> {
         })
     }
 
+    private updateGearsets(newGearsets: GearsetInfo[]) {
+        newGearsets.sort((a, b) => b.expected - a.expected)
+        this.setState({
+            gearsets: newGearsets,
+        })
+    }
+
     private loadGearset = async (gearsetID: string) => {
         const existingGearset = this.state.gearsets
             .filter(gear => gear.id === gearsetID)[0]
@@ -102,40 +109,34 @@ export class Result extends React.Component<Props, State> {
             },
         }
 
-        const gearsets = [...this.state.gearsets, gearsetInfo]
-            .sort((a, b) => b.expected - a.expected)
-
-        this.setState({
-            gearsets: gearsets,
-        })
+        this.updateGearsets([...this.state.gearsets, gearsetInfo])
     }
 
-    private removeGearset = async (gearsetID: string) => {
-        const gearsets = this.state.gearsets.filter(gear => gear.id !== gearsetID)
-        this.setState({ gearsets: gearsets })
+    private removeGearset = async (gearset: GearsetInfo) => {
+        const gearsets = this.state.gearsets.filter(set => set !== gearset)
+        this.updateGearsets(gearsets)
     }
 
-    private updateGearset = async (gearsetID: string, stats: Stats, name: string) => {
-        const gearsets = [...this.state.gearsets]
-        const gearset = gearsets.filter(gear => gear.id === gearsetID)[0]
-
+    private updateGearset = async (gearset: GearsetInfo, stats: Stats, name: string) => {
         // Recalculate DPS
         const result = await this.simulator.calculateDamage(stats)
 
-        gearset.name = name
-        gearset.stats = {...stats}
-        gearset.expected = result.expected
-        gearset.data = {
-            id: name,
-            data: result.data,
+        const updatedSet: GearsetInfo = {
+            id: gearset.id,
+            name: name,
+            stats: { ...stats },
+            expected: result.expected,
+            data: {
+                id: name,
+                data: result.data,
+            },
         }
 
-        this.setState({ gearsets: gearsets })
+        this.removeGearset(gearset)
+        this.updateGearsets([updatedSet, ...this.state.gearsets])
     }
 
-    private cloneGearset = async (gearsetID: string) => {
-        const gearset = this.state.gearsets.filter(gear => gear.id === gearsetID)[0]
-
+    private cloneGearset = async (gearset: GearsetInfo) => {
         // Generate a unique copy name for the new gearset
         let copyCount = 1
         let foundNewName = false
@@ -149,7 +150,7 @@ export class Result extends React.Component<Props, State> {
             copyCount++
         }
 
-        const newGearset = {
+        const clonedSet = {
             id: uuid(),
             name: newName,
             stats: { ...gearset.stats },
@@ -160,9 +161,7 @@ export class Result extends React.Component<Props, State> {
             },
         }
 
-        this.setState({
-            gearsets: [newGearset, ...this.state.gearsets],
-        })
+        this.updateGearsets([clonedSet, ...this.state.gearsets])
     }
 
     render() {

@@ -36,9 +36,9 @@ interface Props {
     selected: GearsetInfo
     stats: Array<keyof Stats>
     selectRow: (gearset: GearsetInfo) => Promise<void>
-    removeGearset: (gearsetID: string) => Promise<void>
-    updateGearset: (gearsetID: string, stats: Stats, name: string) => Promise<void>
-    cloneGearset: (gearsetID: string) => Promise<void>
+    removeGearset: (gearset: GearsetInfo) => Promise<void>
+    updateGearset: (gearset: GearsetInfo, stats: Stats, name: string) => Promise<void>
+    cloneGearset: (gearset: GearsetInfo) => Promise<void>
 }
 
 interface State {
@@ -78,7 +78,7 @@ export class GearsetRow extends React.Component<Props, State> {
     }
 
     private onEdit = () => {
-        this.props.updateGearset(this.props.gearset.id, this.state.editedStats, this.state.editedName)
+        this.props.updateGearset(this.props.gearset, this.state.editedStats, this.state.editedName)
         this.setState({ editMode: false })
     }
 
@@ -109,12 +109,10 @@ export class GearsetRow extends React.Component<Props, State> {
 
     render() {
         const set = this.props.gearset
+        const select = () => this.props.selectRow(this.props.gearset)
 
-        return <TableRow
-            selected={this.state.editMode}
-            onClick={() => this.props.selectRow(this.props.gearset)}
-        >
-            <TableCell className={styles.name}>
+        return <TableRow selected={this.state.editMode}>
+            <TableCell className={styles.name} onClick={select}>
                 {this.state.editMode ?
                     <TextField
                         size="small"
@@ -127,16 +125,16 @@ export class GearsetRow extends React.Component<Props, State> {
                     </Typography>
                 }
             </TableCell>
-            <TableCell className={styles.relative} align="center">
+            <TableCell className={styles.relative} onClick={select} align="center">
                 {this.renderRelativeDamage()}
             </TableCell>
-            <TableCell className={styles.expected} align="center">
+            <TableCell className={styles.expected} onClick={select} align="center">
                 <Typography>
                     {formatDamage(set.expected)}
                 </Typography>
             </TableCell>
             {this.props.stats.map(stat =>
-                <TableCell key={stat} className={styles.stat} align="center">
+                <TableCell key={stat} className={styles.stat} onClick={select} align="center">
                     {this.state.editMode ?
                         <TextField
                             size="small"
@@ -165,12 +163,12 @@ export class GearsetRow extends React.Component<Props, State> {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Clone">
-                            <IconButton size="small" onClick={() => this.props.cloneGearset(set.id)}>
+                            <IconButton size="small" onClick={() => this.props.cloneGearset(set)}>
                                 <FileCopyIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Remove">
-                            <IconButton size="small" onClick={() => this.props.removeGearset(set.id)}>
+                            <IconButton size="small" onClick={() => this.props.removeGearset(set)}>
                                 <DeleteIcon />
                             </IconButton>
                         </Tooltip>
