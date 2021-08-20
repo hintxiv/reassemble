@@ -9,6 +9,7 @@ export const MCH_INFO: JobInfo = {
     trait: 120,
     iconPath: '/jobicons/mch.svg',
     latest: {major: 5, minor: 5},
+    bis: 'bec1645b-a739-4dfd-8efa-aedfb852774e',
     damageMap: {
         Ability: Attribute.DEX,
         Auto: Attribute.DEX,

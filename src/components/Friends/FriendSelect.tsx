@@ -9,7 +9,6 @@ import styles from './FriendSelect.module.css'
 interface RouterProps {
     rid: string
     fid: string
-    gid: string
 }
 
 type Props = RouteComponentProps<RouterProps>
@@ -38,8 +37,7 @@ export class FriendSelect extends React.Component<Props, State> {
     private playerIDCallback = async (playerID: number) => {
         const reportID = this.props.match.params.rid
         const fightID = parseInt(this.props.match.params.fid)
-        const gearsetID = this.props.match.params.gid
-        this.props.history.push(`/${reportID}/${fightID}/${playerID}/${gearsetID}`)
+        this.props.history.push(`/${reportID}/${fightID}/${playerID}`)
     }
 
     private getFriends = () => {
@@ -51,7 +49,9 @@ export class FriendSelect extends React.Component<Props, State> {
     }
 
     render() {
-        if (!this.state.friends) { return <div /> }
+        if (!this.state.friends) {
+            return <div />
+        }
 
         return <div className={styles.select}>
             <Paper>

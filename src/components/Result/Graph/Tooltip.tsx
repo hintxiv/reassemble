@@ -3,7 +3,7 @@ import { useTheme } from '@nivo/core'
 import { SliceTooltipProps } from '@nivo/line'
 import * as PropTypes from 'prop-types'
 import React, { CSSProperties, memo } from 'react'
-import { formatDamage, formatSeconds } from '../format'
+import { formatDamage, formatSeconds } from '../../../utilities/format'
 
 const tableStyle = {
     width: '100%',
