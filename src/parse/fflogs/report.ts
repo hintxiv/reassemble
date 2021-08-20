@@ -5,6 +5,7 @@ export interface ReportFight
     id: number
     start_time: number
     end_time: number
+    name: string
 }
 
 export type ReportFriend = Friend & { fights: ReportFight[] }

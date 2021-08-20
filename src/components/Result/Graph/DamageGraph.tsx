@@ -1,12 +1,9 @@
 import { Line, SliceTooltipProps } from '@nivo/line'
 import * as React from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { formatSeconds } from '../format'
+import { formatSeconds } from '../../../utilities/format'
 import { GearsetInfo } from '../Result'
 import { SliceTooltip } from './Tooltip'
-
-const firstColor = 'hsl(220, 100%, 60%)'
-const secondColor = 'hsl(40, 100%, 60%)'
 
 interface Point {
     x: number
@@ -23,16 +20,11 @@ interface Props {
 }
 
 export class DamageGraph extends React.Component<Props> {
-    private getColor = (line: GraphData) => {
-        if (line.id === this.props.gearsets[0].name) {
-            return firstColor
-        }
-        return secondColor
-    }
 
     private getData = () => {
         return this.props.gearsets
             .reduce((data: GraphData[], gearset) => data = [...data, gearset.data], [])
+            .reverse()
     }
 
     private getTooltip = ({ slice }: SliceTooltipProps) => {
@@ -51,12 +43,16 @@ export class DamageGraph extends React.Component<Props> {
                         animate={true}
                         isInteractive={true}
                         useMesh={true}
-                        colors={this.getColor}
                         curve="basis"
                         enablePoints={false}
                         enableGridX={false}
                         enableGridY={false}
+                        colors={{ scheme: 'category10' }}
                         xScale={{ type: 'linear' }}
+                        yScale={{
+                            type: 'linear',
+                            min: 'auto',
+                        }}
                         axisLeft={{
                             orient: 'left',
                             tickSize: 0,
@@ -86,16 +82,16 @@ export class DamageGraph extends React.Component<Props> {
                             translateX: -20,
                             translateY: 0,
                             itemWidth: 80,
-                            itemHeight: 25,
+                            itemHeight: 20,
                             itemDirection: 'right-to-left',
-                            symbolSize: 13,
+                            symbolSize: 12,
                             symbolShape: 'circle',
                         }]}
                         enableSlices="x"
                         sliceTooltip={this.getTooltip}
                         theme={{
                             textColor: '#FFFFFF',
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Nunito',
                             fontSize: 14,
                             axis: {
                                 domain: {

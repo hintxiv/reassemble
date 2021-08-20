@@ -30,5 +30,6 @@ export interface JobInfo
     trait: number
     iconPath: string
     latest: Patch
+    bis: string,
     damageMap: DamageMap
 }

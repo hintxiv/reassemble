@@ -18,6 +18,7 @@ export interface Fight
 {
     reportID: string
     fightID: number
+    encounter: string
     start: number
     end: number
     friends: Friend[]

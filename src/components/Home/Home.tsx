@@ -7,7 +7,6 @@ import styles from './Home.module.css'
 type Props = RouteComponentProps
 interface State {
     fflogs?: string
-    etro?: string
 }
 
 export class Home extends React.Component<Props, State> {
@@ -28,38 +27,20 @@ export class Home extends React.Component<Props, State> {
         }
     }
 
-    private decomposeEtroURL(url: URL): string {
-        const gearsetRegex = /(?<=gearset\/)(.+)/i
-
-        const gearsetID = url.pathname.match(gearsetRegex)
-
-        if (gearsetID.length === 0) {
-            // TODO give some friendly message...
-        }
-
-        return gearsetID[0]
-    }
-
     private onFFlogsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ fflogs: event.target.value })
     }
 
-    private onEtroChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ etro: event.target.value })
-    }
-
     private onClick = async () => {
-        let fflogsLink, etroLink
+        let fflogsLink
 
         try {
             fflogsLink = new URL(this.state.fflogs)
-            etroLink = new URL(this.state.etro)
         } catch (e) {
             return
         }
 
         const { reportID, fightID } = this.decomposeFFLogsURL(fflogsLink)
-        const gearsetID = this.decomposeEtroURL(etroLink)
 
         let parsedFightID
         if (fightID === 'last') {
@@ -68,7 +49,7 @@ export class Home extends React.Component<Props, State> {
             parsedFightID = parseInt(fightID)
         }
 
-        this.props.history.push(`/${reportID}/${parsedFightID}/${gearsetID}`)
+        this.props.history.push(`/${reportID}/${parsedFightID}`)
     }
 
     render() {
@@ -83,18 +64,6 @@ export class Home extends React.Component<Props, State> {
                             placeholder="https://www.fflogs.com/reports/..."
                             fullWidth
                             onChange={this.onFFlogsChange}
-                        />
-                    </Grid>
-                </Grid>
-                <Grid container spacing={8} alignItems="flex-end">
-                    <Grid item md={true} sm={true} xs={true}>
-                        <TextField
-                            id="etro"
-                            label="Etro Link"
-                            variant="outlined"
-                            placeholder="https://etro.gg/gearset/..."
-                            fullWidth
-                            onChange={this.onEtroChange}
                         />
                     </Grid>
                 </Grid>

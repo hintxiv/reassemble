@@ -76,6 +76,7 @@ export class Simulator {
         }
 
         let totalDamage = 0
+        let lastDamageTime = 0
         const damageArray: Array<{ x: number, y: number }> = []
 
         this.damageInstances.forEach(instance => {
@@ -84,9 +85,13 @@ export class Simulator {
             totalDamage += damage
 
             const timeSoFar = (instance.timestamp - this.parser.fight.start) / 1000
-            const dpsSoFar = totalDamage / timeSoFar
 
-            damageArray.push({ x: timeSoFar, y: dpsSoFar })
+            // Add a new data point at most every 2 seconds
+            if (timeSoFar > lastDamageTime + 2) {
+                const dpsSoFar = totalDamage / timeSoFar
+                damageArray.push({ x: timeSoFar, y: dpsSoFar })
+                lastDamageTime = timeSoFar
+            }
         })
 
         const duration = (this.parser.fight.end - this.parser.fight.start) / 1000

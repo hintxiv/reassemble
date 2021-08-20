@@ -1,5 +1,5 @@
-import { Box, CircularProgress, Grid, IconButton, Paper } from '@material-ui/core'
-import { Clear, Sync } from '@material-ui/icons'
+import { Box, CircularProgress, Paper, Typography } from '@material-ui/core'
+import { JOBS } from 'data/jobs'
 import { getStats } from 'parse/etro/api'
 import { Friend } from 'parse/fflogs/fight'
 import { FFLogsParser } from 'parse/fflogs/parser'
@@ -7,9 +7,9 @@ import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { Stats } from 'simulator/entity/player/stats'
 import { Simulator } from 'simulator/simulator'
-import { BasePanel } from './Gearsets/BasePanel'
-import { ComparisonPanel } from './Gearsets/ComparisonPanel'
-import { SetSelect } from './Gearsets/SetSelect'
+import { formatSeconds } from 'utilities/format'
+import { v4 as uuid } from 'uuid'
+import { GearsetTable } from './Gearsets/GearsetTable'
 import { DamageGraph, GraphData } from './Graph/DamageGraph'
 import styles from './Result.module.css'
 
@@ -17,8 +17,6 @@ interface RouterProps {
     rid: string
     fid: string
     pid: string
-    gid: string
-    gid2?: string
 }
 
 type Props = RouteComponentProps<RouterProps>
@@ -33,15 +31,16 @@ export interface GearsetInfo {
 
 interface State {
     ready: boolean
-    baseGearset?: GearsetInfo
-    compareGearset?: GearsetInfo
+    gearsets: GearsetInfo[]
+    encounter: string
+    player: string
+    time: string
 }
 
 export class Result extends React.Component<Props, State> {
     private reportID = this.props.match.params.rid
     private fightID = parseInt(this.props.match.params.fid)
     private playerID = parseInt(this.props.match.params.pid)
-    private gearsetID = this.props.match.params.gid
 
     private simulator: Simulator
 
@@ -49,15 +48,18 @@ export class Result extends React.Component<Props, State> {
         super(props)
         this.state = {
             ready: false,
-            baseGearset: undefined,
+            gearsets: [],
+            encounter: '',
+            player: '',
+            time: '',
         }
     }
 
     async componentDidMount() {
-        await this.setup(this.reportID, this.fightID, this.gearsetID)
+        await this.setup(this.reportID, this.fightID)
     }
 
-    private async setup(reportID: string, fightID: number, gearsetID: string) {
+    private async setup(reportID: string, fightID: number) {
         const parser = new FFLogsParser(reportID, fightID)
         await parser.init()
 
@@ -66,15 +68,25 @@ export class Result extends React.Component<Props, State> {
 
         this.simulator = new Simulator(parser, player)
 
-        await this.loadData(gearsetID)
+        // Autopopulate the BiS set for this job
+        await this.loadGearset(JOBS[player.type].bis)
 
-        if (this.props.match.params.gid2) {
-            await this.loadData(this.props.match.params.gid2, true)
-        }
+        this.setState({
+            ready: true,
+            encounter: parser.fight.encounter,
+            player: player.name,
+            time: formatSeconds((parser.fight.end - parser.fight.start) / 1000),
+        })
     }
 
-    private async loadData(gearsetID: string, isCompare = false) {
-        this.setState({ ready: false })
+    private loadGearset = async (gearsetID: string) => {
+        const existingGearset = this.state.gearsets
+            .filter(gear => gear.id === gearsetID)[0]
+
+        if (existingGearset) {
+            // TODO error out (actually just delete this because it's a downstream problem)
+            return
+        }
 
         const { name, stats } = await getStats(gearsetID)
         const result = await this.simulator.calculateDamage(stats)
@@ -90,71 +102,67 @@ export class Result extends React.Component<Props, State> {
             },
         }
 
-        if (isCompare) {
-            this.setState({
-                compareGearset: gearsetInfo,
-                ready: true,
-            })
-        } else {
-            this.setState({
-                baseGearset: gearsetInfo,
-                ready: true,
-            })
+        const gearsets = [...this.state.gearsets, gearsetInfo]
+            .sort((a, b) => b.expected - a.expected)
+
+        this.setState({
+            gearsets: gearsets,
+        })
+    }
+
+    private removeGearset = async (gearsetID: string) => {
+        const gearsets = this.state.gearsets.filter(gear => gear.id !== gearsetID)
+        this.setState({ gearsets: gearsets })
+    }
+
+    private updateGearset = async (gearsetID: string, stats: Stats, name: string) => {
+        const gearsets = [...this.state.gearsets]
+        const gearset = gearsets.filter(gear => gear.id === gearsetID)[0]
+
+        // Recalculate DPS
+        const result = await this.simulator.calculateDamage(stats)
+
+        gearset.name = name
+        gearset.stats = {...stats}
+        gearset.expected = result.expected
+        gearset.data = {
+            id: name,
+            data: result.data,
         }
+
+        this.setState({ gearsets: gearsets })
     }
 
-    private onSetSelect = async (etroLink: string) => {
-        const gearsetRegex = /(?<=gearset\/)(.*)/i
+    private cloneGearset = async (gearsetID: string) => {
+        const gearset = this.state.gearsets.filter(gear => gear.id === gearsetID)[0]
 
-        try {
-            const url = new URL(etroLink)
-            const gearsetID = url.pathname.match(gearsetRegex)[0]
+        // Generate a unique copy name for the new gearset
+        let copyCount = 1
+        let foundNewName = false
+        let newName: string
 
-            await this.loadData(gearsetID, true)
-
-            this.props.history.replace(this.props.location.pathname + '/' + gearsetID)
-
-        } catch (e) {
-            return
+        while (!foundNewName) {
+            newName = `${gearset.name} (${copyCount})`
+            if (!this.state.gearsets.some(gear => gear.name === newName)) {
+                foundNewName = true
+            }
+            copyCount++
         }
-    }
 
-    private onSync = async () => {
-        await this.loadData(this.props.match.params.gid2, true)
-    }
-
-    private onClear = async () => {
-        const reportID = this.props.match.params.rid
-        const fightID = parseInt(this.props.match.params.fid)
-        const playerID = parseInt(this.props.match.params.pid)
-        const gearsetID = this.props.match.params.gid
-
-        this.setState({ compareGearset: undefined })
-
-        this.props.history.replace(`/${reportID}/${fightID}/${playerID}/${gearsetID}`)
-    }
-
-    private comparePanel = () => {
-        if (this.state.compareGearset) {
-            return <div>
-                <ComparisonPanel gearset={this.state.compareGearset} base={this.state.baseGearset} />
-                <Box className={styles.buttons}>
-                    <IconButton onClick = {this.onSync}>
-                        <Sync />
-                    </IconButton>
-                    <IconButton onClick={this.onClear}>
-                        <Clear />
-                    </IconButton>
-                </Box>
-            </div>
+        const newGearset = {
+            id: uuid(),
+            name: newName,
+            stats: { ...gearset.stats },
+            expected: gearset.expected,
+            data: {
+                id: newName,
+                data: [...gearset.data.data],
+            },
         }
-        return <SetSelect onClick={this.onSetSelect} />
-    }
 
-    private getGearsets = () => {
-        return this.state.compareGearset ?
-            [this.state.baseGearset, this.state.compareGearset] :
-            [this.state.baseGearset]
+        this.setState({
+            gearsets: [newGearset, ...this.state.gearsets],
+        })
     }
 
     render() {
@@ -163,20 +171,24 @@ export class Result extends React.Component<Props, State> {
         }
 
         return <div className={styles.result}>
+            <Box mb={2}>
+                <Typography align="center" variant="h4" style={{ color: 'white' }}>
+                    {this.state.player} - {this.state.encounter} ({this.state.time})
+                </Typography>
+            </Box>
             <Paper>
                 <Box p={2}>
-                    <DamageGraph gearsets={this.getGearsets()} />
+                    <DamageGraph gearsets={this.state.gearsets} />
                 </Box>
             </Paper>
             <Box mt={2} overflow="hidden">
-                <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                        <BasePanel gearset={this.state.baseGearset} />
-                    </Grid>
-                    <Grid item xs={6}>
-                        {this.comparePanel()}
-                    </Grid>
-                </Grid>
+                <GearsetTable
+                    gearsets={this.state.gearsets}
+                    loadGearset={this.loadGearset}
+                    removeGearset={this.removeGearset}
+                    updateGearset={this.updateGearset}
+                    cloneGearset={this.cloneGearset}
+                />
             </Box>
         </div>
     }
