@@ -10,9 +10,9 @@ import styles from './GearsetTable.module.css'
 interface Props {
     gearsets: GearsetInfo[]
     loadGearset: (gearsetID: string) => Promise<void>
-    removeGearset: (gearsetID: string) => Promise<void>
-    updateGearset: (gearsetID: string, stats: Stats, name: string) => Promise<void>
-    cloneGearset: (gearsetID: string) => Promise<void>
+    removeGearset: (gearset: GearsetInfo) => Promise<void>
+    updateGearset: (gearset: GearsetInfo, stats: Stats, name: string) => Promise<void>
+    cloneGearset: (gearset: GearsetInfo) => Promise<void>
 }
 
 interface State {
@@ -28,11 +28,20 @@ export class GearsetTable extends React.Component<Props, State> {
         }
     }
 
+    componentDidUpdate() {
+        if (!this.props.gearsets.includes(this.state.selected)) {
+            // Selected set got deleted, default to the top set
+            this.setState({
+                selected: this.props.gearsets[0],
+            })
+        }
+    }
+
     private getStats(): Array<keyof Stats> {
         const stats: Array<keyof Stats> = []
 
-        // Why is typescript?
         this.props.gearsets.forEach(set => {
+            // Why is typescript?
             (Object.keys(set.stats) as Array<keyof Stats>).forEach(stat => {
                 if (set.stats[stat] > 0 && !stats.includes(stat)) {
                     stats.push(stat)
