@@ -11,7 +11,7 @@ body {
     display: inline-block;
     width: 100%;
     max-width: 800px;
-    top: 30%;
+    top: 40%;
     left: 50%;
     transform: translateX(-50%);
 }

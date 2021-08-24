@@ -2,7 +2,10 @@
 /* eslint-disable */
 declare namespace FriendSelectModuleCssNamespace {
   export interface IFriendSelectModuleCss {
-    select: string;
+    button: string;
+    friendSelect: string;
+    friends: string;
+    recast: string;
   }
 }
 

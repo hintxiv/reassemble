@@ -1,9 +1,6 @@
 import {preserve} from 'utilities/types'
 import {Action, Debuff, Status} from '../types'
 
-/**
- * TODO - potencies for sidewinder (target debuff check), apex arrow, pp (estimate?)
- */
 export const ACTIONS = preserve<Action>()({
     BLOODLETTER: {
         id: 110,

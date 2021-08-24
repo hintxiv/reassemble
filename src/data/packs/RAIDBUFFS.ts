@@ -1,17 +1,6 @@
 import {preserve} from 'utilities/types'
 import {Debuff, Status} from '../types'
 
-/**
- * TODO
- * -----------------------------------------
- * Cards - varying buffs depending on job
- * Divination - varying buffs depending on seals
- * Standard/tech - varying buffs depending on steps
- * Embolden - varying buffs depending on damage type
- * Debuffs - chain, trick etc. (yay done)
- * Song buffs
- */
-
 export const STATUSES = preserve<Status>()({
     BATTLE_LITANY: {
         id: 786,

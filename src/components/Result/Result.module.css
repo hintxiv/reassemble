@@ -3,10 +3,10 @@
     display: inline-block;
     width: 100%;
     max-width: 1400px;
+    min-width: 800px;
     top: 8%;
     left: 50%;
     transform: translateX(-50%);
-    overflow-y: visible;
 }
 
 .loading {

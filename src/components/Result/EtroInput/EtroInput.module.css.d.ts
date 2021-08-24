@@ -1,7 +1,7 @@
 // Automatically generated. Do not edit.
 /* eslint-disable */
-declare namespace EtroRowModuleCssNamespace {
-  export interface IEtroRowModuleCss {
+declare namespace EtroInputModuleCssNamespace {
+  export interface IEtroInputModuleCss {
     enter: string;
     enterActive: string;
     enterDone: string;
@@ -10,9 +10,9 @@ declare namespace EtroRowModuleCssNamespace {
   }
 }
 
-declare const EtroRowModuleCssModule: EtroRowModuleCssNamespace.IEtroRowModuleCss & {
+declare const EtroInputModuleCssModule: EtroInputModuleCssNamespace.IEtroInputModuleCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: EtroRowModuleCssNamespace.IEtroRowModuleCss;
+  locals: EtroInputModuleCssNamespace.IEtroInputModuleCss;
 };
 
-export = EtroRowModuleCssModule;
+export = EtroInputModuleCssModule;

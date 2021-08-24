@@ -1,9 +1,21 @@
-.select {
-    position: fixed;
-    display: inline-block;
+.friendSelect {
+    position: absolute;
     width: 100%;
     max-width: 800px;
-    top: 15%;
+    top: 10%;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.friends {
+    justify-content: center;
+}
+
+.recast, .button {
+    position: relative;
+    padding-top: 6em;
+}
+
+.recast {
+    min-height: 8em;
 }

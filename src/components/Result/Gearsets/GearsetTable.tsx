@@ -3,13 +3,12 @@ import * as React from 'react'
 import { Stats } from 'simulator/entity/player/stats'
 import { PROPER_STAT_NAME, SHORT_STAT_NAME } from 'utilities/format'
 import { GearsetInfo } from '../Result'
-import { EtroRow } from './EtroRow'
 import { GearsetRow } from './GearsetRow'
 import styles from './GearsetTable.module.css'
 
 interface Props {
     gearsets: GearsetInfo[]
-    loadGearset: (gearsetID: string) => Promise<void>
+    recast: number
     removeGearset: (gearset: GearsetInfo) => Promise<void>
     updateGearset: (gearset: GearsetInfo, stats: Stats, name: string) => Promise<void>
     cloneGearset: (gearset: GearsetInfo) => Promise<void>
@@ -99,6 +98,7 @@ export class GearsetTable extends React.Component<Props, State> {
                             gearset={set}
                             selected={this.state.selected}
                             stats={this.getStats()}
+                            recast={this.props.recast}
                             selectRow={this.selectRow}
                             removeGearset={this.props.removeGearset}
                             updateGearset={this.props.updateGearset}
@@ -106,9 +106,6 @@ export class GearsetTable extends React.Component<Props, State> {
                         />)}
                     </TableBody>
                 </Table>
-            </Grid>
-            <Grid item xs={12}>
-                <EtroRow loadGearset={this.props.loadGearset} />
             </Grid>
         </Grid>
     }

@@ -1,0 +1,18 @@
+.footer {
+    position: absolute;
+    width: 100%;
+    max-width: 800px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.iconRoot {
+    text-align: center;
+}
+
+.icon {
+    display: flex;
+    height: inherit;
+    width: inherit;
+}
