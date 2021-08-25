@@ -2,6 +2,7 @@ import { AppBar, createMuiTheme, ThemeProvider, Toolbar, Typography } from '@mat
 import { blue } from '@material-ui/core/colors'
 import * as React from 'react'
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom'
+import styles from './App.module.css'
 import { ErrorBoundary } from './ErrorBoundary/ErrorBoundary'
 import { Footer } from './Footer/Footer'
 import { FriendSelect } from './Friends/FriendSelect'
@@ -48,21 +49,25 @@ class AppComponent extends React.Component<RouteComponentProps> {
 
     render() {
         return <ThemeProvider theme={theme}>
-            <AppBar>
-                <Toolbar>
-                    <Typography variant="h5" align="center" onClick={this.goHome}>
-                        Reassemble
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <ErrorBoundary>
-                <Switch>
-                    {routes.map(({ path, component }, key) => (
-                        <Route exact path={path} key={key} component={component} />
-                    ))}
-                </Switch>
-            </ErrorBoundary>
-            <Footer />
+            <div className={styles.content}>
+                <AppBar>
+                    <Toolbar>
+                        <Typography variant="h5" align="center" onClick={this.goHome}>
+                            Reassemble
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <ErrorBoundary>
+                    <Switch>
+                        {routes.map(({ path, component }, key) => (
+                            <Route exact path={path} key={key} component={component} />
+                        ))}
+                    </Switch>
+                </ErrorBoundary>
+                <div className={styles.footer}>
+                    <Footer />
+                </div>
+            </div>
         </ThemeProvider>
     }
 }

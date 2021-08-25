@@ -14,7 +14,6 @@ import { GearsetTable } from './Gearsets/GearsetTable'
 import { DamageGraph, GraphData } from './Graph/DamageGraph'
 import styles from './Result.module.css'
 
-
 interface RouterProps {
     rid: string
     fid: string

@@ -13,7 +13,7 @@ export class Footer extends React.Component {
     }
 
     render() {
-        return <footer className={styles.footer}>
+        return <footer>
             <Grid container justify="center">
                 <Box>
                     <Tooltip title="GitHub" placement="top">
