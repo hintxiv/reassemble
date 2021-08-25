@@ -3,6 +3,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import DoneIcon from '@material-ui/icons/Done'
 import EditIcon from '@material-ui/icons/Edit'
 import FileCopyIcon from '@material-ui/icons/FileCopy'
+import { fGCD } from 'math/functions'
 import * as React from 'react'
 import { Stats } from 'simulator/entity/player/stats'
 import { formatDamage } from 'utilities/format'
@@ -35,6 +36,7 @@ interface Props {
     gearset: GearsetInfo
     selected: GearsetInfo
     stats: Array<keyof Stats>
+    recast: number
     selectRow: (gearset: GearsetInfo) => Promise<void>
     removeGearset: (gearset: GearsetInfo) => Promise<void>
     updateGearset: (gearset: GearsetInfo, stats: Stats, name: string) => Promise<void>
@@ -107,6 +109,26 @@ export class GearsetRow extends React.Component<Props, State> {
         </span>
     }
 
+    private renderStat(stat: keyof Stats) {
+        const setStats = this.props.gearset.stats
+        const speedStat = this.props.stats.includes('skillspeed') ? 'skillspeed' : 'spellspeed'
+        // TODO level stuff
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+        const gearsetRecast = fGCD(setStats[speedStat], 80)
+
+        if (stat !== speedStat || gearsetRecast === this.props.recast) {
+            return <Typography>
+                {setStats[stat]}
+            </Typography>
+        }
+
+        return <Tooltip title="GCD recast mismatch; results will be inaccurate!">
+            <Typography color="error">
+                {setStats[stat]}*
+            </Typography>
+        </Tooltip>
+    }
+
     render() {
         const set = this.props.gearset
         const select = () => this.props.selectRow(this.props.gearset)
@@ -143,9 +165,7 @@ export class GearsetRow extends React.Component<Props, State> {
                             InputProps={{ style: { fontSize: 14 } }}
                             onChange={this.onStatChange(stat)}
                         />
-                        : <Typography>
-                            {set.stats[stat]}
-                        </Typography>
+                        : this.renderStat(stat)
                     }
                 </TableCell>
             )}

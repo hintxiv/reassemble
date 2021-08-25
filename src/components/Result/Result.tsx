@@ -9,6 +9,7 @@ import { Stats } from 'simulator/entity/player/stats'
 import { Simulator } from 'simulator/simulator'
 import { formatSeconds } from 'utilities/format'
 import { v4 as uuid } from 'uuid'
+import { EtroInput } from './EtroInput/EtroInput'
 import { GearsetTable } from './Gearsets/GearsetTable'
 import { DamageGraph, GraphData } from './Graph/DamageGraph'
 import styles from './Result.module.css'
@@ -17,6 +18,7 @@ interface RouterProps {
     rid: string
     fid: string
     pid: string
+    gcd: string
 }
 
 type Props = RouteComponentProps<RouterProps>
@@ -41,6 +43,7 @@ export class Result extends React.Component<Props, State> {
     private reportID = this.props.match.params.rid
     private fightID = parseInt(this.props.match.params.fid)
     private playerID = parseInt(this.props.match.params.pid)
+    private recast = parseFloat(this.props.match.params.gcd)
 
     private simulator: Simulator
 
@@ -171,7 +174,7 @@ export class Result extends React.Component<Props, State> {
 
         return <div className={styles.result}>
             <Box mb={2}>
-                <Typography align="center" variant="h4" style={{ color: 'white' }}>
+                <Typography variant="h4" align="center" color="textPrimary">
                     {this.state.player} - {this.state.encounter} ({this.state.time})
                 </Typography>
             </Box>
@@ -180,14 +183,19 @@ export class Result extends React.Component<Props, State> {
                     <DamageGraph gearsets={this.state.gearsets} />
                 </Box>
             </Paper>
-            <Box mt={2} overflow="hidden">
-                <GearsetTable
-                    gearsets={this.state.gearsets}
-                    loadGearset={this.loadGearset}
-                    removeGearset={this.removeGearset}
-                    updateGearset={this.updateGearset}
-                    cloneGearset={this.cloneGearset}
-                />
+            <Box mt={2}>
+                {this.state.gearsets.length > 0 &&
+                    <GearsetTable
+                        gearsets={this.state.gearsets}
+                        recast={this.recast}
+                        removeGearset={this.removeGearset}
+                        updateGearset={this.updateGearset}
+                        cloneGearset={this.cloneGearset}
+                    />
+                }
+            </Box>
+            <Box mt={2}>
+                <EtroInput loadGearset={this.loadGearset} />
             </Box>
         </div>
     }

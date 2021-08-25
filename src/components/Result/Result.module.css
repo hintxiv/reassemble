@@ -1,12 +1,11 @@
 .result {
-    position: absolute;
-    display: inline-block;
     width: 100%;
-    max-width: 1400px;
-    top: 8%;
-    left: 50%;
-    transform: translateX(-50%);
-    overflow-y: visible;
+    max-width: 1600px;
+    transform: translateY(8vh);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 100px;
+    background-color: #242526;
 }
 
 .loading {

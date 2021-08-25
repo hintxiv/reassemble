@@ -1,17 +1,14 @@
-body {
-    background-color: #242526;
-}
-
 .input {
     width: 100%
 }
 
 .home {
-    position: fixed;
-    display: inline-block;
+    background-color: #242526;
     width: 100%;
+    min-width: 400px;
     max-width: 800px;
-    top: 30%;
-    left: 50%;
-    transform: translateX(-50%);
+    transform: translateY(35vh);
+    margin-left: auto;
+    margin-right: auto;
 }
+

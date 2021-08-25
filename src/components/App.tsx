@@ -2,6 +2,9 @@ import { AppBar, createMuiTheme, ThemeProvider, Toolbar, Typography } from '@mat
 import { blue } from '@material-ui/core/colors'
 import * as React from 'react'
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom'
+import styles from './App.module.css'
+import { ErrorBoundary } from './ErrorBoundary/ErrorBoundary'
+import { Footer } from './Footer/Footer'
 import { FriendSelect } from './Friends/FriendSelect'
 import { Home } from './Home/Home'
 import { Result } from './Result/Result'
@@ -30,13 +33,14 @@ const routes = [
         crumb: (fight: string) => <Typography variant="subtitle2">{fight}</Typography>,
     },
     {
-        path: '/:rid/:fid/:pid',
+        path: '/:rid/:fid/:pid/:gcd',
         component: Result,
         crumb: (player: string) => <Typography variant="subtitle2">{player}</Typography>,
     },
 ]
 
 class AppComponent extends React.Component<RouteComponentProps> {
+
     private goHome = () => {
         if (this.props.location.pathname !== '/') {
             this.props.history.push('/')
@@ -45,18 +49,25 @@ class AppComponent extends React.Component<RouteComponentProps> {
 
     render() {
         return <ThemeProvider theme={theme}>
-            <AppBar style={{ alignItems: 'center' }}>
-                <Toolbar>
-                    <Typography variant="h5" align="center" onClick={this.goHome}>
-                        Reassemble
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <Switch>
-                {routes.map(({ path, component }, key) => (
-                    <Route exact path={path} key={key} component={component} />
-                ))}
-            </Switch>
+            <div className={styles.content}>
+                <AppBar>
+                    <Toolbar>
+                        <Typography variant="h5" align="center" onClick={this.goHome}>
+                            Reassemble
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <ErrorBoundary>
+                    <Switch>
+                        {routes.map(({ path, component }, key) => (
+                            <Route exact path={path} key={key} component={component} />
+                        ))}
+                    </Switch>
+                </ErrorBoundary>
+                <div className={styles.footer}>
+                    <Footer />
+                </div>
+            </div>
         </ThemeProvider>
     }
 }

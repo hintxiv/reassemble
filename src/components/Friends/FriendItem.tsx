@@ -1,4 +1,4 @@
-import { Button, createStyles, Icon, Theme, WithStyles, withStyles } from '@material-ui/core'
+import { Box, Button, createStyles, Icon, Theme, WithStyles, withStyles } from '@material-ui/core'
 import { JobInfo, JOBS } from 'data/jobs'
 import { CURRENT } from 'data/patch'
 import { Friend } from 'parse/fflogs/fight'
@@ -16,12 +16,13 @@ const styles = (_theme: Theme) => createStyles({
 })
 
 interface Props extends WithStyles<typeof styles> {
-    onClick: (playerID: number) => Promise<void>,
-    friend: Friend,
+    friend: Friend
+    selected: boolean
+    onClick: (friend: Friend) => Promise<void>
 }
 
 interface State {
-    job: JobInfo | null,
+    job: JobInfo | null
 }
 
 class FriendItemComponent extends React.Component<Props, State> {
@@ -51,20 +52,23 @@ class FriendItemComponent extends React.Component<Props, State> {
         }
     }
 
-    private sendPlayerID = () => {
-        this.props.onClick(this.props.friend.id)
+    private onClick = () => {
+        this.props.onClick(this.props.friend)
     }
 
     render() {
-        return <div>
+        return <Box mb={1}>
             <Button
+                variant="contained"
                 startIcon={this.getIcon()}
-                onClick={this.sendPlayerID}
+                onClick={this.onClick}
                 disabled={!this.isAvailable()}
+                color={this.props.selected ? 'primary' : 'inherit'}
+                fullWidth
             >
                 {this.props.friend.name}
             </Button>
-        </div>
+        </Box>
     }
 }
 

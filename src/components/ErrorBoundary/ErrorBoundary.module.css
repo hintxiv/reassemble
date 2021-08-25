@@ -1,0 +1,8 @@
+.error {
+    position: absolute;
+    width: 100%;
+    max-width: 800px;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+}

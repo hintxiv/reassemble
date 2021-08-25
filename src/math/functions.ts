@@ -32,6 +32,13 @@ export function fSPD(spd: number, level: Level) {
     return Math.floor(130 * ((spd - lvlMod_sub) / lvlMod_div) + 1000)
 }
 
+// Computes base (2.50 action before speedmods) GCD recast (in ms) from speed stat
+export function fGCD(spd: number, level: Level) {
+    const gcd1 = Math.floor((2000 - fSPD(spd, level)) * 2.5)
+
+    return Math.floor(gcd1 / 10) * 10
+}
+
 export function fCRIT(crit: number, level: Level) {
     const lvlMod_sub = LEVEL_MODS[level].SUB
     const lvlMod_div = LEVEL_MODS[level].DIV
