@@ -151,9 +151,11 @@ export class GearsetRow extends React.Component<Props, State> {
                 {this.renderRelativeDamage()}
             </TableCell>
             <TableCell className={styles.expected} onClick={select} align="center">
-                <Typography>
-                    {formatDamage(set.expected)}
-                </Typography>
+                <Tooltip title={'Total: ' + formatDamage(set.total)}>
+                    <Typography>
+                        {formatDamage(set.expected)}
+                    </Typography>
+                </Tooltip>
             </TableCell>
             {this.props.stats.map(stat =>
                 <TableCell key={stat} className={styles.stat} onClick={select} align="center">

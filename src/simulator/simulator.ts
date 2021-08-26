@@ -100,6 +100,7 @@ export class Simulator {
         return {
             data: damageArray,
             expected: expected,
+            total: totalDamage,
         }
     }
 }
