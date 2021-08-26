@@ -4,7 +4,8 @@
 }
 
 .button {
-    width: 15%;
+    width: 100%;
+    max-width: 250px;
 }
 
 .enter {
