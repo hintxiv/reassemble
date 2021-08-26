@@ -64,9 +64,9 @@ class AppComponent extends React.Component<RouteComponentProps> {
                         ))}
                     </Switch>
                 </ErrorBoundary>
-                <div className={styles.footer}>
-                    <Footer />
-                </div>
+            </div>
+            <div className={styles.footer}>
+                <Footer />
             </div>
         </ThemeProvider>
     }
