@@ -9,6 +9,7 @@ import styles from './GearsetTable.module.css'
 interface Props {
     gearsets: GearsetInfo[]
     recast: number
+    stats: Array<keyof Stats>
     removeGearset: (gearset: GearsetInfo) => Promise<void>
     updateGearset: (gearset: GearsetInfo, stats: Stats, name: string) => Promise<void>
     cloneGearset: (gearset: GearsetInfo) => Promise<void>
@@ -36,21 +37,6 @@ export class GearsetTable extends React.Component<Props, State> {
         }
     }
 
-    private getStats(): Array<keyof Stats> {
-        const stats: Array<keyof Stats> = []
-
-        this.props.gearsets.forEach(set => {
-            // Why is typescript?
-            (Object.keys(set.stats) as Array<keyof Stats>).forEach(stat => {
-                if (set.stats[stat] > 0 && !stats.includes(stat)) {
-                    stats.push(stat)
-                }
-            })
-        })
-
-        return stats
-    }
-
     private selectRow = async (gearset: GearsetInfo) => {
         this.setState({ selected: gearset })
     }
@@ -68,15 +54,15 @@ export class GearsetTable extends React.Component<Props, State> {
                             </TableCell>
                             <TableCell className={styles.relative} align="center">
                                 <Typography>
-                                    Relative
+                                    Relative Gain
                                 </Typography>
                             </TableCell>
                             <TableCell className={styles.expected} align="center">
                                 <Typography>
-                                    Expected
+                                    Expected DPS
                                 </Typography>
                             </TableCell>
-                            {this.getStats().map(stat =>
+                            {this.props.stats.map(stat =>
                                 <TableCell key={stat} className={styles.stat} align="center">
                                     <Tooltip key={stat} title={PROPER_STAT_NAME[stat]}>
                                         <Typography>
@@ -97,7 +83,7 @@ export class GearsetTable extends React.Component<Props, State> {
                             key={set.id}
                             gearset={set}
                             selected={this.state.selected}
-                            stats={this.getStats()}
+                            stats={this.props.stats}
                             recast={this.props.recast}
                             selectRow={this.selectRow}
                             removeGearset={this.props.removeGearset}

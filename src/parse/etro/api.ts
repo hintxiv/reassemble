@@ -1,5 +1,5 @@
 import ky, { Options } from 'ky'
-import { Stats } from 'simulator/entity/player/stats'
+import { Stats, makeStats } from 'simulator/entity/player/stats'
 
 const statLookup: Record<string, keyof Stats> = {
     ['Weapon Damage']: 'weapondamage',
@@ -38,23 +38,8 @@ async function getGearset(id: string): Promise<EtroResponseGearset> {
 
 export async function getStats(id: string): Promise<{name: string, stats: Stats}> {
     const gearset = await getGearset(id)
-
     const name = gearset.name
-
-    const stats: Stats = {
-        weapondamage: 0,
-        vitality: 0,
-        strength: 0,
-        dexterity: 0,
-        intelligence: 0,
-        mind: 0,
-        critical: 0,
-        determination: 0,
-        direct: 0,
-        skillspeed: 0,
-        spellspeed: 0,
-        tenacity: 0,
-    }
+    const stats = makeStats()
 
     gearset.totalParams.forEach(p => {
         if (p.name in statLookup) {

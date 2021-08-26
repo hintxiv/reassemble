@@ -1,4 +1,8 @@
-import { Attribute, Job } from 'data/jobs'
+import { Job } from 'data/jobs'
+
+export const enum Attribute {
+    HP, MP, STR, VIT, DEX, INT, MND
+}
 
 type JobModifiers = { [key in Attribute]: number }
 

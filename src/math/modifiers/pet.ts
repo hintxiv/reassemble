@@ -1,4 +1,4 @@
-import { Attribute } from 'data/jobs'
+import { Attribute } from './job'
 
 type PetModifiers = {
     [key in Attribute]?: number

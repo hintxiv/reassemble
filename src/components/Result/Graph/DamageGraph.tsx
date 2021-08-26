@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core'
 import { Line, SliceTooltipProps } from '@nivo/line'
 import * as React from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -32,6 +33,14 @@ export class DamageGraph extends React.Component<Props> {
     }
 
     render() {
+        if (this.props.gearsets.length === 0) {
+            return <div>
+                <Typography align="center">
+                    Add a gearset to see DPS results.
+                </Typography>
+            </div>
+        }
+
         return <AutoSizer disableHeight>
             {({ width }) => (
                 <div style={{ width: width + 'px' }}>
@@ -69,8 +78,8 @@ export class DamageGraph extends React.Component<Props> {
                             tickPadding: 9,
                             tickRotation: 0,
                             tickValues: 10,
-                            legend: '',
-                            legendOffset: 0,
+                            legend: 'Fight Length',
+                            legendOffset: 40,
                             legendPosition: 'middle',
                             // Convert seconds to mm:ss
                             // eslint-disable-next-line @typescript-eslint/no-magic-numbers
