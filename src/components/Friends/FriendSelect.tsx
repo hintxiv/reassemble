@@ -84,7 +84,7 @@ export class FriendSelect extends React.Component<Props, State> {
                         1. Choose a player
                     </Typography>
                 </Grid>
-                <Grid container spacing={3}>
+                <Grid container spacing={3} className={styles.friends}>
                     {this.state.friends.map(friend =>
                         <Grid item xs={12} sm={6} md={3} key={friend.id}>
                             <FriendItem

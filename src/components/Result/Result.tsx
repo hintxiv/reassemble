@@ -27,6 +27,7 @@ export interface GearsetInfo {
     id: string
     name: string
     expected: number
+    total: number
     stats: Stats
     data: GraphData
 }
@@ -106,6 +107,7 @@ export class Result extends React.Component<Props, State> {
             name: name,
             stats: stats,
             expected: result.expected,
+            total: result.total,
             data: {
                 id: name,
                 data: result.data,
@@ -138,6 +140,7 @@ export class Result extends React.Component<Props, State> {
             name: name,
             stats: stats,
             expected: result.expected,
+            total: result.total,
             data: {
                 id: name,
                 data: result.data,
@@ -161,6 +164,7 @@ export class Result extends React.Component<Props, State> {
             name: name,
             stats: { ...stats },
             expected: result.expected,
+            total: result.total,
             data: {
                 id: name,
                 data: result.data,
@@ -185,11 +189,12 @@ export class Result extends React.Component<Props, State> {
             copyCount++
         }
 
-        const clonedSet = {
+        const clonedSet: GearsetInfo = {
             id: uuid(),
             name: newName,
             stats: { ...gearset.stats },
             expected: gearset.expected,
+            total: gearset.total,
             data: {
                 id: newName,
                 data: [...gearset.data.data],
