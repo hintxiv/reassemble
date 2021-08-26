@@ -1,10 +1,20 @@
+import { Attribute } from 'math/modifiers/job'
 import { Dancer } from 'simulator/entity/player/jobs/dancer'
-import { Attribute, JobInfo } from './job'
+import { JobInfo } from './job'
 
 export const DNC_INFO: JobInfo = {
     name: 'Dancer',
     playerCtor: Dancer,
     mainStat: Attribute.DEX,
+    stats: [
+        'weapondamage',
+        'vitality',
+        'dexterity',
+        'critical',
+        'determination',
+        'direct',
+        'skillspeed',
+    ],
     weaponDelay: 3.12,
     trait: 120,
     iconPath: '/jobicons/dnc.svg',

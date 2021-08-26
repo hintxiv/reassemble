@@ -1,12 +1,9 @@
-import {Player} from 'simulator/entity'
-import {CastHandler, DamageHandler} from 'simulator/handlers'
-import {DamageType} from '../../simulator/damage'
-import {Patch} from '../patch'
-
-export const enum Attribute
-{
-    HP, MP, STR, VIT, DEX, INT, MND
-}
+import { Attribute } from 'math/modifiers/job'
+import { Player } from 'simulator/entity'
+import { Stats } from 'simulator/entity/player/stats'
+import { CastHandler, DamageHandler } from 'simulator/handlers'
+import { DamageType } from '../../simulator/damage'
+import { Patch } from '../patch'
 
 type DamageMap = {
     [key in DamageType]?: Attribute
@@ -22,10 +19,10 @@ export interface JobInfo
     name: Job
     playerCtor: {
         // hmm... this part should probably be handled by the simulator instead
-        // any way to infer the constructor signature?
         new (id: number, castCallback: CastHandler, damageCallback: DamageHandler): Player
     }
     mainStat: Attribute
+    stats: Array<keyof Stats>
     weaponDelay: number
     trait: number
     iconPath: string

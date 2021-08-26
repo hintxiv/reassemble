@@ -1,17 +1,17 @@
 import { Box, CircularProgress, Paper, Typography } from '@material-ui/core'
-import { JOBS } from 'data/jobs'
 import { getStats } from 'parse/etro/api'
 import { Friend } from 'parse/fflogs/fight'
 import { FFLogsParser } from 'parse/fflogs/parser'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { Stats } from 'simulator/entity/player/stats'
+import { Stats, makeStats } from 'simulator/entity/player/stats'
 import { Simulator } from 'simulator/simulator'
 import { formatSeconds } from 'utilities/format'
 import { v4 as uuid } from 'uuid'
-import { EtroInput } from './EtroInput/EtroInput'
-import { GearsetTable } from './Gearsets/GearsetTable'
+import { GearsetTable } from './GearsetTable/GearsetTable'
 import { DamageGraph, GraphData } from './Graph/DamageGraph'
+import { EtroImport } from './Import/EtroImport'
+import { ManualImport } from './Import/ManualImport'
 import styles from './Result.module.css'
 
 interface RouterProps {
@@ -72,7 +72,7 @@ export class Result extends React.Component<Props, State> {
         this.simulator = new Simulator(parser, player)
 
         // Autopopulate the BiS set for this job
-        await this.loadGearset(JOBS[player.type].bis)
+        await this.loadGearset(this.simulator.player.jobInfo.bis)
 
         this.setState({
             ready: true,
@@ -113,6 +113,38 @@ export class Result extends React.Component<Props, State> {
         }
 
         this.updateGearsets([...this.state.gearsets, gearsetInfo])
+    }
+
+    private getUniqueGearsetName(name: string) {
+        let copyCount = 1
+        let newName = name
+
+        // Keep incrementing until we have a unique name
+        while (this.state.gearsets.some(gear => gear.name === newName)) {
+            newName = `${name} (${copyCount})`
+            copyCount++
+        }
+
+        return newName
+    }
+
+    private addEmptyGearset = async() => {
+        const stats = makeStats()
+        const result = await this.simulator.calculateDamage(stats)
+        const name = this.getUniqueGearsetName('Untitled Gearset')
+
+        const newGearset: GearsetInfo = {
+            id: uuid(),
+            name: name,
+            stats: stats,
+            expected: result.expected,
+            data: {
+                id: name,
+                data: result.data,
+            },
+        }
+
+        this.updateGearsets([newGearset, ...this.state.gearsets])
     }
 
     private removeGearset = async (gearset: GearsetInfo) => {
@@ -188,6 +220,7 @@ export class Result extends React.Component<Props, State> {
                     <GearsetTable
                         gearsets={this.state.gearsets}
                         recast={this.recast}
+                        stats={this.simulator.player.jobInfo.stats}
                         removeGearset={this.removeGearset}
                         updateGearset={this.updateGearset}
                         cloneGearset={this.cloneGearset}
@@ -195,7 +228,10 @@ export class Result extends React.Component<Props, State> {
                 }
             </Box>
             <Box mt={2}>
-                <EtroInput loadGearset={this.loadGearset} />
+                <EtroImport loadGearset={this.loadGearset} />
+            </Box>
+            <Box mt={1}>
+                <ManualImport addGearset={this.addEmptyGearset} />
             </Box>
         </div>
     }

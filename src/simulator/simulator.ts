@@ -10,10 +10,10 @@ import { RAID_DEBUFFS } from 'simulator/raidbuffs'
 import { CastHandler, DamageHandler } from './handlers'
 
 export class Simulator {
+    public player: Player
+
     private parser: FFLogsParser
     private damageInstances: DamageInstance[] = []
-
-    private player: Player
     private enemies: Map<string, Enemy> = new Map()
 
     constructor(parser: FFLogsParser, player: Friend) {

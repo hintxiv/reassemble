@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { CSSTransition } from 'react-transition-group'
-import styles from './EtroInput.module.css'
+import styles from './Import.module.css'
 
 interface Props {
     loadGearset: (gearsetID: string) => Promise<void>
@@ -13,7 +13,7 @@ interface State {
     hasError: boolean
 }
 
-export class EtroInput extends React.Component<Props, State> {
+export class EtroImport extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props)
@@ -47,13 +47,13 @@ export class EtroInput extends React.Component<Props, State> {
 
     render() {
         return <Box>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className={styles.import}>
                 {this.state.showButton &&
                     <Button
+                        className={styles.button}
                         variant="contained"
                         color="primary"
                         onClick={() => this.setState({ showField: true })}
-                        style={{ width: '15%' }}
                     >
                         Import from Etro
                     </Button>

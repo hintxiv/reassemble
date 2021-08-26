@@ -1,10 +1,20 @@
+import { Attribute } from 'math/modifiers/job'
 import { Machinist } from 'simulator/entity/player/jobs/machinist'
-import { Attribute, JobInfo } from './job'
+import { JobInfo } from './job'
 
 export const MCH_INFO: JobInfo = {
     name: 'Machinist',
     playerCtor: Machinist,
     mainStat: Attribute.DEX,
+    stats: [
+        'weapondamage',
+        'vitality',
+        'dexterity',
+        'critical',
+        'determination',
+        'direct',
+        'skillspeed',
+    ],
     weaponDelay: 2.64,
     trait: 120,
     iconPath: '/jobicons/mch.svg',

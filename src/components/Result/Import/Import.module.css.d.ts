@@ -1,18 +1,20 @@
 // Automatically generated. Do not edit.
 /* eslint-disable */
-declare namespace EtroInputModuleCssNamespace {
-  export interface IEtroInputModuleCss {
+declare namespace ImportModuleCssNamespace {
+  export interface IImportModuleCss {
+    button: string;
     enter: string;
     enterActive: string;
     enterDone: string;
     exit: string;
     exitActive: string;
+    import: string;
   }
 }
 
-declare const EtroInputModuleCssModule: EtroInputModuleCssNamespace.IEtroInputModuleCss & {
+declare const ImportModuleCssModule: ImportModuleCssNamespace.IImportModuleCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: EtroInputModuleCssNamespace.IEtroInputModuleCss;
+  locals: ImportModuleCssNamespace.IImportModuleCss;
 };
 
-export = EtroInputModuleCssModule;
+export = ImportModuleCssModule;
