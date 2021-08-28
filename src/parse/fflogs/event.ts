@@ -11,6 +11,7 @@ export interface EventFields
 {
     timestamp: number
     sourceID: number
+    targetID: number
     targetKey: string
 }
 
@@ -23,6 +24,9 @@ export interface CastEvent extends EventFields
 export interface DamageEvent extends EventFields
 {
     type: 'damage'
+    amount: number
+    isCrit: boolean
+    isDH: boolean
     actionID: number
 }
 

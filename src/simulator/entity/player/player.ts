@@ -4,6 +4,7 @@ import { Action, Status } from 'data/types'
 import { CastEvent, DamageEvent, TickEvent } from 'parse/fflogs/event'
 import { Buff } from 'simulator/buff'
 import { CastInstance, DamageOptions } from 'simulator/damage'
+import { Module } from 'simulator/modules/module'
 import { CastHandler, DamageHandler } from '../../handlers'
 import { RAID_BUFFS } from '../../raidbuffs'
 import { CastKey, Entity } from '../entity'
@@ -13,15 +14,15 @@ export abstract class Player extends Entity {
 
     public id: number
 
-    private buffs: Map<Status['id'], Buff> = new Map()
-    private casts: Map<CastKey, CastInstance> = new Map()
-    private combos: Map<Action['id'], CastInstance> = new Map()
+    protected buffs: Map<Status['id'], Buff> = new Map()
+    protected casts: Map<CastKey, CastInstance> = new Map()
+    protected combos: Map<Action['id'], CastInstance> = new Map()
 
-    private castCallback: CastHandler
-    private damageCallback: DamageHandler
+    protected castCallback: CastHandler
+    protected damageCallback: DamageHandler
 
-    constructor(id: number, castCallback: CastHandler, damageCallback: DamageHandler) {
-        super(id.toString())
+    constructor(id: number, castCallback: CastHandler, damageCallback: DamageHandler, deps?: Module[]) {
+        super(id.toString(), deps)
 
         this.id = id
         this.castCallback = castCallback
@@ -134,7 +135,7 @@ export abstract class Player extends Entity {
         this.castCallback(cast)
     }
 
-    protected onDamage(event: DamageEvent) {
+    protected onDamage(event: DamageEvent, options?: DamageOptions) {
         const key = this.getCastKey(event)
 
         if (!this.casts.has(key)) {
@@ -161,7 +162,7 @@ export abstract class Player extends Entity {
             potency: cast.potency,
             buffs: this.casts.get(key).buffs,
             falloff: falloff,
-            options: cast.options,
+            options: {...cast.options, ...options},
         })
     }
 }

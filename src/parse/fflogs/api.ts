@@ -35,6 +35,9 @@ interface FFLogsResponseEvent
     ability?: {
         guid: number
     }
+    amount?: number
+    hitType?: number
+    multistrike?: boolean
     tick?: boolean
     targetID?: number
     targetInstance?: number

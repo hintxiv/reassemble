@@ -1,7 +1,14 @@
 import { Friend, PetFriend } from './fight'
 
-export interface ReportFight
-{
+export enum HitType {
+    MISS = 0,
+    NORMAL = 1,
+    CRITICAL = 2,
+    BLOCK = 4,
+    DODGE = 7,
+}
+
+export interface ReportFight {
     id: number
     start_time: number
     end_time: number
@@ -11,8 +18,7 @@ export interface ReportFight
 export type ReportFriend = Friend & { fights: ReportFight[] }
 export type ReportPetFriend = PetFriend & { fights: ReportFight[] }
 
-export interface Report
-{
+export interface Report {
     friendlies: ReportFriend[]
     friendlyPets: ReportPetFriend[]
     fights: ReportFight[]
