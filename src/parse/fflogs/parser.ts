@@ -69,7 +69,12 @@ export class FFLogsParser {
 
             } else if (e.type === 'damage') {
                 if (e.tick) {
-                    yield { type: 'tick', statusID: e.ability.guid, ...fields }
+                    yield {
+                        type: 'tick',
+                        statusID: e.ability.guid,
+                        expectedCritRate: e.expectedCritRate,
+                        ...fields,
+                    }
 
                 } else {
                     yield {

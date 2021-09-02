@@ -1,17 +1,22 @@
 import { DataProvider } from 'data/provider'
-import { EventType, FFLogsEvent } from 'parse/fflogs/event'
+import { CastEvent, DamageEvent, EventType, FFLogsEvent } from 'parse/fflogs/event'
 import { EventHandler } from 'simulator/handlers'
 
 // Type - ID
 export type EventKey = `${EventType}-${number}`
 
+// TargetID - ActionID
+export type CastKey = `${number}-${number}`
+
 export abstract class Module {
     protected data = new DataProvider()
     protected handlers: Map<string, EventHandler<FFLogsEvent>> = new Map()
-    protected dependencies: Module[]
+    protected dependencies: Module[] = []
 
-    constructor(deps?: Module[]) {
-        this.dependencies = deps ?? []
+    protected abstract init(): void
+
+    protected addDependency(dep: Module) {
+        this.dependencies.push(dep)
     }
 
     protected getEventKey(event: FFLogsEvent): EventKey {
@@ -21,9 +26,17 @@ export abstract class Module {
         return `${event.type}-${id}` as EventKey
     }
 
+    protected getCastKey(event: CastEvent | DamageEvent): CastKey {
+        // For multitarget casts, forgo the targetID distinction
+        const action = this.data.findAction(event.actionID)
+        const targetID = action.multihit ? '' : event.targetKey
+
+        return `${targetID}-${event.actionID}` as CastKey
+    }
+
     public processEvent(event: FFLogsEvent) {
-        // Run dependency modules first
-        this.dependencies.forEach(d => d.processEvent(event))
+        // Let dependencies go first
+        this.dependencies.forEach(dep => dep.processEvent(event))
 
         const key = this.getEventKey(event)
 

@@ -34,6 +34,7 @@ export interface TickEvent extends EventFields
 {
     type: 'tick'
     statusID: number
+    expectedCritRate: number
 }
 export interface ApplyBuffEvent extends EventFields
 {

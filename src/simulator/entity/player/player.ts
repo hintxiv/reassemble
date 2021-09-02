@@ -4,10 +4,10 @@ import { Action, Status } from 'data/types'
 import { CastEvent, DamageEvent, TickEvent } from 'parse/fflogs/event'
 import { Buff } from 'simulator/buff'
 import { CastInstance, DamageOptions } from 'simulator/damage'
-import { Module } from 'simulator/modules/module'
+import { CastKey } from 'simulator/modules/module'
 import { CastHandler, DamageHandler } from '../../handlers'
 import { RAID_BUFFS } from '../../raidbuffs'
-import { CastKey, Entity } from '../entity'
+import {  Entity } from '../entity'
 
 export abstract class Player extends Entity {
     public jobInfo: JobInfo
@@ -21,12 +21,13 @@ export abstract class Player extends Entity {
     protected castCallback: CastHandler
     protected damageCallback: DamageHandler
 
-    constructor(id: number, castCallback: CastHandler, damageCallback: DamageHandler, deps?: Module[]) {
-        super(id.toString(), deps)
+    constructor(id: number, castCallback: CastHandler, damageCallback: DamageHandler) {
+        super(id.toString())
 
         this.id = id
         this.castCallback = castCallback
         this.damageCallback = damageCallback
+
         this.init()
     }
 
@@ -119,7 +120,7 @@ export abstract class Player extends Entity {
         const snapshot = debuff.castActions
             .map(actionID => `${event.targetKey}-${actionID}`)
             .map((key: CastKey) => this.casts.get(key))
-            .sort((cast1, cast2) => cast1.timestamp - cast2.timestamp)[0]
+            .sort((cast1, cast2) => cast2.timestamp - cast1.timestamp)[0]
 
         this.damageCallback({
             type: 'DoT',

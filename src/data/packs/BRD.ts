@@ -37,7 +37,6 @@ export const ACTIONS = preserve<Action>()({
     PITCH_PERFECT: {
         id: 7404,
         type: 'Ability',
-        potency: 450,  // TODO
     },
     EMPYREAL_ARROW: {
         id: 3558,
@@ -78,7 +77,6 @@ export const ACTIONS = preserve<Action>()({
     APEX_ARROW: {
         id: 16496,
         type: 'Weaponskill',
-        potency: 600,  // TODO
         multihit: true,
     },
     REFULGENT_ARROW: {
