@@ -99,8 +99,8 @@ export function expectedDamage(hit: DamageInstance, job: JobInfo, level: Level, 
         damage = fl(damage * (buff.potency ?? 1))
     })
 
-    let critRate = Funcs.critRate(newstats.critical, level) / 100
-    let directRate = Funcs.dhRate(newstats.direct, level) / 100
+    let critRate = Funcs.critRate(newstats.critical, level)
+    let directRate = Funcs.dhRate(newstats.direct, level)
 
     // Apply rate buffs
     hit.buffs.forEach(buff => {

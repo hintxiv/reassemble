@@ -35,7 +35,11 @@ interface FFLogsResponseEvent
     ability?: {
         guid: number
     }
+    amount?: number
+    hitType?: number
+    multistrike?: boolean
     tick?: boolean
+    expectedCritRate?: number
     targetID?: number
     targetInstance?: number
     // ... some other stuff too, but we only care about these fields

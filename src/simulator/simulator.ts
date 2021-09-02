@@ -41,13 +41,11 @@ export class Simulator {
     }
 
     private async processEvent(event: FFLogsEvent): Promise<void> {
-        const [targetID, targetInstance] = event.targetKey.split('-')
-
         if (this.enemies.has(event.targetKey)) {
             this.enemies.get(event.targetKey).processEvent(event)
 
-        } else if (!this.parser.fight.friends.some(friend => friend.id === +targetID)) {
-            const newEnemy = new Enemy(targetID, targetInstance)
+        } else if (!this.parser.fight.friends.some(friend => friend.id === event.targetID)) {
+            const newEnemy = new Enemy(event.targetKey)
             this.enemies.set(event.targetKey, newEnemy)
             newEnemy.processEvent(event)
         }
@@ -59,9 +57,9 @@ export class Simulator {
         const debuffIDs = RAID_DEBUFFS
             .map(debuff => debuff.statusID)
 
-        const eventGenerator = this.parser.getEvents(this.player.id, debuffIDs)
+        const events = this.parser.getEvents(this.player.id, debuffIDs)
 
-        for await (const event of eventGenerator) {
+        for await (const event of events) {
             this.processEvent(event)
         }
     }
@@ -80,13 +78,19 @@ export class Simulator {
         const damageArray: Array<{ x: number, y: number }> = []
 
         this.damageInstances.forEach(instance => {
+            // Adjust potency if the job logic specifies it
+            if (instance.options.postAdjustment !== undefined) {
+                instance.potency = instance.options.postAdjustment()
+            }
+
+            // TODO level stuff (80 assumed for now)
             // eslint-disable-next-line @typescript-eslint/no-magic-numbers
             const damage = expectedDamage(instance, this.player.jobInfo, 80, stats)
             totalDamage += damage
 
             const timeSoFar = (instance.timestamp - this.parser.fight.start) / 1000
 
-            // Add a new data point at most every 2 seconds
+            // Add a new data point to the graph at most every 2 seconds
             if (timeSoFar > lastDamageTime + 2) {
                 const dpsSoFar = totalDamage / timeSoFar
                 damageArray.push({ x: timeSoFar, y: dpsSoFar })

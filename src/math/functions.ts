@@ -50,7 +50,17 @@ export function critRate(crit: number, level: Level) {
     const lvlMod_sub = LEVEL_MODS[level].SUB
     const lvlMod_div = LEVEL_MODS[level].DIV
 
-    return Math.floor(((200 * (crit - lvlMod_sub)) / lvlMod_div) + 50) / 10
+    return Math.floor((200 * (crit - lvlMod_sub) / lvlMod_div) + 50) / 1000
+}
+
+export function critModFromRate(critRate: number, level: Level) {
+    const lvlMod_sub = LEVEL_MODS[level].SUB
+    const lvlMod_div = LEVEL_MODS[level].DIV
+
+    // We can't recover the exact crit stat, but we can get the tier
+    const critTier = ((((critRate * 1000) - 50) / 200) * lvlMod_div) + lvlMod_sub
+
+    return fCRIT(critTier, level) / 1000
 }
 
 export function dhRate(dh: number, level: Level) {

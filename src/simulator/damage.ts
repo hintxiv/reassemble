@@ -9,6 +9,12 @@ export interface DamageOptions
     addedPotency?: number
     noCrit?: boolean
     noDirect?: boolean
+    /*
+    * If specified, this function will be called after
+    * the simulator has processed all events to determine
+    * this instance's potency
+    */
+    postAdjustment?: () => number
 }
 
 export interface CastInstance

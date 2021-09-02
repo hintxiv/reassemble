@@ -5,14 +5,12 @@ import { Entity } from './entity'
 
 /**
  * Represents an Enemy entity in the report
- * @param targetID - FFLogs actor ID
- * @param targetInstance - FFLogs target instance, may or may not exist
  */
 export class Enemy extends Entity {
     private debuffs: Map<Status['id'], Buff> = new Map()
 
-    constructor(id: string, instance: string) {
-        super(`${id}-${instance}`)
+    constructor(targetKey: string) {
+        super(targetKey)
         this.init()
     }
 

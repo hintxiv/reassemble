@@ -1,6 +1,7 @@
 import { fetchEvents, fetchFight, FFLogsQuery } from './api'
 import { EventFields, FFLogsEvent } from './event'
 import { Fight } from './fight'
+import { HitType } from './report'
 
 export class FFLogsParser {
     public reportID: string
@@ -41,13 +42,13 @@ export class FFLogsParser {
             .sort((a, b) => a.timestamp - b.timestamp)
 
         for (const e of events) {
-
             const targetID = e.targetID ?? e.sourceID
             const targetInstance = e.targetInstance ?? 0
 
             const fields: EventFields = {
                 timestamp: e.timestamp,
                 sourceID: e.sourceID,
+                targetID: e.targetID,
                 targetKey: `${targetID}-${targetInstance}`,
             }
 
@@ -68,10 +69,22 @@ export class FFLogsParser {
 
             } else if (e.type === 'damage') {
                 if (e.tick) {
-                    yield { type: 'tick', statusID: e.ability.guid, ...fields }
+                    yield {
+                        type: 'tick',
+                        statusID: e.ability.guid,
+                        expectedCritRate: e.expectedCritRate,
+                        ...fields,
+                    }
 
                 } else {
-                    yield { type: 'damage', actionID: e.ability.guid, ...fields }
+                    yield {
+                        type: 'damage',
+                        actionID: e.ability.guid,
+                        amount: e.amount,
+                        isCrit: e.hitType === HitType.CRITICAL,
+                        isDH: !!e.multistrike,
+                        ...fields,
+                    }
                 }
             }
         }

@@ -37,7 +37,6 @@ export const ACTIONS = preserve<Action>()({
     PITCH_PERFECT: {
         id: 7404,
         type: 'Ability',
-        potency: 450,  // TODO
     },
     EMPYREAL_ARROW: {
         id: 3558,
@@ -52,7 +51,7 @@ export const ACTIONS = preserve<Action>()({
     SIDEWINDER: {
         id: 3562,
         type: 'Ability',
-        potency: 350,  // TODO
+        potency: 350,
     },
     CAUSTIC_BITE: {
         id: 7406,
@@ -67,7 +66,7 @@ export const ACTIONS = preserve<Action>()({
     SHADOWBITE: {
         id: 16494,
         type: 'Ability',
-        potency: 220,  // TODO
+        potency: 220,
         multihit: true,
     },
     BURST_SHOT: {
@@ -78,7 +77,6 @@ export const ACTIONS = preserve<Action>()({
     APEX_ARROW: {
         id: 16496,
         type: 'Weaponskill',
-        potency: 600,  // TODO
         multihit: true,
     },
     REFULGENT_ARROW: {
