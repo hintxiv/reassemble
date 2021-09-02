@@ -51,7 +51,7 @@ export const ACTIONS = preserve<Action>()({
     SIDEWINDER: {
         id: 3562,
         type: 'Ability',
-        potency: 350,  // TODO
+        potency: 350,
     },
     CAUSTIC_BITE: {
         id: 7406,
@@ -66,7 +66,7 @@ export const ACTIONS = preserve<Action>()({
     SHADOWBITE: {
         id: 16494,
         type: 'Ability',
-        potency: 220,  // TODO
+        potency: 220,
         multihit: true,
     },
     BURST_SHOT: {
