@@ -171,8 +171,8 @@ export class Result extends React.Component<Props, State> {
             },
         }
 
-        this.removeGearset(gearset)
-        this.updateGearsets([updatedSet, ...this.state.gearsets])
+        const otherGearsets = this.state.gearsets.filter(set => set !== gearset)
+        this.updateGearsets([updatedSet, ...otherGearsets])
     }
 
     private cloneGearset = async (gearset: GearsetInfo) => {
