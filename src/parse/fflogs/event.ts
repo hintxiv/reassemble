@@ -1,5 +1,6 @@
 export type EventType =
     | 'cast'
+    | 'prepare'
     | 'damage'
     | 'tick'
     | 'applybuff'
@@ -21,13 +22,20 @@ export interface CastEvent extends EventFields
     actionID: number
 }
 
+export interface PrepareEvent extends EventFields
+{
+    type: 'prepare'
+    actionID: number
+    buffIDs: number[]
+}
+
 export interface DamageEvent extends EventFields
 {
     type: 'damage'
+    actionID: number
     amount: number
     isCrit: boolean
     isDH: boolean
-    actionID: number
 }
 
 export interface TickEvent extends EventFields
@@ -35,7 +43,9 @@ export interface TickEvent extends EventFields
     type: 'tick'
     statusID: number
     expectedCritRate: number
+    actorPotencyRatio: number
 }
+
 export interface ApplyBuffEvent extends EventFields
 {
     type: 'applybuff'

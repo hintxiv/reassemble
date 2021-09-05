@@ -29,7 +29,8 @@ export class GearsetTable extends React.Component<Props, State> {
     }
 
     componentDidUpdate() {
-        if (!this.props.gearsets.includes(this.state.selected)) {
+        const gearsetIDs = this.props.gearsets.map(set => set.id)
+        if (!gearsetIDs.includes(this.state.selected.id)) {
             // Selected set got deleted, default to the top set
             this.setState({
                 selected: this.props.gearsets[0],

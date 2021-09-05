@@ -73,6 +73,7 @@ export class FFLogsParser {
                         type: 'tick',
                         statusID: e.ability.guid,
                         expectedCritRate: e.expectedCritRate,
+                        actorPotencyRatio: e.actorPotencyRatio,
                         ...fields,
                     }
 
@@ -82,7 +83,7 @@ export class FFLogsParser {
                         actionID: e.ability.guid,
                         amount: e.amount,
                         isCrit: e.hitType === HitType.CRITICAL,
-                        isDH: !!e.multistrike,
+                        isDH: !!e.directHit,
                         ...fields,
                     }
                 }

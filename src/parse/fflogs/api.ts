@@ -37,9 +37,11 @@ interface FFLogsResponseEvent
     }
     amount?: number
     hitType?: number
-    multistrike?: boolean
+    directHit?: boolean
     tick?: boolean
     expectedCritRate?: number
+    actorPotencyRatio?: number
+    buffs?: string
     targetID?: number
     targetInstance?: number
     // ... some other stuff too, but we only care about these fields
