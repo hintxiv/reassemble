@@ -79,7 +79,7 @@ export class Simulator {
 
         this.damageInstances.forEach(instance => {
             // Adjust potency if the job logic specifies it
-            if (instance.options.postAdjustment !== undefined) {
+            if (instance.options.postAdjustment) {
                 instance.potency = instance.options.postAdjustment()
             }
 

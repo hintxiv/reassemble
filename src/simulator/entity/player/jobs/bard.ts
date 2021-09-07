@@ -44,6 +44,8 @@ export class Bard extends Player {
             console.log("bard?", this instanceof Bard)
             console.log("potency?", this instanceof Potency)
             console.log("player?", this instanceof Player)
+            console.log(typeof(this.init))
+            console.log(typeof(this.jobInfo))
             console.log("typeof potency:", typeof(potency))
             console.log("typeof expected:", typeof(potency.expectedPotency))
             const expectedPotency = potency.expectedPotency(event)
