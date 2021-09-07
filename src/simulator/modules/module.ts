@@ -11,7 +11,7 @@ export type CastKey = `${number}-${number}`
 export abstract class Module {
     protected data = new DataProvider()
     protected handlers: Map<string, EventHandler<FFLogsEvent>> = new Map()
-    protected dependencies: Module[] = []
+    public dependencies: Module[] = []
 
     protected abstract init(): void
 

@@ -83,6 +83,8 @@ export class Simulator {
                 instance.potency = instance.options.postAdjustment()
             }
 
+            console.log(this.player.dependencies)
+
             // TODO level stuff (80 assumed for now)
             // eslint-disable-next-line @typescript-eslint/no-magic-numbers
             const damage = expectedDamage(instance, this.player.jobInfo, 80, stats)
