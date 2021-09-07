@@ -38,7 +38,7 @@ export class Bard extends Player {
     private adjustPitchPerfect = (event: DamageEvent) => {
         const ppTiers = [100, 250, 450]
 
-        return () => {
+        return (() => {
             console.log("adj PP")
             console.log("typeof potency:", typeof(this.potency))
             console.log("typeof expected:", typeof(this.potency.expectedPotency))
@@ -50,13 +50,13 @@ export class Bard extends Player {
             })
 
             return closestTier
-        }
+        }).bind(this)
     }
 
     private adjustApexArrow = (event: DamageEvent) => {
         const potencyPerGauge = 6
 
-        return () => {
+        return (() => {
             console.log("adj AA")
             console.log("typeof potency:", typeof(this.potency))
             console.log("typeof expected:", typeof(this.potency.expectedPotency))
@@ -66,7 +66,7 @@ export class Bard extends Player {
             const closestGauge = Math.ceil((expectedPotency / potencyPerGauge) / 5) * 5
 
             return Math.min(closestGauge, 100) * 6
-        }
+        }).bind(this)
     }
 
     protected onDamage(event: DamageEvent) {
