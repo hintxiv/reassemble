@@ -40,6 +40,9 @@ export class Bard extends Player {
 
         return (() => {
             console.log("adj PP")
+            console.log("bard?", this instanceof Bard)
+            console.log("potency?", this instanceof Potency)
+            console.log("player?", this instanceof Player)
             console.log("typeof potency:", typeof(this.potency))
             console.log("typeof expected:", typeof(this.potency.expectedPotency))
             const expectedPotency = this.potency.expectedPotency(event)
@@ -58,6 +61,10 @@ export class Bard extends Player {
 
         return (() => {
             console.log("adj AA")
+            console.log("instance?", this instanceof Bard)
+            console.log("potency?", this instanceof Potency)
+            console.log("player?", this instanceof Player)
+
             console.log("typeof potency:", typeof(this.potency))
             console.log("typeof expected:", typeof(this.potency.expectedPotency))
             const expectedPotency = this.potency.expectedPotency(event)
