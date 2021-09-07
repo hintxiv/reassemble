@@ -32,6 +32,8 @@ export abstract class Player extends Entity {
     }
 
     protected init() {
+        console.log("player init")
+
         // Add handlers to maintain activeStatuses
         Object.values(this.data.statuses).forEach(status => {
             this.addHandler('applybuff', status.id, this.onApplyStatus)

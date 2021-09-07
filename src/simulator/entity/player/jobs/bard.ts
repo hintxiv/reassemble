@@ -18,8 +18,10 @@ export class Bard extends Player {
     protected init() {
         super.init()
 
+        console.log("bard init")
         this.potency = new Potency(this.casts)
         this.addDependency(this.potency)
+        console.log("typeof potency:", typeof(this.potency))
 
         this.addBuff(RS)
 
