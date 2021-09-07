@@ -37,15 +37,16 @@ export class Bard extends Player {
 
     private adjustPitchPerfect = (event: DamageEvent) => {
         const ppTiers = [100, 250, 450]
+        const potency = this.potency
 
         return (() => {
             console.log("adj PP")
             console.log("bard?", this instanceof Bard)
             console.log("potency?", this instanceof Potency)
             console.log("player?", this instanceof Player)
-            console.log("typeof potency:", typeof(this.potency))
-            console.log("typeof expected:", typeof(this.potency.expectedPotency))
-            const expectedPotency = this.potency.expectedPotency(event)
+            console.log("typeof potency:", typeof(potency))
+            console.log("typeof expected:", typeof(potency.expectedPotency))
+            const expectedPotency = potency.expectedPotency(event)
 
             // Figure out how many stacks of PP this event was most likely cast with
             const closestTier = ppTiers.reduce((a, b) => {
@@ -64,7 +65,6 @@ export class Bard extends Player {
             console.log("instance?", this instanceof Bard)
             console.log("potency?", this instanceof Potency)
             console.log("player?", this instanceof Player)
-
             console.log("typeof potency:", typeof(this.potency))
             console.log("typeof expected:", typeof(this.potency.expectedPotency))
             const expectedPotency = this.potency.expectedPotency(event)
