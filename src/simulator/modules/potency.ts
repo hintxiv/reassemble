@@ -34,6 +34,7 @@ export class Potency extends Module {
      * Returns the expected potency the given event was cast with
      */
     public expectedPotency(event: DamageEvent): number {
+        console.log("expected potency called")
         const adjustedDamage = this.getAdjustedDamage(event)
 
         return adjustedDamage / this.potencyRatio

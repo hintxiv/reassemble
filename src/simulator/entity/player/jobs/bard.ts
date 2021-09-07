@@ -37,6 +37,9 @@ export class Bard extends Player {
         const ppTiers = [100, 250, 450]
 
         return () => {
+            console.log("adj PP")
+            console.log("typeof potency:", typeof(this.potency))
+            console.log("typeof expected:", typeof(this.potency.expectedPotency))
             const expectedPotency = this.potency.expectedPotency(event)
 
             // Figure out how many stacks of PP this event was most likely cast with
@@ -52,6 +55,9 @@ export class Bard extends Player {
         const potencyPerGauge = 6
 
         return () => {
+            console.log("adj AA")
+            console.log("typeof potency:", typeof(this.potency))
+            console.log("typeof expected:", typeof(this.potency.expectedPotency))
             const expectedPotency = this.potency.expectedPotency(event)
 
             // Figure out how much gauge this event was most likely cast with
@@ -67,9 +73,11 @@ export class Bard extends Player {
 
         // Attach adjustments to the actions that need it
         if (action.id === BRD.ACTIONS.PITCH_PERFECT.id) {
+            console.log("attaching pp")
             options.postAdjustment = this.adjustPitchPerfect(event)
 
         } else if (action.id === BRD.ACTIONS.APEX_ARROW.id) {
+            console.log("attaching aa")
             options.postAdjustment = this.adjustApexArrow(event)
         }
 
