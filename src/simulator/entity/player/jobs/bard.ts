@@ -40,20 +40,21 @@ export class Bard extends Player {
         const potency = this.potency
 
         return (() => {
-            console.log("adj PP")
-            console.log(typeof(this.init))
-            console.log(typeof(this.jobInfo))
-            console.log(typeof(this.adjustApexArrow))
-            console.log("typeof potency:", typeof(potency))
-            console.log("typeof expected:", typeof(potency.expectedPotency))
-            const expectedPotency = potency.expectedPotency(event)
-
-            // Figure out how many stacks of PP this event was most likely cast with
-            const closestTier = ppTiers.reduce((a, b) => {
-                return Math.abs(b - expectedPotency) < Math.abs(a - expectedPotency) ? b : a
-            })
-
-            return closestTier
+            return 0
+            //console.log("adj PP")
+            //console.log(typeof(this.init))
+            //console.log(typeof(this.jobInfo))
+            //console.log(typeof(this.adjustApexArrow))
+            //console.log("typeof potency:", typeof(potency))
+            //console.log("typeof expected:", typeof(potency.expectedPotency))
+            //const expectedPotency = potency.expectedPotency(event)
+//
+            //// Figure out how many stacks of PP this event was most likely cast with
+            //const closestTier = ppTiers.reduce((a, b) => {
+            //    return Math.abs(b - expectedPotency) < Math.abs(a - expectedPotency) ? b : a
+            //})
+//
+            //return closestTier
         }).bind(this)
     }
 
@@ -61,13 +62,14 @@ export class Bard extends Player {
         const potencyPerGauge = 6
 
         return (() => {
-            console.log("adj AA")
-            const expectedPotency = this.potency.expectedPotency(event)
-
-            // Figure out how much gauge this event was most likely cast with
-            const closestGauge = Math.ceil((expectedPotency / potencyPerGauge) / 5) * 5
-
-            return Math.min(closestGauge, 100) * 6
+            return 0
+            //console.log("adj AA")
+            //const expectedPotency = this.potency.expectedPotency(event)
+//
+            //// Figure out how much gauge this event was most likely cast with
+            //const closestGauge = Math.ceil((expectedPotency / potencyPerGauge) / 5) * 5
+//
+            //return Math.min(closestGauge, 100) * 6
         }).bind(this)
     }
 
