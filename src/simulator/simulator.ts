@@ -83,7 +83,7 @@ export class Simulator {
                 instance.potency = instance.options.postAdjustment()
             }
 
-            console.log(this.player.dependencies)
+            this.player.dependencies.forEach(dep => console.log(dep))
 
             // TODO level stuff (80 assumed for now)
             // eslint-disable-next-line @typescript-eslint/no-magic-numbers
