@@ -37,11 +37,13 @@ export class Bard extends Player {
 
     private adjustPitchPerfect(event: DamageEvent) {
         const ppTiers = [100, 250, 450]
-        const potency = this.potency
+        const importantFunction = this.potency.expectedPotency.bind({})
 
         return function() {
             console.log(typeof this)
+            console.log(this instanceof Bard)
             console.log(typeof(this.potency))
+            console.log(typeof(importantFunction))
             return 0
             //console.log("adj PP")
             //console.log(typeof(this.init))
