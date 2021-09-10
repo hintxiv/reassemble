@@ -43,6 +43,7 @@ export class Bard extends Player {
             console.log("adj PP")
             console.log(typeof(this.init))
             console.log(typeof(this.jobInfo))
+            console.log(typeof(this.adjustApexArrow))
             console.log("typeof potency:", typeof(potency))
             console.log("typeof expected:", typeof(potency.expectedPotency))
             const expectedPotency = potency.expectedPotency(event)
