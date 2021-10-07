@@ -18,10 +18,8 @@ export class Bard extends Player {
     protected init() {
         super.init()
 
-        console.log("bard init")
         this.potency = new Potency(this.casts)
         this.addDependency(this.potency)
-        console.log("typeof potency:", typeof(this.potency))
 
         this.addBuff(RS)
 
@@ -37,44 +35,30 @@ export class Bard extends Player {
 
     private adjustPitchPerfect(event: DamageEvent) {
         const ppTiers = [100, 250, 450]
-        const importantFunction = this.potency.expectedPotency.bind({})
 
-        return function() {
-            console.log(typeof this)
-            console.log(this instanceof Bard)
-            console.log(typeof(this.potency))
-            console.log(typeof(importantFunction))
-            return 0
-            //console.log("adj PP")
-            //console.log(typeof(this.init))
-            //console.log(typeof(this.jobInfo))
-            //console.log(typeof(this.adjustApexArrow))
-            //console.log("typeof potency:", typeof(potency))
-            //console.log("typeof expected:", typeof(potency.expectedPotency))
-            //const expectedPotency = potency.expectedPotency(event)
-//
-            //// Figure out how many stacks of PP this event was most likely cast with
-            //const closestTier = ppTiers.reduce((a, b) => {
-            //    return Math.abs(b - expectedPotency) < Math.abs(a - expectedPotency) ? b : a
-            //})
-//
-            //return closestTier
-        }.bind(this)
+        return () => {
+            const expectedPotency = this.potency.expectedPotency(event)
+
+            // Figure out how many stacks of PP this event was most likely cast with
+            const closestTier = ppTiers.reduce((a, b) => {
+                return Math.abs(b - expectedPotency) < Math.abs(a - expectedPotency) ? b : a
+            })
+
+            return closestTier
+        }
     }
 
     private adjustApexArrow(event: DamageEvent) {
         const potencyPerGauge = 6
 
-        return function() {
-            return 0
-            //console.log("adj AA")
-            //const expectedPotency = this.potency.expectedPotency(event)
-//
-            //// Figure out how much gauge this event was most likely cast with
-            //const closestGauge = Math.ceil((expectedPotency / potencyPerGauge) / 5) * 5
-//
-            //return Math.min(closestGauge, 100) * 6
-        }.bind(this)
+        return () => {
+            const expectedPotency = this.potency.expectedPotency(event)
+
+            // Figure out how much gauge this event was most likely cast with
+            const closestGauge = Math.ceil((expectedPotency / potencyPerGauge) / 5) * 5
+
+            return Math.min(closestGauge, 100) * 6
+        }
     }
 
     protected onDamage(event: DamageEvent) {
@@ -83,11 +67,9 @@ export class Bard extends Player {
 
         // Attach adjustments to the actions that need it
         if (action.id === BRD.ACTIONS.PITCH_PERFECT.id) {
-            console.log("attaching pp")
             options.postAdjustment = this.adjustPitchPerfect(event)
 
         } else if (action.id === BRD.ACTIONS.APEX_ARROW.id) {
-            console.log("attaching aa")
             options.postAdjustment = this.adjustApexArrow(event)
         }
 

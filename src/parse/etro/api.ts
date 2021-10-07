@@ -1,20 +1,19 @@
 import ky, { Options } from 'ky'
-import { Stats, makeStats } from 'simulator/entity/player/stats'
+import { Stats, makeStats } from 'simulator/gear/stats'
 
-const statLookup: Record<string, keyof Stats> = {
-    ['Weapon Damage']: 'weapondamage',
-    ['Weapon DMG']: 'weapondamage',
-    STR: 'strength',
-    DEX: 'dexterity',
-    VIT: 'vitality',
-    INT: 'intelligence',
-    MND: 'mind',
-    CRT: 'critical',
-    DET: 'determination',
-    DH: 'direct',
-    SKS: 'skillspeed',
-    SPS: 'spellspeed',
-    TEN: 'tenacity',
+const statIDs: Record<number, keyof Stats> = {
+    [12]: 'weaponDamage',
+    [-1]: 'strength', // TODO
+    [2]: 'dexterity',
+    [3]: 'vitality',
+    [-2]: 'intelligence', // TODO
+    [-3]: 'mind', // TODO
+    [22]: 'direct',
+    [27]: 'critical',
+    [44]: 'determination',
+    [45]: 'skillspeed',
+    [-4]: 'spellspeed', // TODO
+    [-5]: 'tenacity', // TODO
 }
 
 const options: Options = {
@@ -26,7 +25,7 @@ const etro = ky.create(options)
 interface EtroResponseGearset
 {
     name: string
-    totalParams: Array< {name: string, value: number} >
+    totalParams: Array<{ id: number, name: string, value: number }>
     // ... some other stuff too, but we only care about these fields
 }
 
@@ -42,10 +41,10 @@ export async function getStats(id: string): Promise<{name: string, stats: Stats}
     const stats = makeStats()
 
     gearset.totalParams.forEach(p => {
-        if (p.name in statLookup) {
-            stats[statLookup[p.name]] = p.value
+        if (p.id in statIDs) {
+            stats[statIDs[p.id]] = p.value
         }
     })
 
-    return {name, stats}
+    return { name, stats }
 }

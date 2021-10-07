@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { DatumValue } from '@nivo/core'
-import { Stats } from 'simulator/entity/player/stats'
+import { Stats } from 'simulator/gear/stats'
 
 // Convert seconds to mm:ss
 export function formatSeconds(seconds: number | DatumValue) {
@@ -23,7 +23,7 @@ export function formatDamage(damage: number | DatumValue) {
 }
 
 export const PROPER_STAT_NAME: Record<keyof Stats, string> = {
-    weapondamage: 'Weapon Damage',
+    weaponDamage: 'Weapon Damage',
     vitality: 'Vitality',
     strength: 'Strength',
     dexterity: 'Dexterity',
@@ -38,7 +38,7 @@ export const PROPER_STAT_NAME: Record<keyof Stats, string> = {
 }
 
 export const SHORT_STAT_NAME: Record<keyof Stats, string> = {
-    weapondamage: 'WD',
+    weaponDamage: 'WD',
     vitality: 'VIT',
     strength: 'STR',
     dexterity: 'DEX',

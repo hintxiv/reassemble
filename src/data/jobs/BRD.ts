@@ -7,7 +7,7 @@ export const BRD_INFO: JobInfo = {
     playerCtor: Bard,
     mainStat: Attribute.DEX,
     stats: [
-        'weapondamage',
+        'weaponDamage',
         'vitality',
         'dexterity',
         'critical',

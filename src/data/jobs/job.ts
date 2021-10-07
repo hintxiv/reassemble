@@ -1,6 +1,6 @@
 import { Attribute } from 'math/modifiers/job'
 import { Player } from 'simulator/entity'
-import { Stats } from 'simulator/entity/player/stats'
+import { Stats } from 'simulator/gear/stats'
 import { CastHandler, DamageHandler } from 'simulator/handlers'
 import { DamageType } from '../../simulator/damage'
 import { Patch } from '../patch'

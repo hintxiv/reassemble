@@ -1,6 +1,6 @@
 import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@material-ui/core'
 import * as React from 'react'
-import { Stats } from 'simulator/entity/player/stats'
+import { Stats } from 'simulator/gear/stats'
 import { PROPER_STAT_NAME, SHORT_STAT_NAME } from 'utilities/format'
 import { GearsetInfo } from '../Result'
 import { GearsetRow } from './GearsetRow'

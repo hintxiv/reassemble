@@ -5,7 +5,7 @@ import { Friend } from 'parse/fflogs/fight'
 import { FFLogsParser } from 'parse/fflogs/parser'
 import { DamageInstance } from 'simulator/damage'
 import { Enemy, Player } from 'simulator/entity'
-import { Stats } from 'simulator/entity/player/stats'
+import { Stats } from 'simulator/gear/stats'
 import { RAID_DEBUFFS } from 'simulator/raidbuffs'
 import { CastHandler, DamageHandler } from './handlers'
 

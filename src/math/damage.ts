@@ -1,12 +1,12 @@
 import { JobInfo } from 'data/jobs'
 import { DamageInstance } from 'simulator/damage'
-import { Stats } from 'simulator/entity/player/stats'
+import { Stats } from 'simulator/gear/stats'
 import * as Funcs from './functions'
 import { JOB_MODS } from './modifiers/job'
 import { Level } from './modifiers/level'
 import { PET_MODS } from './modifiers/pet'
 
-const PARTY_BONUS = 1.05  // assume the full 5% buff
+const PARTY_BONUS = 1  // assume the full 5% buff
 
 function fl(x: number) { return Math.floor(x) }
 
@@ -20,7 +20,7 @@ function baseDamage(potency: number, partyBonus: number, trait: number, jobMod_a
     const det = Funcs.fDET(stats.determination, level)
     const ap = Funcs.fAP(mainstat)
     const tnc = 1000 // TODO tanks
-    const wd = Funcs.fWD(stats.weapondamage, level, jobMod_att)
+    const wd = Funcs.fWD(stats.weaponDamage, level, jobMod_att)
 
     const d1 = fl(fl(fl(potency * ap * det) / 100) / 1000)
     const d2 = fl(fl(fl(fl(fl(fl(d1 * tnc) / 1000) * wd) / 100) * trait) / 100)
@@ -28,12 +28,15 @@ function baseDamage(potency: number, partyBonus: number, trait: number, jobMod_a
     return d2
 }
 
-function baseDoTDamage(potency: number, trait: number, jobMod_att: number, level: Level, stats: Stats) {
+function baseDoTDamage(potency: number, partyBonus: number, trait: number, jobMod_att: number, level: Level, stats: Stats) {
+    // TODO select main stat other than dex
+    const mainstat = fl(stats.dexterity * partyBonus)
+
     const det = Funcs.fDET(stats.determination, level)
-    const ap = Funcs.fAP(stats.dexterity)
+    const ap = Funcs.fAP(mainstat)
     const tnc = 1000 // TODO
     const spd = Funcs.fSPD(stats.skillspeed, level) // TODO speed
-    const wd = Funcs.fWD(stats.weapondamage, level, jobMod_att)
+    const wd = Funcs.fWD(stats.weaponDamage, level, jobMod_att)
 
     const d1 = fl(fl(fl(potency * ap * det) / 100) / 1000)
     const d2 = fl(fl(fl(fl(fl(fl(fl(fl(d1 * tnc) / 1000) * spd) / 1000) * wd) / 100) * trait) / 100) + 1
@@ -43,12 +46,15 @@ function baseDoTDamage(potency: number, trait: number, jobMod_att: number, level
     return d2
 }
 
-function baseAutoDamage(potency: number, trait: number, delay: number, jobMod_att: number, level: Level, stats: Stats) {
+function baseAutoDamage(potency: number, partyBonus: number, trait: number, delay: number, jobMod_att: number, level: Level, stats: Stats) {
+    // TODO select main stat other than dex
+    const mainstat = fl(stats.dexterity * partyBonus)
+
     const det = Funcs.fDET(stats.determination, level)
-    const ap = Funcs.fAP(stats.dexterity)
+    const ap = Funcs.fAP(mainstat)
     const tnc = 1000 // TODO
     const spd = Funcs.fSPD(stats.skillspeed, level) // TODO speed
-    const auto = Funcs.fAUTO(stats.weapondamage, delay, level, jobMod_att)
+    const auto = Funcs.fAUTO(stats.weaponDamage, delay, level, jobMod_att)
 
     const d1 = fl(fl(fl(potency * ap * det) / 100) / 1000)
     const d2 = fl(fl(fl(fl(fl(fl(fl(fl(d1 * tnc) / 1000) * spd) / 1000) * auto) / 100) * trait) / 100)
@@ -83,10 +89,10 @@ export function expectedDamage(hit: DamageInstance, job: JobInfo, level: Level, 
         damage = baseDamage(hit.potency, partyBonus, trait, jobMod_att, 80, newstats)
 
     } else if (hit.type === 'DoT') {
-        damage = baseDoTDamage(hit.potency, trait, jobMod_att, 80, newstats)
+        damage = baseDoTDamage(hit.potency, partyBonus, trait, jobMod_att, 80, newstats)
 
     } else if (hit.type === 'Auto') {
-        damage = baseAutoDamage(hit.potency, trait, job.weaponDelay, jobMod_att, 80, newstats)
+        damage = baseAutoDamage(hit.potency, partyBonus, trait, job.weaponDelay, jobMod_att, 80, newstats)
     }
 
     // Apply damage falloff (for AoEs)

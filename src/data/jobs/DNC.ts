@@ -7,7 +7,7 @@ export const DNC_INFO: JobInfo = {
     playerCtor: Dancer,
     mainStat: Attribute.DEX,
     stats: [
-        'weapondamage',
+        'weaponDamage',
         'vitality',
         'dexterity',
         'critical',

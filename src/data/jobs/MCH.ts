@@ -7,7 +7,7 @@ export const MCH_INFO: JobInfo = {
     playerCtor: Machinist,
     mainStat: Attribute.DEX,
     stats: [
-        'weapondamage',
+        'weaponDamage',
         'vitality',
         'dexterity',
         'critical',
