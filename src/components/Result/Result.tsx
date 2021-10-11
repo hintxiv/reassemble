@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Paper, Typography } from '@material-ui/core'
-import { getStats } from 'parse/etro/api'
+import { getStats } from 'parse/etro/parser'
 import { Friend } from 'parse/fflogs/fight'
 import { FFLogsParser } from 'parse/fflogs/parser'
 import * as React from 'react'
@@ -47,6 +47,7 @@ export class Result extends React.Component<Props, State> {
     private recast = parseFloat(this.props.match.params.gcd)
 
     private simulator: Simulator
+    private parser: FFLogsParser
 
     constructor(props: Props) {
         super(props)
@@ -66,6 +67,8 @@ export class Result extends React.Component<Props, State> {
     private async setup(reportID: string, fightID: number) {
         const parser = new FFLogsParser(reportID, fightID)
         await parser.init()
+
+        this.parser = parser
 
         const player = parser.fight.friends
             .filter((friend: Friend) => friend.id === this.playerID)[0]
@@ -99,7 +102,7 @@ export class Result extends React.Component<Props, State> {
             return
         }
 
-        const { name, stats } = await getStats(gearsetID)
+        const { name, stats } = await getStats(gearsetID, this.parser.fight.zoneID)
         const result = await this.simulator.calculateDamage(stats)
 
         const gearsetInfo: GearsetInfo = {

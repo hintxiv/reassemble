@@ -72,6 +72,7 @@ export async function fetchFight(reportID: string, fightID: number): Promise<Fig
     return {
         reportID: reportID,
         fightID: reportFight.id,
+        zoneID: reportFight.zoneID,
         encounter: reportFight.name,
         start: reportFight.start_time,
         end: reportFight.end_time,

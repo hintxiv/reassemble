@@ -10,6 +10,7 @@ export enum HitType {
 
 export interface ReportFight {
     id: number
+    zoneID: number
     start_time: number
     end_time: number
     name: string

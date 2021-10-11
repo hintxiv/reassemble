@@ -1,7 +1,7 @@
 import ky, { Options } from 'ky'
-import { Stats, makeStats } from 'simulator/gear/stats'
+import { Stats } from 'simulator/gear/stats'
 
-const statIDs: Record<number, keyof Stats> = {
+export const statIDs: Record<number, keyof Stats> = {
     [12]: 'weaponDamage',
     [-1]: 'strength', // TODO
     [2]: 'dexterity',
@@ -22,29 +22,106 @@ const options: Options = {
 
 const etro = ky.create(options)
 
-interface EtroResponseGearset
-{
+export const equipmentKeys = [
+    'weapon', 'head', 'body', 'hands', 'waist', 'legs', 'feet',
+    'offHand', 'ears', 'neck', 'wrists', 'fingerL', 'fingerR',
+] as const
+
+export type Slot = typeof equipmentKeys[number]
+
+export interface EtroResponseGearset {
     name: string
+    jobAbbrev: string
     totalParams: Array<{ id: number, name: string, value: number }>
-    // ... some other stuff too, but we only care about these fields
+    weapon?: string
+    relics?: {
+        weapon: string,
+    }
+    head: string
+    body: string
+    hands: string
+    waist: string
+    legs: string
+    feet: string
+    offHand?: string
+    ears: string
+    neck: string
+    wrists: string
+    fingerL: string
+    fingerR: string
+    food: string
+
+    materia: Record<string, Record<string, number>>
+
+    // Some other stuff that we don't care about
 }
 
-async function getGearset(id: string): Promise<EtroResponseGearset> {
+export interface EtroResponseEquipment {
+    name: string
+    itemLevel: number
+    param0?: number
+    param1?: number
+    param2?: number
+    param3?: number
+    param4?: number
+    param5?: number
+    param0Value: number
+    param1Value: number
+    param2Value: number
+    param3Value: number
+    param4Value: number
+    param5Value: number
+    damageMag: number
+    damagePhys: number
+}
+
+export interface EtroResponseRelic {
+    name: string
+    baseItem: {
+        itemLevel: number
+        param0?: number
+        param1?: number
+        param2?: number
+        param3?: number
+        param4?: number
+        param5?: number
+        param0Value: number
+        param1Value: number
+        param2Value: number
+        param3Value: number
+        param4Value: number
+        param5Value: number
+        damageMag: number
+        damagePhys: number
+    }
+    param0?: number
+    param1?: number
+    param2?: number
+    param3?: number
+    param4?: number
+    param5?: number
+    param0Value: number
+    param1Value: number
+    param2Value: number
+    param3Value: number
+    param4Value: number
+    param5Value: number
+}
+
+export async function fetchGearset(id: string): Promise<EtroResponseGearset> {
     const response = await etro.get(`gearsets/${id}/`)
 
     return response.json()
 }
 
-export async function getStats(id: string): Promise<{name: string, stats: Stats}> {
-    const gearset = await getGearset(id)
-    const name = gearset.name
-    const stats = makeStats()
+export async function fetchEquipment(id: string): Promise<EtroResponseEquipment> {
+    const response = await etro.get(`equipment/${id}/`)
 
-    gearset.totalParams.forEach(p => {
-        if (p.id in statIDs) {
-            stats[statIDs[p.id]] = p.value
-        }
-    })
+    return response.json()
+}
 
-    return { name, stats }
+export async function fetchRelic(id: string): Promise<EtroResponseRelic> {
+    const response = await etro.get(`relic/${id}/`)
+
+    return response.json()
 }
