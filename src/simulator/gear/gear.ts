@@ -32,3 +32,22 @@ export interface Gear
     stats: Partial<Stats>
     materiaStats?: Partial<Stats>
 }
+
+export interface Food
+{
+    name: string
+    stats: Array<{
+        stat: keyof Stats
+        max: number
+        multiplier: number
+    }>
+}
+
+export interface Gearset
+{
+    id: string
+    name: string
+    stats: Stats
+    food?: Food
+    gear?: Gear[]
+}

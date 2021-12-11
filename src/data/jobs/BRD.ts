@@ -1,9 +1,10 @@
-import { Attribute } from 'math/modifiers/job'
+import { Attribute } from 'functions/modifiers/job'
 import { Bard } from 'simulator/entity/player/jobs/bard'
 import { JobInfo } from './job'
 
 export const BRD_INFO: JobInfo = {
-    name: 'Bard',
+    job: 'Bard',
+    role: 'Ranged',
     playerCtor: Bard,
     mainStat: Attribute.DEX,
     stats: [

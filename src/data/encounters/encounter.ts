@@ -1,4 +1,4 @@
-import { Level } from 'math/modifiers/level'
+import { Level } from 'functions/modifiers/level'
 import { GearGroup } from 'simulator/gear/gear'
 import { StatGroup } from 'simulator/gear/stats'
 

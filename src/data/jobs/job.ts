@@ -1,4 +1,4 @@
-import { Attribute } from 'math/modifiers/job'
+import { Attribute } from 'functions/modifiers/job'
 import { Player } from 'simulator/entity'
 import { Stats } from 'simulator/gear/stats'
 import { CastHandler, DamageHandler } from 'simulator/handlers'
@@ -14,9 +14,17 @@ export type Job =
     | 'Dancer'
     | 'Machinist'
 
+export type Role =
+    | 'Tank'
+    | 'Healer'
+    | 'Melee'
+    | 'Ranged'
+    | 'Caster'
+
 export interface JobInfo
 {
-    name: Job
+    job: Job
+    role: Role
     playerCtor: {
         // hmm... this part should probably be handled by the simulator instead
         new (id: number, castCallback: CastHandler, damageCallback: DamageHandler): Player

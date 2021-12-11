@@ -5,12 +5,12 @@ export const ACTIONS = preserve<Action>()({
     ATTACK: {
         id: 7,
         type: 'Auto',
-        potency: 110,
+        potency: 90,
     },
     SHOT: {
         id: 8,
         type: 'Auto',
-        potency: 100,
+        potency: 80,
     },
 })
 

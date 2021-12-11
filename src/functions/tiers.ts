@@ -40,7 +40,7 @@ const TIERING_MAP: Record<TieredStat, (stat: number, level?: Level) => number> =
     tenacity: () => 0, // TODO
 }
 
-export function getTiers(stat: TieredStat, a: number, b: number, level: Level = 80) {
+export function getTiers(stat: TieredStat, a: number, b: number, level: Level = 90) {
     if (a === b) { return 0 }
 
     const tierFn = TIERING_MAP[stat]

@@ -7,7 +7,7 @@ import { CastInstance, DamageOptions } from 'simulator/damage'
 import { CastKey } from 'simulator/modules/module'
 import { CastHandler, DamageHandler } from '../../handlers'
 import { RAID_BUFFS } from '../../raidbuffs'
-import {  Entity } from '../entity'
+import { Entity } from '../entity'
 
 export abstract class Player extends Entity {
     public jobInfo: JobInfo

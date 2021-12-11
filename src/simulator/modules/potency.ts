@@ -1,4 +1,4 @@
-import { critModFromRate } from 'math/functions'
+import { critModFromRate } from 'functions/functions'
 import { DamageEvent, TickEvent } from 'parse/fflogs/event'
 import { CastInstance } from 'simulator/damage'
 import { CastKey, Module } from './module'
@@ -72,7 +72,7 @@ export class Potency extends Module {
 
         // TODO level stuff again lol
         // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-        return critModFromRate(critRate, 80)
+        return critModFromRate(critRate, 90)
     }
 
     private getAdjustedDamage(event: DamageEvent) {

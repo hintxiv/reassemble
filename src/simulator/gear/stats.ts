@@ -44,18 +44,18 @@ export const statMap: Record<keyof Stats, StatGroup> = {
  */
 export function makeStats(someStats?: Partial<Stats> | Array<Partial<Stats>>): Stats {
     const stats: Stats = {
-        weaponDamage: 1,
-        vitality: 340,
-        strength: 340,
-        dexterity: 340,
-        intelligence: 340,
-        mind: 340,
-        critical: 380,
-        determination: 380,
-        direct: 380,
-        skillspeed: 380,
-        spellspeed: 380,
-        tenacity: 380,
+        weaponDamage: 0,
+        vitality: 390,
+        strength: 448,
+        dexterity: 448,
+        intelligence: 448,
+        mind: 448,
+        critical: 400,
+        determination: 390,
+        direct: 400,
+        skillspeed: 400,
+        spellspeed: 400,
+        tenacity: 400,
     }
 
     if (Array.isArray(someStats)) {

@@ -3,7 +3,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import DoneIcon from '@material-ui/icons/Done'
 import EditIcon from '@material-ui/icons/Edit'
 import FileCopyIcon from '@material-ui/icons/FileCopy'
-import { fGCD } from 'math/functions'
+import FunctionsIcon from '@material-ui/icons/Functions'
+import { fGCD } from 'functions/functions'
 import * as React from 'react'
 import { Stats } from 'simulator/gear/stats'
 import { formatDamage } from 'utilities/format'
@@ -41,6 +42,7 @@ interface Props {
     removeGearset: (gearset: GearsetInfo) => Promise<void>
     updateGearset: (gearset: GearsetInfo, stats: Stats, name: string) => Promise<void>
     cloneGearset: (gearset: GearsetInfo) => Promise<void>
+    solveMelds: (gearset: GearsetInfo) => Promise<void>
 }
 
 interface State {
@@ -114,7 +116,7 @@ export class GearsetRow extends React.Component<Props, State> {
         const speedStat = this.props.stats.includes('skillspeed') ? 'skillspeed' : 'spellspeed'
         // TODO level stuff
         // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-        const gearsetRecast = fGCD(setStats[speedStat], 80)
+        const gearsetRecast = fGCD(setStats[speedStat], 90)
 
         if (stat !== speedStat || gearsetRecast === this.props.recast) {
             return <Typography>
@@ -192,6 +194,11 @@ export class GearsetRow extends React.Component<Props, State> {
                         <Tooltip title="Remove">
                             <IconButton size="small" onClick={() => this.props.removeGearset(set)}>
                                 <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Solve Melds">
+                            <IconButton size="small" onClick={() => this.props.solveMelds(set)}>
+                                <FunctionsIcon />
                             </IconButton>
                         </Tooltip>
                     </>}

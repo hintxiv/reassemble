@@ -1,11 +1,13 @@
 import { Box, CircularProgress, Paper, Typography } from '@material-ui/core'
-import { getStats } from 'parse/etro/parser'
+import { getGearset } from 'parse/etro/parser'
 import { Friend } from 'parse/fflogs/fight'
 import { FFLogsParser } from 'parse/fflogs/parser'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
+import { Gear, Gearset } from 'simulator/gear/gear'
 import { Stats, makeStats } from 'simulator/gear/stats'
 import { Simulator } from 'simulator/simulator'
+import { solveMateria } from 'solve/solveMateria'
 import { formatSeconds } from 'utilities/format'
 import { v4 as uuid } from 'uuid'
 import { GearsetTable } from './GearsetTable/GearsetTable'
@@ -23,12 +25,9 @@ interface RouterProps {
 
 type Props = RouteComponentProps<RouterProps>
 
-export interface GearsetInfo {
-    id: string
-    name: string
+export interface GearsetInfo extends Gearset {
     expected: number
     total: number
-    stats: Stats
     data: GraphData
 }
 
@@ -102,22 +101,24 @@ export class Result extends React.Component<Props, State> {
             return
         }
 
-        const { name, stats } = await getStats(gearsetID, this.parser.fight.zoneID)
-        const result = await this.simulator.calculateDamage(stats)
+        const gearset = await getGearset(gearsetID, this.parser.fight.zoneID)
+        const result = await this.simulator.calculateDamage(gearset.stats)
 
         const gearsetInfo: GearsetInfo = {
-            id: gearsetID,
-            name: name,
-            stats: stats,
+            ...gearset,
             expected: result.expected,
             total: result.total,
             data: {
-                id: name,
+                id: gearset.name,
                 data: result.data,
             },
         }
 
         this.updateGearsets([...this.state.gearsets, gearsetInfo])
+    }
+
+    private solveMelds = async (gearset: GearsetInfo) => {
+        const solution = solveMateria(gearset)
     }
 
     private getUniqueGearsetName(name: string) {
@@ -232,6 +233,7 @@ export class Result extends React.Component<Props, State> {
                         removeGearset={this.removeGearset}
                         updateGearset={this.updateGearset}
                         cloneGearset={this.cloneGearset}
+                        solveMelds={this.solveMelds}
                     />
                 }
             </Box>

@@ -41,6 +41,7 @@ export class EtroImport extends React.Component<Props, State> {
 
         } catch (e) {
             this.setState({ hasError: true })
+            console.error(e)
             return
         }
     }

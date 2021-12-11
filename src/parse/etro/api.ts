@@ -56,8 +56,7 @@ export interface EtroResponseGearset {
     // Some other stuff that we don't care about
 }
 
-export interface EtroResponseEquipment {
-    name: string
+interface EtroResponseEquipmentBase {
     itemLevel: number
     param0?: number
     param1?: number
@@ -73,27 +72,18 @@ export interface EtroResponseEquipment {
     param5Value: number
     damageMag: number
     damagePhys: number
+    maxParams: {
+        [param: number]: number,
+    }
+}
+
+export interface EtroResponseEquipment extends EtroResponseEquipmentBase {
+    name: string
 }
 
 export interface EtroResponseRelic {
     name: string
-    baseItem: {
-        itemLevel: number
-        param0?: number
-        param1?: number
-        param2?: number
-        param3?: number
-        param4?: number
-        param5?: number
-        param0Value: number
-        param1Value: number
-        param2Value: number
-        param3Value: number
-        param4Value: number
-        param5Value: number
-        damageMag: number
-        damagePhys: number
-    }
+    baseItem: EtroResponseEquipmentBase
     param0?: number
     param1?: number
     param2?: number
@@ -106,6 +96,19 @@ export interface EtroResponseRelic {
     param3Value: number
     param4Value: number
     param5Value: number
+}
+
+export interface EtroResponseFood {
+    name: string
+    param0: number
+    param1: number
+    param2: number
+    maxHQ0: number
+    maxHQ1: number
+    maxHQ2: number
+    valueHQ0: number
+    valueHQ1: number
+    valueHQ2: number
 }
 
 export async function fetchGearset(id: string): Promise<EtroResponseGearset> {
@@ -122,6 +125,12 @@ export async function fetchEquipment(id: string): Promise<EtroResponseEquipment>
 
 export async function fetchRelic(id: string): Promise<EtroResponseRelic> {
     const response = await etro.get(`relic/${id}/`)
+
+    return response.json()
+}
+
+export async function fetchFood(id: string): Promise<EtroResponseFood> {
+    const response = await etro.get(`food/${id}/`)
 
     return response.json()
 }

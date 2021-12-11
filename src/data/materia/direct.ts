@@ -1,5 +1,20 @@
 import { Materia } from './materia'
 
+const HEAVENS_EYE_MATERIA_X: Materia = {
+    id: 33931,
+    name: "Heavens' Eye Materia X",
+    stat: 'direct',
+    amount: 36,
+}
+
+const HEAVENS_EYE_MATERIA_IX: Materia = {
+    id: 33918,
+    name: "Heavens' Eye Materia IX",
+    stat: 'direct',
+    amount: 12,
+}
+
+
 const HEAVENS_EYE_VIII: Materia = {
     id: 26728,
     name: "Heavens' Eye Materia VIII",
@@ -29,6 +44,8 @@ const HEAVENS_EYE_V: Materia = {
 }
 
 export const DIRECT_MATERIA = {
+    33931: HEAVENS_EYE_MATERIA_X,
+    33918: HEAVENS_EYE_MATERIA_IX,
     26728: HEAVENS_EYE_VIII,
     25187: HEAVENS_EYE_VII,
     18018: HEAVENS_EYE_VI,

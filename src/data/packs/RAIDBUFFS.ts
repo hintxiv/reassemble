@@ -1,5 +1,5 @@
-import {preserve} from 'utilities/types'
-import {Debuff, Status} from '../types'
+import { preserve } from 'utilities/types'
+import { Debuff, Status } from '../types'
 
 export const STATUSES = preserve<Status>()({
     BATTLE_LITANY: {
@@ -20,6 +20,10 @@ export const STATUSES = preserve<Status>()({
     DEVOTION: {
         id: 1213,
     },
+    EMBOLDEN: {
+        id: 1297,
+        stacks: true,
+    },
     LEFT_EYE: {
         id: 1454,
     },
@@ -32,6 +36,9 @@ export const STATUSES = preserve<Status>()({
     TECHNICAL_FINISH: {
         id: 1822,
     },
+
+    // AST cards
+    // ...
 })
 
 export const DEBUFFS = preserve<Debuff>()({

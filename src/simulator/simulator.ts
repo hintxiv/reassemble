@@ -1,5 +1,5 @@
 import { JOBS } from 'data/jobs'
-import { expectedDamage } from 'math/damage'
+import { expectedDamage } from 'functions/damage'
 import { FFLogsEvent } from 'parse/fflogs/event'
 import { Friend } from 'parse/fflogs/fight'
 import { FFLogsParser } from 'parse/fflogs/parser'
@@ -83,9 +83,9 @@ export class Simulator {
                 instance.potency = instance.options.postAdjustment()
             }
 
-            // TODO level stuff (80 assumed for now)
+            // TODO level stuff (90 assumed for now)
             // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-            const damage = expectedDamage(instance, this.player.jobInfo, 80, stats)
+            const damage = expectedDamage(instance, this.player.jobInfo, 90, stats)
             totalDamage += damage
 
             const timeSoFar = (instance.timestamp - this.parser.fight.start) / 1000

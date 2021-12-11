@@ -19,6 +19,7 @@ const PET_ACTIONS = [
 const BATTERY_GEN = {
     [MCH.ACTIONS.HEATED_CLEAN_SHOT.id]: 10,
     [MCH.ACTIONS.AIR_ANCHOR.id]: 20,
+    [MCH.ACTIONS.CHAIN_SAW.id]: 20,
 }
 
 // No status for this, need to fake it
@@ -54,6 +55,7 @@ export class Machinist extends Player {
         this.addHandler('cast', MCH.ACTIONS.AUTOMATON_QUEEN.id, this.onSummon)
         this.addHandler('cast', MCH.ACTIONS.HEATED_CLEAN_SHOT.id, this.onBatteryCast)
         this.addHandler('cast', MCH.ACTIONS.AIR_ANCHOR.id, this.onBatteryCast)
+        this.addHandler('cast', MCH.ACTIONS.CHAIN_SAW.id, this.onBatteryCast)
     }
 
     private onWildfireCast(event: CastEvent) {
@@ -79,8 +81,10 @@ export class Machinist extends Player {
         }
 
         if (event.timestamp < this.lastHypercharge + HYPERCHARGE_DURATION_MS) {
-            // Hypercharge up, weaponskills get buffed
-            addedPotency = 20
+            // Hypercharge up, single target weaponskills get buffed
+            if (!this.data.findAction(event.actionID).multihit) {
+                addedPotency = 20
+            }
         }
 
         this.addCast(event, buffs, { addedPotency: addedPotency })
@@ -90,8 +94,13 @@ export class Machinist extends Player {
         const pet = 'Automaton Queen'
 
         if (event.actionID === MCH.ACTIONS.PILE_BUNKER.id) {
-            const addedPotency = (this.queenSummonedAt * 8) - 400
+            const addedPotency = ((this.queenSummonedAt - 50) * 6.5)
             this.addCast(event, this.activeBuffs, { addedPotency: addedPotency, pet: pet })
+
+        } else if (event.actionID === MCH.ACTIONS.CROWNED_COLLIDER.id) {
+            const addedPotency = ((this.queenSummonedAt - 50) * 7.5)
+            this.addCast(event, this.activeBuffs, { addedPotency: addedPotency, pet: pet })
+
         } else {
             this.addCast(event, this.activeBuffs, { pet: pet })
         }

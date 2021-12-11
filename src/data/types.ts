@@ -28,6 +28,7 @@ export interface Action
 export interface Status
 {
     id: number
+    stacks?: boolean
 }
 
 export interface Debuff extends Status

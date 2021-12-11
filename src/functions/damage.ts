@@ -6,7 +6,7 @@ import { JOB_MODS } from './modifiers/job'
 import { Level } from './modifiers/level'
 import { PET_MODS } from './modifiers/pet'
 
-const PARTY_BONUS = 1  // assume the full 5% buff
+const PARTY_BONUS = 1.05  // assume the full 5% buff
 
 function fl(x: number) { return Math.floor(x) }
 
@@ -18,7 +18,7 @@ function baseDamage(potency: number, partyBonus: number, trait: number, jobMod_a
     const mainstat = fl(stats.dexterity * partyBonus)
 
     const det = Funcs.fDET(stats.determination, level)
-    const ap = Funcs.fAP(mainstat)
+    const ap = Funcs.fAP(mainstat, level)
     const tnc = 1000 // TODO tanks
     const wd = Funcs.fWD(stats.weaponDamage, level, jobMod_att)
 
@@ -33,7 +33,7 @@ function baseDoTDamage(potency: number, partyBonus: number, trait: number, jobMo
     const mainstat = fl(stats.dexterity * partyBonus)
 
     const det = Funcs.fDET(stats.determination, level)
-    const ap = Funcs.fAP(mainstat)
+    const ap = Funcs.fAP(mainstat, level)
     const tnc = 1000 // TODO
     const spd = Funcs.fSPD(stats.skillspeed, level) // TODO speed
     const wd = Funcs.fWD(stats.weaponDamage, level, jobMod_att)
@@ -51,13 +51,13 @@ function baseAutoDamage(potency: number, partyBonus: number, trait: number, dela
     const mainstat = fl(stats.dexterity * partyBonus)
 
     const det = Funcs.fDET(stats.determination, level)
-    const ap = Funcs.fAP(mainstat)
+    const ap = Funcs.fAP(mainstat, level)
     const tnc = 1000 // TODO
     const spd = Funcs.fSPD(stats.skillspeed, level) // TODO speed
     const auto = Funcs.fAUTO(stats.weaponDamage, delay, level, jobMod_att)
 
     const d1 = fl(fl(fl(potency * ap * det) / 100) / 1000)
-    const d2 = fl(fl(fl(fl(fl(fl(fl(fl(d1 * tnc) / 1000) * spd) / 1000) * auto) / 100) * trait) / 100)
+    const d2 = fl(fl(fl(fl(fl(fl(d1 * tnc) / 1000) * spd) / 1000) * auto) / 100)
 
     return d2
 }
@@ -74,7 +74,7 @@ export function expectedDamage(hit: DamageInstance, job: JobInfo, level: Level, 
     // Get base damage depending on the type of the hit
     const attribute = job.damageMap[hit.type]
 
-    let jobMod_att = JOB_MODS[job.name][attribute]
+    let jobMod_att = JOB_MODS[job.job][attribute]
     let trait = job.trait
     let partyBonus = PARTY_BONUS
 
@@ -86,13 +86,13 @@ export function expectedDamage(hit: DamageInstance, job: JobInfo, level: Level, 
     }
 
     if (hit.type === 'Ability' || hit.type === 'Spell' || hit.type === 'Weaponskill') {
-        damage = baseDamage(hit.potency, partyBonus, trait, jobMod_att, 80, newstats)
+        damage = baseDamage(hit.potency, partyBonus, trait, jobMod_att, 90, newstats)
 
     } else if (hit.type === 'DoT') {
-        damage = baseDoTDamage(hit.potency, partyBonus, trait, jobMod_att, 80, newstats)
+        damage = baseDoTDamage(hit.potency, partyBonus, trait, jobMod_att, 90, newstats)
 
     } else if (hit.type === 'Auto') {
-        damage = baseAutoDamage(hit.potency, partyBonus, trait, job.weaponDelay, jobMod_att, 80, newstats)
+        damage = baseAutoDamage(hit.potency, partyBonus, trait, job.weaponDelay, jobMod_att, 90, newstats)
     }
 
     // Apply damage falloff (for AoEs)
@@ -126,6 +126,9 @@ export function expectedDamage(hit: DamageInstance, job: JobInfo, level: Level, 
 
     const critMult = Funcs.fCRIT(newstats.critical, level) / 1000
     const dhMult = 1.25
+
+    console.log(hit)
+    console.log('Base', damage)
 
     return damage * (1 - critRate) * (1 - directRate) +
            damage * (critRate) * (1 - directRate) * critMult +

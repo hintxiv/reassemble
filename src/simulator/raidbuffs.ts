@@ -28,6 +28,10 @@ export const RAID_BUFFS: Buff[] = [
         potency: 1.05,
     },
     {
+        statusID: RAIDBUFFS.STATUSES.EMBOLDEN.id,
+        potency: 1.2, // Decays
+    },
+    {
         statusID: RAIDBUFFS.STATUSES.STANDARD_FINISH.id,
         potency: 1.05,
     },

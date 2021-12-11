@@ -13,6 +13,7 @@ interface Props {
     removeGearset: (gearset: GearsetInfo) => Promise<void>
     updateGearset: (gearset: GearsetInfo, stats: Stats, name: string) => Promise<void>
     cloneGearset: (gearset: GearsetInfo) => Promise<void>
+    solveMelds: (gearset: GearsetInfo) => Promise<void>
 }
 
 interface State {
@@ -90,6 +91,7 @@ export class GearsetTable extends React.Component<Props, State> {
                             removeGearset={this.props.removeGearset}
                             updateGearset={this.props.updateGearset}
                             cloneGearset={this.props.cloneGearset}
+                            solveMelds={this.props.solveMelds}
                         />)}
                     </TableBody>
                 </Table>

@@ -11,16 +11,18 @@ export function fWD(wd: number, level: Level, jobMod_att: number) {
     return Math.floor((lvlMod_main * jobMod_att / 1000) + wd)
 }
 
-// Works for 80 and non-tank only! TODO
-export function fAP(ap: number) {
-    return Math.floor(165 * (ap - 340) / 340) + 100
+// Works for 90 and non-tank only! TODO
+export function fAP(ap: number, level: Level) {
+    const lvlMod_main = LEVEL_MODS[level].MAIN
+
+    return Math.floor(195 * (ap - lvlMod_main) / lvlMod_main) + 100
 }
 
 export function fDET(det: number, level: Level) {
     const lvlMod_main = LEVEL_MODS[level].MAIN
     const lvlMod_div = LEVEL_MODS[level].DIV
 
-    return Math.floor(130 * ((det - lvlMod_main) / lvlMod_div) + 1000)
+    return Math.floor(140 * ((det - lvlMod_main) / lvlMod_div) + 1000)
 }
 
 // export function fTNC(/* ... */) TODO
@@ -72,6 +74,8 @@ export function dhRate(dh: number, level: Level) {
 
 export function fAUTO(wd: number, delay: number, level: Level, jobMod_att: number) {
     const lvlMod_main = LEVEL_MODS[level].MAIN
+
+    console.log('fAuto: ', Math.floor(Math.floor((lvlMod_main * jobMod_att / 1000) + wd) * (delay / 3)))
 
     return Math.floor(Math.floor((lvlMod_main * jobMod_att / 1000) + wd) * (delay / 3))
 }
