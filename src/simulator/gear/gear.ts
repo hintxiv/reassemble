@@ -30,7 +30,9 @@ export interface Gear
     gearGroup: GearGroup
     itemLevel: number
     stats: Partial<Stats>
+    advancedMelding: boolean
     materiaStats?: Partial<Stats>
+    maxSubstat: number
 }
 
 export interface Food

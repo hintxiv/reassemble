@@ -5,12 +5,12 @@ export const ACTIONS = preserve<Action>()({
     BLOODLETTER: {
         id: 110,
         type: 'Ability',
-        potency: 150,
+        potency: 110,
     },
     QUICK_NOCK: {
         id: 106,
         type: 'Weaponskill',
-        potency: 510,
+        potency: 110,
         multihit: true,
     },
     MAGES_BALLAD: {
@@ -26,7 +26,7 @@ export const ACTIONS = preserve<Action>()({
     RAIN_OF_DEATH: {
         id: 117,
         type: 'Ability',
-        potency: 130,
+        potency: 100,
         multihit: true,
     },
     THE_WANDERERS_MINUET: {
@@ -41,7 +41,7 @@ export const ACTIONS = preserve<Action>()({
     EMPYREAL_ARROW: {
         id: 3558,
         type: 'Ability',
-        potency: 230,
+        potency: 200,
     },
     IRON_JAWS: {
         id: 3560,
@@ -51,7 +51,7 @@ export const ACTIONS = preserve<Action>()({
     SIDEWINDER: {
         id: 3562,
         type: 'Ability',
-        potency: 350,
+        potency: 300,
     },
     CAUSTIC_BITE: {
         id: 7406,
@@ -65,14 +65,14 @@ export const ACTIONS = preserve<Action>()({
     },
     SHADOWBITE: {
         id: 16494,
-        type: 'Ability',
-        potency: 220,
+        type: 'Weaponskill',
+        potency: 170,
         multihit: true,
     },
     BURST_SHOT: {
         id: 16495,
         type: 'Weaponskill',
-        potency: 250,
+        potency: 220,
     },
     APEX_ARROW: {
         id: 16496,
@@ -82,7 +82,20 @@ export const ACTIONS = preserve<Action>()({
     REFULGENT_ARROW: {
         id: 7409,
         type: 'Weaponskill',
-        potency: 340,
+        potency: 280,
+    },
+    LADONSBITE: {
+        id: 25783,
+        type: 'Weaponskill',
+        potency: 130,
+        multihit: true,
+    },
+    BLAST_ARROW: {
+        id: 25784,
+        type: 'Weaponskill',
+        potency: 600,
+        multihit: true,
+        falloff: 0.6,
     },
 })
 
@@ -95,7 +108,7 @@ export const STATUSES = preserve<Status>()({
 export const DEBUFFS = preserve<Debuff>()({
     CAUSTIC_BITE: {
         id: 1200,
-        potency: 40,
+        potency: 20,
         castActions: [
             ACTIONS.CAUSTIC_BITE.id,
             ACTIONS.IRON_JAWS.id,
@@ -103,7 +116,7 @@ export const DEBUFFS = preserve<Debuff>()({
     },
     STORMBITE: {
         id: 1201,
-        potency: 50,
+        potency: 25,
         castActions: [
             ACTIONS.STORMBITE.id,
             ACTIONS.IRON_JAWS.id,

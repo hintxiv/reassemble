@@ -21,6 +21,9 @@ export abstract class Player extends Entity {
     protected castCallback: CastHandler
     protected damageCallback: DamageHandler
 
+    // Tells the simulator to track these debuffs on enemies
+    public debuffs?: Buff[]
+
     constructor(id: number, castCallback: CastHandler, damageCallback: DamageHandler) {
         super(id.toString())
 
@@ -114,11 +117,15 @@ export abstract class Player extends Entity {
      * Common event handlers below
      */
     protected onTick(event: TickEvent) {
-        // TODO might need to check source/target IDs?
+        // TODO might need to check source ID?
         const debuff = this.data.findDebuff(event.statusID)
 
         const snapshot = debuff.castActions
-            .map(actionID => `${event.targetKey}-${actionID}`)
+            .map(actionID => {
+                const action = this.data.findAction(actionID)
+                const targetKey = action.multihit ? '' : event.targetKey
+                return `${targetKey}-${actionID}`
+            })
             .map((key: CastKey) => this.casts.get(key))
             .sort((cast1, cast2) => cast2.timestamp - cast1.timestamp)[0]
 

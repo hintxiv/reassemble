@@ -45,7 +45,7 @@ export class Simulator {
             this.enemies.get(event.targetKey).processEvent(event)
 
         } else if (!this.parser.fight.friends.some(friend => friend.id === event.targetID)) {
-            const newEnemy = new Enemy(event.targetKey)
+            const newEnemy = new Enemy(event.targetKey, this.player.debuffs)
             this.enemies.set(event.targetKey, newEnemy)
             newEnemy.processEvent(event)
         }

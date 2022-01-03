@@ -75,7 +75,5 @@ export function dhRate(dh: number, level: Level) {
 export function fAUTO(wd: number, delay: number, level: Level, jobMod_att: number) {
     const lvlMod_main = LEVEL_MODS[level].MAIN
 
-    console.log('fAuto: ', Math.floor(Math.floor((lvlMod_main * jobMod_att / 1000) + wd) * (delay / 3)))
-
     return Math.floor(Math.floor((lvlMod_main * jobMod_att / 1000) + wd) * (delay / 3))
 }

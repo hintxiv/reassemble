@@ -3,7 +3,7 @@ import { Stats } from 'simulator/gear/stats'
 
 export const statIDs: Record<number, keyof Stats> = {
     [12]: 'weaponDamage',
-    [-1]: 'strength', // TODO
+    [1]: 'strength',
     [2]: 'dexterity',
     [3]: 'vitality',
     [-2]: 'intelligence', // TODO
@@ -75,6 +75,7 @@ interface EtroResponseEquipmentBase {
     maxParams: {
         [param: number]: number,
     }
+    advancedMelding: boolean
 }
 
 export interface EtroResponseEquipment extends EtroResponseEquipmentBase {

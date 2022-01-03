@@ -4,7 +4,7 @@ import { Friend } from 'parse/fflogs/fight'
 import { FFLogsParser } from 'parse/fflogs/parser'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { Gear, Gearset } from 'simulator/gear/gear'
+import { Gearset } from 'simulator/gear/gear'
 import { Stats, makeStats } from 'simulator/gear/stats'
 import { Simulator } from 'simulator/simulator'
 import { solveMateria } from 'solve/solveMateria'
@@ -118,7 +118,7 @@ export class Result extends React.Component<Props, State> {
     }
 
     private solveMelds = async (gearset: GearsetInfo) => {
-        const solution = solveMateria(gearset)
+        const solution = solveMateria(gearset, this.simulator)
     }
 
     private getUniqueGearsetName(name: string) {

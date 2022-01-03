@@ -88,12 +88,19 @@ async function getGear(gearset: EtroResponseGearset, weaponDamageType: DamageKey
             equipStats.weaponDamage = equip[weaponDamageType]
         }
 
+        const maxSubstat = Object.keys(equipStats)
+            .filter(stat => ['critical', 'skillspeed', 'spellspeed', 'determination', 'direct', 'piety', 'tenacity'].includes(stat))
+            .reduce((stat1: keyof Stats, stat2: keyof Stats) => equipStats[stat1] > equipStats[stat2] ? stat1 : stat2)
+
         gear.push({
             name: equip.name,
             gearGroup: gearMap[key],
             itemLevel: equip.itemLevel,
             stats: equipStats,
+            advancedMelding: equip.advancedMelding,
             materiaStats: materiaStats,
+            maxSubstat: equipStats[maxSubstat as keyof Stats],
+
         })
     }
 
@@ -126,11 +133,17 @@ async function getRelic(relicID: string, weaponDamageType: DamageKey): Promise<G
         relicStats.weaponDamage = base[weaponDamageType]
     }
 
+    const maxSubstat = Object.keys(relicStats)
+        .filter(stat => ['critical', 'skillspeed', 'spellspeed', 'direct', 'piety', 'tenacity'].includes(stat))
+        .reduce((stat1: keyof Stats, stat2: keyof Stats) => relicStats[stat1] > relicStats[stat2] ? stat1 : stat2)
+
     return {
         name: relic.name,
         gearGroup: 'weapon',
         itemLevel: base.itemLevel,
         stats: relicStats,
+        advancedMelding: base.advancedMelding,
+        maxSubstat: relicStats[maxSubstat as keyof Stats],
     }
 }
 
@@ -177,6 +190,11 @@ export async function getGearset(id: string, zoneID: number): Promise<Gearset> {
             statCaps = enc.rangedStatCaps
         }
         weaponDamageType = 'damagePhys'
+    } else if (['RPR'].includes(gearset.jobAbbrev)) {
+        if (enc) {
+            statCaps = enc.meleeStatCaps
+        }
+        weaponDamageType = 'damagePhys'
     }
 
     const gear = await getGear(gearset, weaponDamageType)
@@ -217,14 +235,6 @@ export async function getGearset(id: string, zoneID: number): Promise<Gearset> {
             stats[stat] += foodStats[stat]
         })
     }
-
-    // TESTING HACK
-    stats['critical'] = 1431
-    stats['determination'] = 1789
-    stats['direct'] = 1518
-    stats['skillspeed'] = 626
-    stats['weaponDamage'] = 115
-    stats['dexterity'] = 2285
 
     return {
         id: id,
