@@ -34,4 +34,13 @@ export const JOB_MODS: Record<Job, JobModifiers> = {
         [Attribute.INT]: 80,
         [Attribute.MND]: 85,
     },
+    Reaper: {
+        [Attribute.HP]: 115,
+        [Attribute.MP]: 100,
+        [Attribute.STR]: 115,
+        [Attribute.VIT]: 100,
+        [Attribute.DEX]: 100,
+        [Attribute.INT]: 80,
+        [Attribute.MND]: 40,
+    },
 }

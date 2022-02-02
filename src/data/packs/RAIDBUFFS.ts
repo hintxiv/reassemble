@@ -17,12 +17,8 @@ export const STATUSES = preserve<Status>()({
     DEVILMENT: {
         id: 1825,
     },
-    DEVOTION: {
-        id: 1213,
-    },
     EMBOLDEN: {
         id: 1297,
-        stacks: true,
     },
     LEFT_EYE: {
         id: 1454,
@@ -36,7 +32,15 @@ export const STATUSES = preserve<Status>()({
     TECHNICAL_FINISH: {
         id: 1822,
     },
-
+    ARCANE_CIRCLE: {
+        id: 2599,
+    },
+    RADIANT_FINALE: {
+        id: 2964,
+    },
+    SEARING_LIGHT: {
+        id: 2703,
+    },
     // AST cards
     // ...
 })

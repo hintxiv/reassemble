@@ -79,6 +79,9 @@ export class Potency extends Module {
         const key = this.getCastKey(event)
 
         if (!this.casts.has(key)) {
+            console.log(event)
+            console.log(key)
+            console.log(this.casts)
             throw new Error('Tried to calculate expected potency, but no matching cast was found.')
         }
         const cast = this.casts.get(key)

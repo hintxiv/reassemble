@@ -8,7 +8,7 @@ import { Player } from '../player'
 
 const RS: Buff = {
     statusID: BRD.STATUSES.RAGING_STRIKES.id,
-    potency: 1.1,
+    potency: 1.15,
 }
 
 export class Bard extends Player {
@@ -34,7 +34,7 @@ export class Bard extends Player {
     }
 
     private adjustPitchPerfect(event: DamageEvent) {
-        const ppTiers = [100, 250, 450]
+        const ppTiers = [100, 220, 360]
 
         return () => {
             const expectedPotency = this.potency.expectedPotency(event)
@@ -49,7 +49,7 @@ export class Bard extends Player {
     }
 
     private adjustApexArrow(event: DamageEvent) {
-        const potencyPerGauge = 6
+        const potencyPerGauge = 5
 
         return () => {
             const expectedPotency = this.potency.expectedPotency(event)

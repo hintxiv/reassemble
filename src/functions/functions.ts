@@ -11,6 +11,13 @@ export function fWD(wd: number, level: Level, jobMod_att: number) {
     return Math.floor((lvlMod_main * jobMod_att / 1000) + wd)
 }
 
+export function attribute(level: Level, jobMod_att: number) {
+    const lvlMod_main = LEVEL_MODS[level].MAIN
+
+    // Hidden trait needed here?
+    return Math.floor(lvlMod_main * (jobMod_att / 100))
+}
+
 // Works for 90 and non-tank only! TODO
 export function fAP(ap: number, level: Level) {
     const lvlMod_main = LEVEL_MODS[level].MAIN
@@ -74,8 +81,6 @@ export function dhRate(dh: number, level: Level) {
 
 export function fAUTO(wd: number, delay: number, level: Level, jobMod_att: number) {
     const lvlMod_main = LEVEL_MODS[level].MAIN
-
-    console.log('fAuto: ', Math.floor(Math.floor((lvlMod_main * jobMod_att / 1000) + wd) * (delay / 3)))
 
     return Math.floor(Math.floor((lvlMod_main * jobMod_att / 1000) + wd) * (delay / 3))
 }

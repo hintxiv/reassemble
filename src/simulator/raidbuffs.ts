@@ -24,12 +24,8 @@ export const RAID_BUFFS: Buff[] = [
         directRate: 0.2,
     },
     {
-        statusID: RAIDBUFFS.STATUSES.DEVOTION.id,
-        potency: 1.05,
-    },
-    {
         statusID: RAIDBUFFS.STATUSES.EMBOLDEN.id,
-        potency: 1.2, // Decays
+        potency: 1.05,
     },
     {
         statusID: RAIDBUFFS.STATUSES.STANDARD_FINISH.id,
@@ -46,6 +42,18 @@ export const RAID_BUFFS: Buff[] = [
     {
         statusID: RAIDBUFFS.STATUSES.MEDICATED.id,
         mainStat: 464,
+    },
+    {
+        statusID: RAIDBUFFS.STATUSES.ARCANE_CIRCLE.id,
+        potency: 1.03,
+    },
+    {
+        statusID: RAIDBUFFS.STATUSES.SEARING_LIGHT.id,
+        potency: 1.03,
+    },
+    {
+        statusID: RAIDBUFFS.STATUSES.RADIANT_FINALE.id,
+        potency: 1.06,
     },
 ]
 

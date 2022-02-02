@@ -8,15 +8,17 @@ import { Entity } from './entity'
  */
 export class Enemy extends Entity {
     private debuffs: Map<Status['id'], Buff> = new Map()
+    private playerDebuffs: Buff[]
 
-    constructor(targetKey: string) {
+    constructor(targetKey: string, playerDebuffs: Buff[]) {
         super(targetKey)
+        this.playerDebuffs = playerDebuffs
         this.init()
     }
 
     protected init() {
         // Add handlers for raid debuffs (chain, trick...)
-        RAID_DEBUFFS.forEach(debuff => {
+        [...RAID_DEBUFFS, ...this.playerDebuffs].forEach(debuff => {
             this.debuffs.set(debuff.statusID, debuff)
             this.addHandler('applydebuff', debuff.statusID, this.onApplyStatus)
             this.addHandler('removedebuff', debuff.statusID, this.onRemoveStatus)

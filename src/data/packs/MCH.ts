@@ -48,7 +48,7 @@ export const ACTIONS = preserve<Action>()({
         potency: 120,
         combo: {
             from: 7411,
-            duration: 15,
+            duration: 30,
             potency: 280,
         },
     },
@@ -58,7 +58,7 @@ export const ACTIONS = preserve<Action>()({
         potency: 110,
         combo: {
             from: 7412,
-            duration: 15,
+            duration: 30,
             potency: 360,
         },
     },
@@ -127,7 +127,7 @@ export const STATUSES = preserve<Status>()({
 export const DEBUFFS = preserve<Debuff>()({
     BIOBLASTER: {
         id: 1866,
-        potency: 60,
+        potency: 50,
         castActions: [ACTIONS.BIOBLASTER.id],
     },
     WILDFIRE: {

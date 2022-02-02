@@ -3,6 +3,7 @@ import * as BRD_DATA from './BRD'
 import * as DNC_DATA from './DNC'
 import * as MCH_DATA from './MCH'
 import * as RAIDBUFF_DATA from './RAIDBUFFS'
+import * as RPR_DATA from './RPR'
 
 const STATUS_OFFSET = 1000000
 
@@ -36,6 +37,12 @@ export const MCH = {
     ACTIONS: MCH_DATA.ACTIONS,
     STATUSES: offsetID(MCH_DATA.STATUSES),
     DEBUFFS: offsetID(MCH_DATA.DEBUFFS),
+}
+
+export const RPR = {
+    ACTIONS: RPR_DATA.ACTIONS,
+    STATUSES: offsetID(RPR_DATA.STATUSES),
+    DEBUFFS: offsetID(RPR_DATA.DEBUFFS),
 }
 
 export const RAIDBUFFS = {
