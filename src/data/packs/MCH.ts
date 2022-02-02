@@ -40,7 +40,7 @@ export const ACTIONS = preserve<Action>()({
     DRILL: {
         id: 16498,
         type: 'Weaponskill',
-        potency: 550,
+        potency: 570,
     },
     HEATED_SLUG_SHOT: {
         id: 7412,
@@ -71,7 +71,7 @@ export const ACTIONS = preserve<Action>()({
     AIR_ANCHOR: {
         id: 16500,
         type: 'Weaponskill',
-        potency: 550,
+        potency: 570,
     },
     WILDFIRE: {
         id: 2878,
@@ -86,7 +86,7 @@ export const ACTIONS = preserve<Action>()({
     CHAIN_SAW: {
         id: 25788,
         type: 'Weaponskill',
-        potency: 550,
+        potency: 570,
         multihit: true,
         falloff: 0.65,
     },

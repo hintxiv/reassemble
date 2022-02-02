@@ -5,7 +5,7 @@ export const ACTIONS = preserve<Action>()({
     CASCADE: {
         id: 15989,
         type: 'Weaponskill',
-        potency: 180,
+        potency: 220,
         startsCombo: true,
         breaksCombo: true,
     },
@@ -16,7 +16,7 @@ export const ACTIONS = preserve<Action>()({
         combo: {
             from: 15989,
             duration: 30,
-            potency: 240,
+            potency: 280,
         },
         breaksCombo: true,
     },
@@ -64,7 +64,7 @@ export const ACTIONS = preserve<Action>()({
     REVERSE_CASCADE: {
         id: 15991,
         type: 'Weaponskill',
-        potency: 240,
+        potency: 280,
     },
     FAN_DANCE: {
         id: 16007,
@@ -80,7 +80,7 @@ export const ACTIONS = preserve<Action>()({
     FOUNTAINFALL: {
         id: 15992,
         type: 'Weaponskill',
-        potency: 300,
+        potency: 340,
     },
     BLOODSHOWER: {
         id: 15996,
@@ -133,7 +133,7 @@ export const ACTIONS = preserve<Action>()({
     QUADRUPLE_TECHNICAL_FINISH: {
         id: 16196,
         type: 'Ability',
-        potency: 1080,
+        potency: 1200,
         multihit: true,
         falloff: 0.75,
     },
