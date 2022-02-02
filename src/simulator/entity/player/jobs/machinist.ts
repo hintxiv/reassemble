@@ -6,8 +6,8 @@ import { Player } from '../player'
 
 const REASSEMBLED: Buff = {
     statusID: MCH.STATUSES.REASSEMBLED.id,
-    critRate: 100,
-    directRate: 100,
+    critRate: 1,
+    directRate: 1,
 }
 
 const PET_ACTIONS = [

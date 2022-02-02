@@ -1,5 +1,5 @@
 import { JobInfo } from 'data/jobs'
-import { ALL } from 'data/packs'
+import { ALL, RAIDBUFFS } from 'data/packs'
 import { Action, Status } from 'data/types'
 import { CastEvent, DamageEvent, TickEvent } from 'parse/fflogs/event'
 import { Buff } from 'simulator/buff'

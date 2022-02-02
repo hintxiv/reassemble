@@ -81,6 +81,7 @@ export function expectedDamage(hit: DamageInstance, job: JobInfo, level: Level, 
         jobMod_att = PET_MODS[pet][attribute] ?? jobMod_att
         trait = PET_MODS[pet].trait ?? trait
         partyBonus = 1  // pets don't get the party bonus
+        newstats[mainStat] -= Funcs.attribute(90, JOB_MODS[job.job][attribute]) - Funcs.attribute(90, jobMod_att)
     }
 
     const main = fl(newstats[mainStat] * partyBonus)

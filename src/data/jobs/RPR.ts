@@ -20,7 +20,7 @@ export const RPR_INFO: JobInfo = {
     trait: 100,
     iconPath: '/jobicons/rpr.svg',
     latest: {major: 6, minor: 0},
-    bis: '89227288-0573-487d-8ccb-1e87fc972efe',
+    bis: '7b72fc2a-f07e-4df9-9a23-05dfa2c46619',
     damageMap: {
         Ability: Attribute.STR,
         Auto: Attribute.STR,

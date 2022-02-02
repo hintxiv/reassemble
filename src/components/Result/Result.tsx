@@ -216,7 +216,7 @@ export class Result extends React.Component<Props, State> {
         return <div className={styles.result}>
             <Box mb={2}>
                 <Typography variant="h4" align="center" color="textPrimary">
-                    {this.state.player} - {this.state.encounter} ({this.state.time})
+                    [{this.simulator.player.jobInfo.job}] {this.state.player} - {this.state.encounter} ({this.state.time})
                 </Typography>
             </Box>
             <Paper>

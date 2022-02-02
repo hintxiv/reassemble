@@ -3,11 +3,10 @@ import { Stats } from 'simulator/gear/stats'
 import { Simulator } from 'simulator/simulator'
 
 /**
- * This is all exploratory work, not really intended for use yet
+ * This is all exploratory work, not really intended for public use yet
  */
 
-
-const STAT_OVERCAP_LIMIT = 2 // allow meld combinations that overcap this much stat
+const STAT_OVERCAP_LIMIT = 4 // allow meld combinations that overcap this much stat
 
 interface Melds {
     stats: Partial<Stats>
@@ -44,14 +43,19 @@ class MeldSet {
     }
 }
 
-function getMeldCombos(gear: Gear, slotsAvailable: number, meldsSoFar: Melds): Melds[] {
+function getMeldCombos(gear: Gear, slotsAvailable: number, meldsSoFar: Melds, sksReq: number): Melds[] {
     const meldAmount = gear.gearGroup === 'accessory'
         ? (slotsAvailable > 2 ? 12 : 36)
         : (slotsAvailable > 3 ? 12 : 36)
 
     const combos = new MeldSet()
 
-    for (const meld of ['critical', 'direct', 'determination'] as Array<keyof Stats>) {
+    const possibilities: Array<keyof Stats> = ['critical', 'direct', 'determination']
+    if (!meldsSoFar.stats.skillspeed || meldsSoFar.stats.skillspeed < sksReq) {
+        possibilities.push('skillspeed')
+    }
+
+    for (const meld of possibilities) {
         if (gear.stats[meld] + (meldsSoFar.stats[meld] ?? 0) + meldAmount > gear.maxSubstat + STAT_OVERCAP_LIMIT) { continue }
 
         const newMelds = copyMelds(meldsSoFar)
@@ -71,7 +75,7 @@ function getMeldCombos(gear: Gear, slotsAvailable: number, meldsSoFar: Melds): M
             combos.add(newMelds)
 
         } else {
-            for (const combo of getMeldCombos(gear, slotsAvailable - 1, newMelds)) {
+            for (const combo of getMeldCombos(gear, slotsAvailable - 1, newMelds, sksReq)) {
                 combos.add(combo)
             }
         }
@@ -80,27 +84,31 @@ function getMeldCombos(gear: Gear, slotsAvailable: number, meldsSoFar: Melds): M
     return combos.combos
 }
 
-function makeMeldSets(gearset: Gearset): Melds[][] {
+function makeMeldSets(gearset: Gearset, sksReq: number): Melds[][] {
     const meldSets = []
 
     for (const gear of gearset.gear) {
         let meldSlots
         if (gear.advancedMelding) {
             meldSlots = 5
+            // Hardcode for adding sks melds
+            //if (gear.name === "Classical Ring of Aiming") {
+            //    meldSlots = 4
+            //}
         } else if (gear.gearGroup === 'accessory') {
-            meldSlots = 1
+            meldSlots = 2
         } else {
             meldSlots = 2
         }
 
-        meldSets.push(getMeldCombos(gear, meldSlots, { stats: {}, gear: [] }))
+        meldSets.push(getMeldCombos(gear, meldSlots, { stats: {}, gear: [] }, sksReq))
     }
 
     return meldSets
 }
 
-function makeCombos(gearset: Gearset): Melds[] {
-    const meldSets = makeMeldSets(gearset)
+function makeCombos(gearset: Gearset, sksReq: number): Melds[] {
+    const meldSets = makeMeldSets(gearset, sksReq)
     let currentMelds = new MeldSet()
 
     for (const melds of meldSets[0]) {
@@ -133,7 +141,8 @@ function makeCombos(gearset: Gearset): Melds[] {
 }
 
 export async function solveMateria(gearset: Gearset, simulator: Simulator): Promise<Stats> {
-    const meldSets = makeCombos(gearset)
+    const sksReq = 132 - 50
+    const meldSets = makeCombos(gearset, sksReq)
 
     const strippedStats: Stats = { ...gearset.stats }
 
@@ -145,9 +154,11 @@ export async function solveMateria(gearset: Gearset, simulator: Simulator): Prom
     }
 
     let best
-    let bestDamage = (await simulator.calculateDamage(gearset.stats)).expected
+    let bestDamage = 0
 
     for (const melds of meldSets) {
+        if (!melds.stats.skillspeed || melds.stats.skillspeed < sksReq) { continue }
+
         const newStats = { ...strippedStats }
 
         // Apply meld set
@@ -163,6 +174,16 @@ export async function solveMateria(gearset: Gearset, simulator: Simulator): Prom
     }
 
     console.log(best)
+
+    const bestStats = { ...strippedStats }
+
+    // Apply meld set
+    for (const stat of Object.keys(best.stats)) {
+        bestStats[stat as keyof Stats] += best.stats[stat as keyof Stats]
+    }
+
+    console.log(bestStats)
+
     console.log(bestDamage)
 
     let currentGear = best.gear[0].name

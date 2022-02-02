@@ -139,12 +139,12 @@ export const ACTIONS = preserve<Action>()({
         falloff: 0.25,
     },
     LEMURES_SLICE: {
-        id: 24393,
+        id: 24399,
         type: 'Ability',
         potency: 200,
     },
     LEMURES_SCYTHE: {
-        id: 24393,
+        id: 24400,
         type: 'Ability',
         potency: 100,
         multihit: true,
