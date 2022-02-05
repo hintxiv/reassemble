@@ -6,6 +6,8 @@ import { formatSeconds } from '../../../utilities/format'
 import { GearsetInfo } from '../Result'
 import { SliceTooltip } from './Tooltip'
 
+const SECONDS_PER_MINUTE = 60
+
 interface Point {
     x: number
     y: number
@@ -30,6 +32,20 @@ export class DamageGraph extends React.Component<Props> {
 
     private getTooltip = ({ slice }: SliceTooltipProps) => {
         return <SliceTooltip axis="x" slice={slice} />
+    }
+
+    private getMinuteTicks(): number[] {
+        const ticks = [0]
+        const data = this.props.gearsets[0].data.data
+
+        let end = data[data.length - 1].x.valueOf()
+
+        while (end > SECONDS_PER_MINUTE) {
+            end -= SECONDS_PER_MINUTE
+            ticks.push(ticks[ticks.length - 1] + SECONDS_PER_MINUTE)
+        }
+
+        return ticks
     }
 
     render() {
@@ -77,12 +93,11 @@ export class DamageGraph extends React.Component<Props> {
                             tickSize: 0,
                             tickPadding: 9,
                             tickRotation: 0,
-                            tickValues: 10,
+                            tickValues: this.getMinuteTicks(),
                             legend: 'Fight Length',
                             legendOffset: 40,
                             legendPosition: 'middle',
                             // Convert seconds to mm:ss
-                            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
                             format: formatSeconds,
                         }}
                         legends={[{

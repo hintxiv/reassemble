@@ -57,7 +57,7 @@ export class Bard extends Player {
             // Figure out how much gauge this event was most likely cast with
             const closestGauge = Math.ceil((expectedPotency / potencyPerGauge) / 5) * 5
 
-            return Math.min(closestGauge, 100) * 5
+            return Math.min(closestGauge, 100) * potencyPerGauge
         }
     }
 
