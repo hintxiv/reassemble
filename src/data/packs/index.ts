@@ -2,6 +2,7 @@ import * as ALL_DATA from './ALL'
 import * as BRD_DATA from './BRD'
 import * as DNC_DATA from './DNC'
 import * as MCH_DATA from './MCH'
+import * as NIN_DATA from './NIN'
 import * as RAIDBUFF_DATA from './RAIDBUFFS'
 import * as RPR_DATA from './RPR'
 
@@ -37,6 +38,12 @@ export const MCH = {
     ACTIONS: MCH_DATA.ACTIONS,
     STATUSES: offsetID(MCH_DATA.STATUSES),
     DEBUFFS: offsetID(MCH_DATA.DEBUFFS),
+}
+
+export const NIN = {
+    ACTIONS: NIN_DATA.ACTIONS,
+    STATUSES: offsetID(NIN_DATA.STATUSES),
+    DEBUFFS: offsetID(NIN_DATA.DEBUFFS),
 }
 
 export const RPR = {

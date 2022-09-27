@@ -13,6 +13,7 @@ export type Job =
     | 'Bard'
     | 'Dancer'
     | 'Machinist'
+    | 'Ninja'
     | 'Reaper'
 
 export type Role =

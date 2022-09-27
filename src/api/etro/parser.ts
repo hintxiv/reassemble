@@ -190,7 +190,7 @@ export async function getGearset(id: string, zoneID: number): Promise<Gearset> {
             statCaps = enc.rangedStatCaps
         }
         weaponDamageType = 'damagePhys'
-    } else if (['RPR'].includes(gearset.jobAbbrev)) {
+    } else if (['RPR', 'NIN'].includes(gearset.jobAbbrev)) {
         if (enc) {
             statCaps = enc.meleeStatCaps
         }

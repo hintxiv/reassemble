@@ -1,5 +1,5 @@
 import { critModFromRate } from 'functions/functions'
-import { DamageEvent, TickEvent } from 'parse/fflogs/event'
+import { DamageEvent, TickEvent } from 'api/fflogs/event'
 import { CastInstance } from 'simulator/damage'
 import { CastKey, Module } from './module'
 
@@ -79,9 +79,9 @@ export class Potency extends Module {
         const key = this.getCastKey(event)
 
         if (!this.casts.has(key)) {
-            console.log(event)
-            console.log(key)
-            console.log(this.casts)
+            console.error(event)
+            console.error(key)
+            console.error(this.casts)
             throw new Error('Tried to calculate expected potency, but no matching cast was found.')
         }
         const cast = this.casts.get(key)

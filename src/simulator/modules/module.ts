@@ -1,5 +1,5 @@
 import { DataProvider } from 'data/provider'
-import { CastEvent, DamageEvent, EventType, FFLogsEvent } from 'parse/fflogs/event'
+import { CastEvent, DamageEvent, EventType, FFLogsEvent } from 'api/fflogs/event'
 import { EventHandler } from 'simulator/handlers'
 
 // Type - ID
@@ -52,8 +52,14 @@ export abstract class Module {
      *
      *   -> Only one handler per action / type combination is permitted!
      */
-    protected addHandler<T extends EventType, E extends Extract<FFLogsEvent, { type: T }>>
-    (type: T, id: number, handler: EventHandler<E>) {
+    protected addHandler<
+        T extends EventType,
+        E extends Extract<FFLogsEvent, { type: T }>,
+    > (
+        type: T,
+        id: number,
+        handler: EventHandler<E>
+    ) {
         const key = `${type}-${id}`
 
         this.handlers.set(key, handler.bind(this))

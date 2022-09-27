@@ -7,13 +7,21 @@ import { Level } from './modifiers/level'
 import { PET_MODS } from './modifiers/pet'
 
 const PARTY_BONUS = 1.05  // assume the full 5% buff
+const DH_MULT = 1.25
 
 function fl(x: number) { return Math.floor(x) }
 
 /**
  * @param trait - IAD, M&M, etc (20% trait = 120)
  */
-function baseDamage(potency: number, mainstat: number, trait: number, jobMod_att: number, level: Level, stats: Stats) {
+function baseDamage(
+    potency: number,
+    mainstat: number,
+    trait: number,
+    jobMod_att: number,
+    level: Level,
+    stats: Stats,
+): number {
     const det = Funcs.fDET(stats.determination, level)
     const ap = Funcs.fAP(mainstat, level)
     const tnc = 1000 // TODO tanks
@@ -25,7 +33,46 @@ function baseDamage(potency: number, mainstat: number, trait: number, jobMod_att
     return d2
 }
 
-function baseDoTDamage(potency: number, mainstat: number, trait: number, jobMod_att: number, level: Level, stats: Stats) {
+function autoCDHDamage(
+    potency: number,
+    mainstat: number,
+    trait: number,
+    buffCritRate: number,
+    buffDHRate: number,
+    jobMod_att: number,
+    level: Level,
+    stats: Stats,
+): number {
+    // Auto crit stuff using Mahdi's janky formulas
+    const pot = potency / 100
+    const ap = Funcs.fAP(mainstat, level) / 100
+    const wd = Funcs.fWD(stats.weaponDamage, level, jobMod_att)
+    const det = Funcs.fDET(stats.determination, level) / 1000
+    const dh = Funcs.fDHAuto(stats.direct, level) / 1000
+    const det_dh = fl((det + dh - 1) * 1000) / 1000
+    const tnc = 1000 / 1000 // TODO tanks
+    const crit = Funcs.fCRIT(stats.critical, level) / 1000
+
+    const d1 = fl(pot * ap * 100) / 100
+    const d2 = fl(d1 * det_dh * 100) / 100
+    const d3 = fl(d2 * tnc * 100) / 100
+    const d4 = fl(d3 * wd)
+    const d5 = fl(fl(d4 * crit) * DH_MULT)
+    const d6 = fl(d5 * (1 + (buffCritRate * (crit - 1))))
+    const d7 = fl(d6 * (1 + (buffDHRate * (DH_MULT - 1))))
+    const d8 = fl(fl(d7 * trait) / 100)
+
+    return d8
+}
+
+function baseDoTDamage(
+    potency: number,
+    mainstat: number,
+    trait: number,
+    jobMod_att: number,
+    level: Level,
+    stats: Stats,
+): number {
     const det = Funcs.fDET(stats.determination, level)
     const ap = Funcs.fAP(mainstat, level)
     const tnc = 1000 // TODO
@@ -35,12 +82,18 @@ function baseDoTDamage(potency: number, mainstat: number, trait: number, jobMod_
     const d1 = fl(fl(fl(potency * ap * det) / 100) / 1000)
     const d2 = fl(fl(fl(fl(fl(fl(fl(fl(d1 * tnc) / 1000) * spd) / 1000) * wd) / 100) * trait) / 100) + 1
 
-    // TODO different formula for magical DoTs (I guess just BLM now...)
-
+    // TODO different formula for magical DoTs
     return d2
 }
 
-function baseAutoDamage(potency: number, mainstat: number, delay: number, jobMod_att: number, level: Level, stats: Stats) {
+function baseAutoDamage(
+    potency: number,
+    mainstat: number,
+    delay: number,
+    jobMod_att: number,
+    level: Level,
+    stats: Stats,
+): number {
     const det = Funcs.fDET(stats.determination, level)
     const ap = Funcs.fAP(mainstat, level)
     const tnc = 1000 // TODO
@@ -84,21 +137,41 @@ export function expectedDamage(hit: DamageInstance, job: JobInfo, level: Level, 
         newstats[mainStat] -= Funcs.attribute(90, JOB_MODS[job.job][attribute]) - Funcs.attribute(90, jobMod_att)
     }
 
+    const potency = fl(hit.potency * (1 - (hit.falloff ?? 0)))
+
     const main = fl(newstats[mainStat] * partyBonus)
 
-    if (hit.type === 'Ability' || hit.type === 'Spell' || hit.type === 'Weaponskill') {
-        damage = baseDamage(hit.potency, main, trait, jobMod_att, 90, newstats)
+    const critRate = Funcs.critRate(newstats.critical, level)
+    const directRate = Funcs.dhRate(newstats.direct, level)
 
-    } else if (hit.type === 'DoT') {
-        damage = baseDoTDamage(hit.potency, main, trait, jobMod_att, 90, newstats)
+    let buffCritRate = 0
+    let buffDHRate = 0
 
-    } else if (hit.type === 'Auto') {
-        damage = baseAutoDamage(hit.potency, main, job.weaponDelay, jobMod_att, 90, newstats)
+    // Apply rate buffs
+    hit.buffs.forEach(buff => {
+        buffCritRate += buff.critRate ?? 0
+        buffDHRate += buff.directRate ?? 0
+    })
+
+    // TODO auto crits without auto DH
+    if (hit.options.critType && hit.options.dhType && hit.options.critType === 'auto' && hit.options.dhType === 'auto') {
+        damage = autoCDHDamage(potency, main, trait, buffCritRate, buffDHRate, jobMod_att, 90, newstats)
+
+        hit.buffs.forEach(buff => {
+            damage = fl(damage * (buff.potency ?? 1))
+        })
+
+        return damage
     }
 
-    // Apply damage falloff (for AoEs)
-    if (hit.falloff) {
-        damage = fl(damage * (1 - hit.falloff))
+    if (hit.type === 'Ability' || hit.type === 'Spell' || hit.type === 'Weaponskill') {
+        damage = baseDamage(potency, main, trait, jobMod_att, 90, newstats)
+
+    } else if (hit.type === 'DoT') {
+        damage = baseDoTDamage(potency, main, trait, jobMod_att, 90, newstats)
+
+    } else if (hit.type === 'Auto') {
+        damage = baseAutoDamage(potency, main, job.weaponDelay, jobMod_att, 90, newstats)
     }
 
     // Apply multiplier buffs
@@ -106,30 +179,7 @@ export function expectedDamage(hit: DamageInstance, job: JobInfo, level: Level, 
         damage = fl(damage * (buff.potency ?? 1))
     })
 
-    let critRate = Funcs.critRate(newstats.critical, level)
-    let directRate = Funcs.dhRate(newstats.direct, level)
-
-    // Apply rate buffs
-    hit.buffs.forEach(buff => {
-        critRate += buff.critRate ?? 0
-        directRate += buff.directRate ?? 0
-    })
-
-    critRate = Math.min(critRate, 1)
-    directRate = Math.min(directRate, 1)
-
-    if (hit.options.noCrit) {
-        critRate = 0
-    }
-    if (hit.options.noDirect) {
-        directRate = 0
-    }
-
     const critMult = Funcs.fCRIT(newstats.critical, level) / 1000
-    const dhMult = 1.25
 
-    return damage * (1 - critRate) * (1 - directRate) +
-           damage * (critRate) * (1 - directRate) * critMult +
-           damage * (1 - critRate) * (directRate) * dhMult +
-           damage * (critRate) * (directRate) * critMult * dhMult
+    return damage * (1 + (critMult - 1) * (critRate + buffCritRate)) * (1 + (DH_MULT - 1) * (directRate + buffDHRate))
 }

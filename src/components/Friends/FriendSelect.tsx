@@ -1,13 +1,13 @@
-import { Box, Button, Grid, TextField, Typography } from '@material-ui/core'
-import { Friend } from 'parse/fflogs/fight'
-import { FFLogsParser } from 'parse/fflogs/parser'
+import { Box, Button, Grid, Typography } from '@material-ui/core'
+import { Friend } from 'api/fflogs/fight'
+import { FFLogsParser } from 'api/fflogs/parser'
+import { RecastSelect } from 'components/RecastSelect/RecastSelect'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { FriendItem } from './FriendItem'
 import styles from './FriendSelect.module.css'
 
 const BASE_RECAST = 2500
-const MIN_RECAST = 1500
 
 interface RouterProps {
     rid: string
@@ -20,7 +20,7 @@ interface State {
     friends?: Friend[]
     selected?: Friend
     recast: number
-    invalidRecast: boolean
+    validRecast: boolean
 }
 
 export class FriendSelect extends React.Component<Props, State> {
@@ -29,7 +29,7 @@ export class FriendSelect extends React.Component<Props, State> {
         super(props)
         this.state = {
             recast: BASE_RECAST,
-            invalidRecast: false,
+            validRecast: true,
         }
     }
 
@@ -48,18 +48,11 @@ export class FriendSelect extends React.Component<Props, State> {
         this.setState({ selected: friend })
     }
 
-    private onRecastChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const recast = parseFloat(event.target.value) * 1000
-
-        if (recast >= MIN_RECAST && recast <= BASE_RECAST) {
-            this.setState({
-                recast: recast,
-                invalidRecast: false,
-            })
-
-        } else {
-            this.setState({ invalidRecast: true })
-        }
+    private onRecastChange = (validRecast: boolean, recast: number) => {
+        this.setState({
+            validRecast: validRecast,
+            recast: recast,
+        })
     }
 
     private onReassembleClick = () => {
@@ -106,25 +99,12 @@ export class FriendSelect extends React.Component<Props, State> {
                             2. Enter your GCD recast
                         </Typography>
                     </Grid>
-                    <Box mb={2}>
-                        <TextField
-                            id="gcd"
-                            variant="outlined"
-                            color="primary"
-                            size="small"
-                            defaultValue={(this.state.recast / 1000).toFixed(2)}
-                            inputProps={{ style: { textAlign: 'center' } }}
-                            style={{ width: 80 }}
-                            error={this.state.invalidRecast}
-                            onChange={this.onRecastChange}
-                        />
-                    </Box>
+                    <RecastSelect
+                        recast={this.state.recast}
+                        onChange={this.onRecastChange}
+                        inputProps={{ style: { textAlign: 'center' } }}
+                    />
                 </Grid>
-                {this.state.invalidRecast &&
-                    <Typography color="error" align="center">
-                        * A valid recast must be between 1.50s and 2.50s.
-                    </Typography>
-                }
             </Box>
             <Box className={styles.button}>
                 <Grid container justify="center">
@@ -133,7 +113,7 @@ export class FriendSelect extends React.Component<Props, State> {
                         variant="contained"
                         color="primary"
                         size="large"
-                        disabled={!this.state.selected || this.state.invalidRecast}
+                        disabled={!this.state.selected || !this.state.validRecast}
                         onClick={this.onReassembleClick}
                     >
                         Reassemble!

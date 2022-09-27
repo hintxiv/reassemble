@@ -3,7 +3,7 @@ import { Stats } from 'simulator/gear/stats'
 import { Simulator } from 'simulator/simulator'
 
 /**
- * This is all exploratory work, not really intended for public use yet
+ * This is all exploratory work, not really intended for public use
  */
 
 const STAT_OVERCAP_LIMIT = 4 // allow meld combinations that overcap this much stat
@@ -89,19 +89,26 @@ function makeMeldSets(gearset: Gearset, sksReq: number): Melds[][] {
 
     for (const gear of gearset.gear) {
         let meldSlots
+
+        // TODO we can pull this from etro?
         if (gear.advancedMelding) {
             meldSlots = 5
-            // Hardcode for adding sks melds
+            // Hardcode for adding certain melds to specific slots
             //if (gear.name === "Classical Ring of Aiming") {
             //    meldSlots = 4
             //}
+        } else if (gear.gearGroup === 'weapon') {
+            meldSlots = 2
+        } else if (gear.name === 'Purgatory Earrings of Aiming') {
+            meldSlots = 1
         } else if (gear.gearGroup === 'accessory') {
             meldSlots = 2
         } else {
             meldSlots = 2
         }
 
-        meldSets.push(getMeldCombos(gear, meldSlots, { stats: {}, gear: [] }, sksReq))
+        const meldCombos = getMeldCombos(gear, meldSlots, { stats: {}, gear: [] }, sksReq)
+        meldSets.push(meldCombos)
     }
 
     return meldSets
@@ -140,8 +147,8 @@ function makeCombos(gearset: Gearset, sksReq: number): Melds[] {
     return currentMelds.combos
 }
 
-export async function solveMateria(gearset: Gearset, simulator: Simulator): Promise<Stats> {
-    const sksReq = 132 - 50
+export async function solveMateria(gearset: Gearset, simulator: Simulator, recast: number): Promise<Gearset> {
+    const sksReq = 36  // TODO get sks/sps requirement from recast
     const meldSets = makeCombos(gearset, sksReq)
 
     const strippedStats: Stats = { ...gearset.stats }
@@ -157,7 +164,7 @@ export async function solveMateria(gearset: Gearset, simulator: Simulator): Prom
     let bestDamage = 0
 
     for (const melds of meldSets) {
-        if (!melds.stats.skillspeed || melds.stats.skillspeed < sksReq) { continue }
+        if ((!melds.stats.skillspeed && sksReq > 0) || melds.stats.skillspeed < sksReq) { continue }
 
         const newStats = { ...strippedStats }
 
@@ -209,5 +216,7 @@ export async function solveMateria(gearset: Gearset, simulator: Simulator): Prom
     console.log(currentGear)
     console.log(currentStats)
 
-    return gearset.stats
+    console.log(recast)
+
+    return gearset
 }

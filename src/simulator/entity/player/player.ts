@@ -1,7 +1,7 @@
+import { CastEvent, DamageEvent, TickEvent } from 'api/fflogs/event'
 import { JobInfo } from 'data/jobs'
-import { ALL, RAIDBUFFS } from 'data/packs'
+import { ALL } from 'data/packs'
 import { Action, Status } from 'data/types'
-import { CastEvent, DamageEvent, TickEvent } from 'parse/fflogs/event'
 import { Buff } from 'simulator/buff'
 import { CastInstance, DamageOptions } from 'simulator/damage'
 import { CastKey } from 'simulator/modules/module'
@@ -94,6 +94,9 @@ export abstract class Player extends Entity {
             this.combos.set(action.id, cast)
         }
 
+        // Notify the simulator to collect debuffs for this cast
+        this.castCallback(cast)
+
         return cast
     }
 
@@ -139,8 +142,7 @@ export abstract class Player extends Entity {
     }
 
     protected onCast(event: CastEvent) {
-        const cast = this.addCast(event, this.activeBuffs)
-        this.castCallback(cast)
+        this.addCast(event, this.activeBuffs)
     }
 
     protected onDamage(event: DamageEvent, options?: DamageOptions) {
@@ -148,6 +150,7 @@ export abstract class Player extends Entity {
 
         if (!this.casts.has(key)) {
             console.warn('Damage event found without a matching cast')
+            console.warn(key)
             console.warn(event)
             return
         }

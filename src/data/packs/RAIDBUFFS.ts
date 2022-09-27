@@ -50,8 +50,8 @@ export const DEBUFFS = preserve<Debuff>()({
         id: 1221,
         castActions: [7436],
     },
-    TRICK_ATTACK: {
+    MUG: {
         id: 638,
-        castActions: [2258],
+        castActions: [2248],
     },
 })

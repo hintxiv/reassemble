@@ -43,7 +43,7 @@ export const ACTIONS = preserve<Action>()({
     STANDARD_FINISH: {
         id: 16003,
         type: 'Ability',
-        potency: 500,
+        potency: 360,
         multihit: true,
         falloff: 0.75,
     },
@@ -105,7 +105,7 @@ export const ACTIONS = preserve<Action>()({
     TECHNICAL_FINISH: {
         id: 16004,
         type: 'Ability',
-        potency: 500,
+        potency: 350,
         multihit: true,
         falloff: 0.75,
     },

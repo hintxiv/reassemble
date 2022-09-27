@@ -1,7 +1,7 @@
 import { Box, Button, createStyles, Icon, Theme, WithStyles, withStyles } from '@material-ui/core'
+import { Friend } from 'api/fflogs/fight'
 import { JobInfo, JOBS } from 'data/jobs'
 import { CURRENT } from 'data/patch'
-import { Friend } from 'parse/fflogs/fight'
 import * as React from 'react'
 
 const styles = (_theme: Theme) => createStyles({

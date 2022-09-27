@@ -1,6 +1,6 @@
+import { CastEvent } from 'api/fflogs/event'
 import { RPR_INFO } from 'data/jobs/RPR'
 import { RPR } from 'data/packs'
-import { CastEvent } from 'parse/fflogs/event'
 import { Buff } from 'simulator/buff'
 import { DamageOptions } from 'simulator/damage'
 import { Player } from '../player'

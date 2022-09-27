@@ -1,14 +1,8 @@
+import { CastEvent } from 'api/fflogs/event'
 import { MCH_INFO } from 'data/jobs/MCH'
 import { MCH } from 'data/packs'
-import { CastEvent } from 'parse/fflogs/event'
-import { Buff } from 'simulator/buff'
+import { DamageOptions } from 'simulator/damage'
 import { Player } from '../player'
-
-const REASSEMBLED: Buff = {
-    statusID: MCH.STATUSES.REASSEMBLED.id,
-    critRate: 1,
-    directRate: 1,
-}
 
 const PET_ACTIONS = [
     MCH.ACTIONS.ARM_PUNCH.id,
@@ -59,7 +53,7 @@ export class Machinist extends Player {
     }
 
     private onWildfireCast(event: CastEvent) {
-        this.addCast(event, this.activeBuffs, { noCrit: true, noDirect: true })
+        this.addCast(event, this.activeBuffs, { critType: 'none', dhType: 'none' })
     }
 
     private onSummon() {
@@ -69,36 +63,37 @@ export class Machinist extends Player {
 
     private onBatteryCast(event: CastEvent) {
         this.battery = Math.min(100, this.battery + BATTERY_GEN[event.actionID])
-        this.onCast(event)
+        this.onWeaponskillCast(event)
     }
 
     private onWeaponskillCast(event: CastEvent) {
         const buffs = this.activeBuffs
-        let addedPotency = 0
+        const options: DamageOptions = {}
 
-        if (this.hasStatus(MCH.STATUSES.REASSEMBLED.id)) {
-            buffs.push(REASSEMBLED)
+        if (this.hasStatus(this.data.statuses.REASSEMBLED.id)) {
+            options.critType = 'auto'
+            options.dhType = 'auto'
         }
 
         if (event.timestamp < this.lastHypercharge + HYPERCHARGE_DURATION_MS) {
             // Hypercharge up, single target weaponskills get buffed
             if (!this.data.findAction(event.actionID).multihit) {
-                addedPotency = 20
+                options.addedPotency = 20
             }
         }
 
-        this.addCast(event, buffs, { addedPotency: addedPotency })
+        this.addCast(event, buffs, options)
     }
 
     private onPetCast(event: CastEvent) {
         const pet = 'Automaton Queen'
 
         if (event.actionID === MCH.ACTIONS.PILE_BUNKER.id) {
-            const addedPotency = ((this.queenSummonedAt - 50) * 6.5)
+            const addedPotency = ((this.queenSummonedAt - 50) * 6.8)
             this.addCast(event, this.activeBuffs, { addedPotency: addedPotency, pet: pet })
 
         } else if (event.actionID === MCH.ACTIONS.CROWNED_COLLIDER.id) {
-            const addedPotency = ((this.queenSummonedAt - 50) * 7.5)
+            const addedPotency = ((this.queenSummonedAt - 50) * 7.8)
             this.addCast(event, this.activeBuffs, { addedPotency: addedPotency, pet: pet })
 
         } else {

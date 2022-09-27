@@ -1,6 +1,6 @@
+import { CastEvent } from 'api/fflogs/event'
 import { DNC_INFO } from 'data/jobs/DNC'
 import { DNC } from 'data/packs'
-import { CastEvent } from 'parse/fflogs/event'
 import { Buff } from 'simulator/buff'
 import { Player } from '../player'
 

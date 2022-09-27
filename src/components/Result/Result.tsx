@@ -1,13 +1,12 @@
 import { Box, CircularProgress, Paper, Typography } from '@material-ui/core'
-import { getGearset } from 'parse/etro/parser'
-import { Friend } from 'parse/fflogs/fight'
-import { FFLogsParser } from 'parse/fflogs/parser'
-import * as React from 'react'
+import { getGearset } from 'api/etro/parser'
+import { Friend } from 'api/fflogs/fight'
+import { FFLogsParser } from 'api/fflogs/parser'
+import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { Gearset } from 'simulator/gear/gear'
 import { Stats, makeStats } from 'simulator/gear/stats'
 import { Simulator } from 'simulator/simulator'
-import { solveMateria } from 'solve/solveMateria'
 import { formatSeconds } from 'utilities/format'
 import { v4 as uuid } from 'uuid'
 import { GearsetTable } from './GearsetTable/GearsetTable'
@@ -15,6 +14,7 @@ import { DamageGraph, GraphData } from './Graph/DamageGraph'
 import { EtroImport } from './Import/EtroImport'
 import { ManualImport } from './Import/ManualImport'
 import styles from './Result.module.css'
+import { SolveDialog } from './SolveDialog'
 
 interface RouterProps {
     rid: string
@@ -26,6 +26,12 @@ interface RouterProps {
 type Props = RouteComponentProps<RouterProps>
 
 export interface GearsetInfo extends Gearset {
+    /* Indicates that this gearset was added manually */
+    manual?: boolean
+    /* Indicates that this gearset has edited stats */
+    edited?: boolean
+    /* Indicates that this gearset was added through the solve dialog */
+    solved?: boolean
     expected: number
     total: number
     data: GraphData
@@ -37,6 +43,7 @@ interface State {
     encounter: string
     player: string
     time: string
+    activeSolveGearset?: GearsetInfo
 }
 
 export class Result extends React.Component<Props, State> {
@@ -118,7 +125,28 @@ export class Result extends React.Component<Props, State> {
     }
 
     private solveMelds = async (gearset: GearsetInfo) => {
-        const solution = solveMateria(gearset, this.simulator)
+        this.setState({ activeSolveGearset: gearset })
+    }
+
+    private solveGearset = async (gearset: Gearset) => {
+        const result = await this.simulator.calculateDamage(gearset.stats)
+        const name = '[Optimal Melds] ' + gearset.name
+
+        const solvedGearset: GearsetInfo = {
+            id: uuid(),
+            name: name,
+            stats: gearset.stats,
+            solved: true,
+            expected: result.expected,
+            total: result.total,
+            data: {
+                id: name,
+                data: result.data,
+            },
+        }
+
+        this.updateGearsets([...this.state.gearsets, solvedGearset])
+        this.setState({ activeSolveGearset: undefined })
     }
 
     private getUniqueGearsetName(name: string) {
@@ -143,6 +171,7 @@ export class Result extends React.Component<Props, State> {
             id: uuid(),
             name: name,
             stats: stats,
+            manual: true,
             expected: result.expected,
             total: result.total,
             data: {
@@ -167,6 +196,7 @@ export class Result extends React.Component<Props, State> {
             id: gearset.id,
             name: name,
             stats: { ...stats },
+            edited: true,
             expected: result.expected,
             total: result.total,
             data: {
@@ -197,6 +227,9 @@ export class Result extends React.Component<Props, State> {
             id: uuid(),
             name: newName,
             stats: { ...gearset.stats },
+            manual: gearset.manual,
+            edited: gearset.edited,
+            solved: gearset.solved,
             expected: gearset.expected,
             total: gearset.total,
             data: {
@@ -213,36 +246,47 @@ export class Result extends React.Component<Props, State> {
             return <CircularProgress size={80} className={styles.loading} />
         }
 
-        return <div className={styles.result}>
-            <Box mb={2}>
-                <Typography variant="h4" align="center" color="textPrimary">
-                    [{this.simulator.player.jobInfo.job}] {this.state.player} - {this.state.encounter} ({this.state.time})
-                </Typography>
-            </Box>
-            <Paper>
-                <Box p={2}>
-                    <DamageGraph gearsets={this.state.gearsets} />
+        return <React.Fragment>
+            {this.state.activeSolveGearset != null &&
+                <SolveDialog
+                    gearset={this.state.activeSolveGearset}
+                    simulator={this.simulator}
+                    recast={this.recast}
+                    onClose={this.solveGearset}
+                />
+            }
+
+            <div className={styles.result}>
+                <Box mb={2}>
+                    <Typography variant="h4" align="center" color="textPrimary">
+                        [{this.simulator.player.jobInfo.job}] {this.state.player} - {this.state.encounter} ({this.state.time})
+                    </Typography>
                 </Box>
-            </Paper>
-            <Box mt={2}>
-                {this.state.gearsets.length > 0 &&
-                    <GearsetTable
-                        gearsets={this.state.gearsets}
-                        recast={this.recast}
-                        stats={this.simulator.player.jobInfo.stats}
-                        removeGearset={this.removeGearset}
-                        updateGearset={this.updateGearset}
-                        cloneGearset={this.cloneGearset}
-                        solveMelds={this.solveMelds}
-                    />
-                }
-            </Box>
-            <Box mt={2}>
-                <EtroImport loadGearset={this.loadGearset} />
-            </Box>
-            <Box mt={1}>
-                <ManualImport addGearset={this.addEmptyGearset} />
-            </Box>
-        </div>
+                <Paper>
+                    <Box p={2}>
+                        <DamageGraph gearsets={this.state.gearsets} />
+                    </Box>
+                </Paper>
+                <Box mt={2}>
+                    {this.state.gearsets.length > 0 &&
+                        <GearsetTable
+                            gearsets={this.state.gearsets}
+                            recast={this.recast}
+                            stats={this.simulator.player.jobInfo.stats}
+                            removeGearset={this.removeGearset}
+                            updateGearset={this.updateGearset}
+                            cloneGearset={this.cloneGearset}
+                            solveMelds={this.solveMelds}
+                        />
+                    }
+                </Box>
+                <Box mt={2}>
+                    <EtroImport loadGearset={this.loadGearset} />
+                </Box>
+                <Box mt={1}>
+                    <ManualImport addGearset={this.addEmptyGearset} />
+                </Box>
+            </div>
+        </React.Fragment>
     }
 }

@@ -3,12 +3,14 @@ import { Buff } from './buff'
 
 export type DamageType = ActionType | 'DoT'
 
+export type RNGType = 'normal' | 'auto' | 'none'
+
 export interface DamageOptions
 {
     pet?: string
     addedPotency?: number
-    noCrit?: boolean
-    noDirect?: boolean
+    critType?: RNGType
+    dhType?: RNGType
     /*
     * If specified, this function will be called after
     * the simulator has processed all events to determine

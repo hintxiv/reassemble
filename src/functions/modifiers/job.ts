@@ -9,7 +9,7 @@ type JobModifiers = { [key in Attribute]: number }
 export const JOB_MODS: Record<Job, JobModifiers> = {
     Bard: {
         [Attribute.HP]: 105,
-        [Attribute.MP]: 79,
+        [Attribute.MP]: 100,
         [Attribute.STR]: 90,
         [Attribute.VIT]: 100,
         [Attribute.DEX]: 115,
@@ -18,7 +18,7 @@ export const JOB_MODS: Record<Job, JobModifiers> = {
     },
     Dancer: {
         [Attribute.HP]: 105,
-        [Attribute.MP]: 79,
+        [Attribute.MP]: 100,
         [Attribute.STR]: 90,
         [Attribute.VIT]: 100,
         [Attribute.DEX]: 115,
@@ -27,11 +27,20 @@ export const JOB_MODS: Record<Job, JobModifiers> = {
     },
     Machinist: {
         [Attribute.HP]: 105,
-        [Attribute.MP]: 79,
+        [Attribute.MP]: 100,
         [Attribute.STR]: 85,
         [Attribute.VIT]: 100,
         [Attribute.DEX]: 115,
         [Attribute.INT]: 80,
+        [Attribute.MND]: 85,
+    },
+    Ninja: {
+        [Attribute.HP]: 108,
+        [Attribute.MP]: 100,
+        [Attribute.STR]: 85,
+        [Attribute.VIT]: 100,
+        [Attribute.DEX]: 110,
+        [Attribute.INT]: 65,
         [Attribute.MND]: 85,
     },
     Reaper: {
