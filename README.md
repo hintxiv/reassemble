@@ -8,7 +8,15 @@ with your exact kill time, party composition, and playstyle by leveraging FFLogs
 
 ~~An extremely WIP build is available for testing at http://142.93.57.143/~~. The beta has been taken down, but the project is still being worked on and can be configured locally. To use it, simply enter an FFLogs fight and get started. 
 
-Currently, only the physical ranged jobs are supported (Bard, Dancer, Machinist).
+## Job Status
+
+✔️ Bard [6.08]
+
+✔️ Dancer [6.08]
+
+✔️ Machinist [6.08]
+
+✔️ Reaper [6.08]
 
 ## Contributing
 
