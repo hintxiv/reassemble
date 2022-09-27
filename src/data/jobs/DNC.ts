@@ -19,7 +19,7 @@ export const DNC_INFO: JobInfo = {
     weaponDelay: 3.12,
     trait: 120,
     iconPath: '/jobicons/dnc.svg',
-    latest: {major: 6, minor: 0},
+    latest: {major: 6, minor: 2},
     bis: '803a3d1c-e1b9-468a-973d-32e2cdfe11d7',
     damageMap: {
         Ability: Attribute.DEX,
