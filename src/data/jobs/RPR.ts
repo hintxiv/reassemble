@@ -19,7 +19,7 @@ export const RPR_INFO: JobInfo = {
     weaponDelay: 3.20,
     trait: 100,
     iconPath: '/jobicons/rpr.svg',
-    latest: {major: 6, minor: 0},
+    latest: {major: 6, minor: 2},
     bis: '7b72fc2a-f07e-4df9-9a23-05dfa2c46619',
     damageMap: {
         Ability: Attribute.STR,
