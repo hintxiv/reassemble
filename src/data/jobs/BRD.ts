@@ -19,7 +19,7 @@ export const BRD_INFO: JobInfo = {
     weaponDelay: 3.04,
     trait: 120,
     iconPath: '/jobicons/brd.svg',
-    latest: {major: 6, minor: 0},
+    latest: {major: 6, minor: 2},
     bis: 'dfef14f7-7a4d-4cde-bdba-a8cee50345e8',
     damageMap: {
         Ability: Attribute.DEX,

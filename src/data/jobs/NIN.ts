@@ -19,7 +19,7 @@ export const NIN_INFO: JobInfo = {
     weaponDelay: 2.56,
     trait: 100,
     iconPath: '/jobicons/nin.svg',
-    latest: {major: 6, minor: 1},
+    latest: {major: 6, minor: 2},
     bis: 'ff32cb2c-8faa-4b69-9c66-73bd02cc13dd',
     damageMap: {
         Ability: Attribute.DEX,
