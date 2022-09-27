@@ -8,12 +8,20 @@ const PET_ACTIONS = [
     MCH.ACTIONS.ARM_PUNCH.id,
     MCH.ACTIONS.ROLLER_DASH.id,
     MCH.ACTIONS.PILE_BUNKER.id,
+    MCH.ACTIONS.CROWNED_COLLIDER.id,
 ]
 
 const BATTERY_GEN = {
     [MCH.ACTIONS.HEATED_CLEAN_SHOT.id]: 10,
     [MCH.ACTIONS.AIR_ANCHOR.id]: 20,
     [MCH.ACTIONS.CHAIN_SAW.id]: 20,
+}
+
+const BATTERY_POTENCY_MAP = {
+    [MCH.ACTIONS.ARM_PUNCH.id]: 2.4,
+    [MCH.ACTIONS.ROLLER_DASH.id]: 4.8,
+    [MCH.ACTIONS.PILE_BUNKER.id]: 6.8,
+    [MCH.ACTIONS.CROWNED_COLLIDER.id]: 7.8,
 }
 
 // No status for this, need to fake it
@@ -86,18 +94,12 @@ export class Machinist extends Player {
     }
 
     private onPetCast(event: CastEvent) {
-        const pet = 'Automaton Queen'
+        const extraBattery = this.queenSummonedAt - 50
+        const addedPotency = extraBattery * BATTERY_POTENCY_MAP[event.actionID]
 
-        if (event.actionID === MCH.ACTIONS.PILE_BUNKER.id) {
-            const addedPotency = ((this.queenSummonedAt - 50) * 6.8)
-            this.addCast(event, this.activeBuffs, { addedPotency: addedPotency, pet: pet })
-
-        } else if (event.actionID === MCH.ACTIONS.CROWNED_COLLIDER.id) {
-            const addedPotency = ((this.queenSummonedAt - 50) * 7.8)
-            this.addCast(event, this.activeBuffs, { addedPotency: addedPotency, pet: pet })
-
-        } else {
-            this.addCast(event, this.activeBuffs, { pet: pet })
-        }
+        this.addCast(event, this.activeBuffs, {
+            addedPotency: addedPotency,
+            pet: 'Automaton Queen',
+        })
     }
 }
