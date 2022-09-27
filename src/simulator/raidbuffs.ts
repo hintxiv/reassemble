@@ -63,7 +63,7 @@ export const RAID_DEBUFFS: Buff[] = [
         critRate: 0.1,
     },
     {
-        statusID: RAIDBUFFS.DEBUFFS.TRICK_ATTACK.id,
+        statusID: RAIDBUFFS.DEBUFFS.MUG.id,
         potency: 1.05,
     },
 ]

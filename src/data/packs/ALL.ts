@@ -15,5 +15,5 @@ export const ACTIONS = preserve<Action>()({
 })
 
 export const STATUSES = preserve<Status>()({
-
+    // Damage downs, etc?
 })

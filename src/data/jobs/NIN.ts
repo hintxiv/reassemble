@@ -1,11 +1,11 @@
 import { Attribute } from 'functions/modifiers/job'
-import { Machinist } from 'simulator/entity/player/jobs/machinist'
+import { Ninja } from 'simulator/entity/player/jobs/ninja'
 import { JobInfo } from './job'
 
-export const MCH_INFO: JobInfo = {
-    job: 'Machinist',
-    role: 'Ranged',
-    playerCtor: Machinist,
+export const NIN_INFO: JobInfo = {
+    job: 'Ninja',
+    role: 'Melee',
+    playerCtor: Ninja,
     mainStat: Attribute.DEX,
     stats: [
         'weaponDamage',
@@ -16,11 +16,11 @@ export const MCH_INFO: JobInfo = {
         'direct',
         'skillspeed',
     ],
-    weaponDelay: 2.64,
-    trait: 120,
-    iconPath: '/jobicons/mch.svg',
+    weaponDelay: 2.56,
+    trait: 100,
+    iconPath: '/jobicons/nin.svg',
     latest: {major: 6, minor: 1},
-    bis: '6b4b1ba5-a821-41a0-b070-b1f50e986f85',
+    bis: 'ff32cb2c-8faa-4b69-9c66-73bd02cc13dd',
     damageMap: {
         Ability: Attribute.DEX,
         Auto: Attribute.DEX,

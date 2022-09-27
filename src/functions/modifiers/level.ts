@@ -10,7 +10,6 @@ export interface LevelModifier
 }
 
 export const LEVEL_MODS = preserve<LevelModifier>()({
-    // TODO
     80: {
         MP: 10000,
         MAIN: 340,

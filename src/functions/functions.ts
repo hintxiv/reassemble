@@ -32,6 +32,13 @@ export function fDET(det: number, level: Level) {
     return Math.floor(140 * ((det - lvlMod_main) / lvlMod_div) + 1000)
 }
 
+export function fDHAuto(dh: number, level: Level) {
+    const lvlMod_main = LEVEL_MODS[level].MAIN
+    const lvlMod_div = LEVEL_MODS[level].DIV
+
+    return Math.floor(140 * ((dh - lvlMod_main) / lvlMod_div) + 1000)
+}
+
 // export function fTNC(/* ... */) TODO
 
 export function fSPD(spd: number, level: Level) {

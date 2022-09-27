@@ -1,5 +1,5 @@
-import {preserve} from 'utilities/types'
-import {Action, Debuff, Status} from '../types'
+import { preserve}  from 'utilities/types'
+import { Action, Debuff, Status } from '../types'
 
 export const ACTIONS = preserve<Action>()({
     SLICE: {

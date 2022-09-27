@@ -111,6 +111,16 @@ export class GearsetRow extends React.Component<Props, State> {
         </span>
     }
 
+    private isEditable = () => {
+        return this.props.gearset.solved == null || this.props.gearset.solved === false
+    }
+
+    private isSolvable = () => {
+        return (this.props.gearset.manual == null || this.props.gearset.manual === false)
+            && (this.props.gearset.edited == null || this.props.gearset.edited === false)
+            && (this.props.gearset.solved == null || this.props.gearset.solved === false)
+    }
+
     private renderStat(stat: keyof Stats) {
         const setStats = this.props.gearset.stats
         const speedStat = this.props.stats.includes('skillspeed') ? 'skillspeed' : 'spellspeed'
@@ -181,8 +191,12 @@ export class GearsetRow extends React.Component<Props, State> {
                         </IconButton>
                     </Tooltip>
                     : <>
-                        <Tooltip title="Edit" onClick={() => this.setState({ editMode: true })}>
-                            <IconButton size="small">
+                        <Tooltip title="Edit">
+                            <IconButton
+                                size="small"
+                                disabled={!this.isEditable()}
+                                onClick={() => this.setState({ editMode: true })}
+                            >
                                 <EditIcon />
                             </IconButton>
                         </Tooltip>
@@ -197,7 +211,11 @@ export class GearsetRow extends React.Component<Props, State> {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Solve Melds">
-                            <IconButton size="small" onClick={() => this.props.solveMelds(set)}>
+                            <IconButton
+                                size="small"
+                                disabled={!this.isSolvable()}
+                                onClick={() => this.props.solveMelds(set)}
+                            >
                                 <FunctionsIcon />
                             </IconButton>
                         </Tooltip>

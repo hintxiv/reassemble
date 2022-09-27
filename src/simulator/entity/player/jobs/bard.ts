@@ -1,6 +1,6 @@
+import { DamageEvent } from 'api/fflogs/event'
 import { BRD_INFO } from 'data/jobs/BRD'
 import { BRD } from 'data/packs'
-import { DamageEvent } from 'parse/fflogs/event'
 import { Buff } from 'simulator/buff'
 import { DamageOptions } from 'simulator/damage'
 import { Potency } from 'simulator/modules/potency'

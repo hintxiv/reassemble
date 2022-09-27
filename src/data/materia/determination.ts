@@ -18,28 +18,28 @@ const SAVAGE_MIGHT_MATERIA_VIII: Materia = {
     id: 26730,
     name: 'Savage Might Materia VIII',
     stat: 'determination',
-    amount: 60,
+    amount: 24,
 }
 
 const SAVAGE_MIGHT_MATERIA_VII: Materia = {
     id: 25189,
     name: 'Savage Might Materia VII',
     stat: 'determination',
-    amount: 20,
+    amount: 8,
 }
 
 const SAVAGE_MIGHT_MATERIA_VI: Materia = {
     id: 18020,
     name: 'Savage Might Materia VI',
     stat: 'determination',
-    amount: 40,
+    amount: 16,
 }
 
 const SAVAGE_MIGHT_MATERIA_V: Materia = {
     id: 5678,
     name: 'Savage Might Materia V',
     stat: 'determination',
-    amount: 12,
+    amount: 6,
 }
 
 export const DETERMINATION_MATERIA = {

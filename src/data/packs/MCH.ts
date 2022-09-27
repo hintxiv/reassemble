@@ -1,6 +1,7 @@
 import {preserve} from 'utilities/types'
 import {Action, Debuff, Status} from '../types'
 
+// TODO -- Flamethrower
 export const ACTIONS = preserve<Action>()({
     GAUSS_ROUND: {
         id: 2874,
@@ -16,7 +17,7 @@ export const ACTIONS = preserve<Action>()({
     HEAT_BLAST: {
         id: 7410,
         type: 'Weaponskill',
-        potency: 170,
+        potency: 180,
     },
     RICOCHET: {
         id: 2890,
@@ -40,7 +41,7 @@ export const ACTIONS = preserve<Action>()({
     DRILL: {
         id: 16498,
         type: 'Weaponskill',
-        potency: 570,
+        potency: 580,
     },
     HEATED_SLUG_SHOT: {
         id: 7412,
@@ -71,7 +72,7 @@ export const ACTIONS = preserve<Action>()({
     AIR_ANCHOR: {
         id: 16500,
         type: 'Weaponskill',
-        potency: 570,
+        potency: 580,
     },
     WILDFIRE: {
         id: 2878,
@@ -86,7 +87,7 @@ export const ACTIONS = preserve<Action>()({
     CHAIN_SAW: {
         id: 25788,
         type: 'Weaponskill',
-        potency: 570,
+        potency: 580,
         multihit: true,
         falloff: 0.65,
     },
@@ -109,12 +110,12 @@ export const ACTIONS = preserve<Action>()({
     PILE_BUNKER: {
         id: 16503,
         type: 'Ability',
-        potency: 325,  // @ 50 battery
+        potency: 340,  // @ 50 battery
     },
     CROWNED_COLLIDER: {
         id: 25787,
         type: 'Ability',
-        potency: 375, // @ 50 battery
+        potency: 390, // @ 50 battery
     },
 })
 
@@ -132,7 +133,7 @@ export const DEBUFFS = preserve<Debuff>()({
     },
     WILDFIRE: {
         id: 861,
-        potency: 900,  // TODO
+        potency: 1320,  // TODO
         castActions: [ACTIONS.WILDFIRE.id],
     },
 })
