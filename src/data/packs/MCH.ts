@@ -100,12 +100,12 @@ export const ACTIONS = preserve<Action>()({
     ARM_PUNCH: {
         id: 16504,
         type: 'Weaponskill',
-        potency: 120,
+        potency: 120, // @ 50 battery
     },
     ROLLER_DASH: {
         id: 17206,
         type: 'Weaponskill',
-        potency: 240,
+        potency: 240, // @ 50 battery
     },
     PILE_BUNKER: {
         id: 16503,
