@@ -16,7 +16,6 @@ export type Job =
     | 'Monk'
     | 'Ninja'
     | 'Reaper'
-    | 'Red Mage'
     | 'Samurai'
 
 export type Role =
