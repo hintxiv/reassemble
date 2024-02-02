@@ -3,7 +3,7 @@ import { Stats } from 'simulator/gear/stats'
 import { Simulator } from 'simulator/simulator'
 
 /**
- * This is all exploratory work, not really intended for public use
+ * Do not use this
  */
 
 const STAT_OVERCAP_LIMIT = 4 // allow meld combinations that overcap this much stat
@@ -98,8 +98,8 @@ function makeMeldSets(gearset: Gearset, sksReq: number): Melds[][] {
             //    meldSlots = 4
             //}
         } else if (gear.gearGroup === 'weapon') {
-            meldSlots = 2
-        } else if (gear.name === 'Purgatory Earrings of Aiming') {
+            meldSlots = 0 // override
+        } else if (gear.name === 'Purgatory Earrings of Aiming' || (gear.gearGroup === 'accessory' && gear.name.startsWith('Voidmoon'))) {
             meldSlots = 1
         } else if (gear.gearGroup === 'accessory') {
             meldSlots = 2
@@ -107,8 +107,10 @@ function makeMeldSets(gearset: Gearset, sksReq: number): Melds[][] {
             meldSlots = 2
         }
 
-        const meldCombos = getMeldCombos(gear, meldSlots, { stats: {}, gear: [] }, sksReq)
-        meldSets.push(meldCombos)
+        if (meldSlots > 0) {
+            const meldCombos = getMeldCombos(gear, meldSlots, { stats: {}, gear: [] }, sksReq)
+            meldSets.push(meldCombos)
+        }
     }
 
     return meldSets
@@ -148,15 +150,17 @@ function makeCombos(gearset: Gearset, sksReq: number): Melds[] {
 }
 
 export async function solveMateria(gearset: Gearset, simulator: Simulator, recast: number): Promise<Gearset> {
-    const sksReq = 36  // TODO get sks/sps requirement from recast
+    const sksReq = 0  // TODO get sks/sps requirement from user input GCD recast
     const meldSets = makeCombos(gearset, sksReq)
 
     const strippedStats: Stats = { ...gearset.stats }
 
     // Remove existing materia
     for (const gear of gearset.gear) {
-        for (const stat of Object.keys(gear.materiaStats)) {
-            strippedStats[stat as keyof Stats] -= gear.materiaStats[stat as keyof Stats]
+        if (gear.materiaStats) {
+            for (const stat of Object.keys(gear.materiaStats)) {
+                strippedStats[stat as keyof Stats] -= gear.materiaStats[stat as keyof Stats]
+            }
         }
     }
 

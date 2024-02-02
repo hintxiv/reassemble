@@ -92,7 +92,7 @@ async function getGear(gearset: EtroResponseGearset, weaponDamageType: DamageKey
             .filter(stat => ['critical', 'skillspeed', 'spellspeed', 'determination', 'direct', 'piety', 'tenacity'].includes(stat))
             .reduce((stat1: keyof Stats, stat2: keyof Stats) => equipStats[stat1] > equipStats[stat2] ? stat1 : stat2)
 
-        gear.push({
+        const gearPiece = {
             name: equip.name,
             gearGroup: gearMap[key],
             itemLevel: equip.itemLevel,
@@ -100,8 +100,9 @@ async function getGear(gearset: EtroResponseGearset, weaponDamageType: DamageKey
             advancedMelding: equip.advancedMelding,
             materiaStats: materiaStats,
             maxSubstat: equipStats[maxSubstat as keyof Stats],
+        }
 
-        })
+        gear.push(gearPiece)
     }
 
     return gear
@@ -190,7 +191,7 @@ export async function getGearset(id: string, zoneID: number): Promise<Gearset> {
             statCaps = enc.rangedStatCaps
         }
         weaponDamageType = 'damagePhys'
-    } else if (['RPR', 'NIN'].includes(gearset.jobAbbrev)) {
+    } else if (['RPR', 'NIN', 'MNK', 'SAM'].includes(gearset.jobAbbrev)) {
         if (enc) {
             statCaps = enc.meleeStatCaps
         }

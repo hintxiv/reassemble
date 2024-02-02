@@ -1,5 +1,5 @@
-import { DataProvider } from 'data/provider'
 import { CastEvent, DamageEvent, EventType, FFLogsEvent } from 'api/fflogs/event'
+import { DataProvider } from 'data/provider'
 import { EventHandler } from 'simulator/handlers'
 
 // Type - ID

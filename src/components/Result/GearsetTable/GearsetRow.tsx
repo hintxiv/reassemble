@@ -1,4 +1,4 @@
-import { Box, IconButton, TableCell, TableRow, TextField, Tooltip, Typography } from '@material-ui/core'
+import { Box, IconButton, Link, TableCell, TableRow, TextField, Tooltip, Typography } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import DoneIcon from '@material-ui/icons/Done'
 import EditIcon from '@material-ui/icons/Edit'
@@ -52,7 +52,6 @@ interface State {
 }
 
 export class GearsetRow extends React.Component<Props, State> {
-
     constructor(props: Props) {
         super(props)
         this.state = {
@@ -61,6 +60,8 @@ export class GearsetRow extends React.Component<Props, State> {
             editedName: props.gearset.name,
         }
     }
+
+    private etroLink = `https://etro.gg/gearset/${this.props.gearset.id}`
 
     private onStatChange(stat: keyof Stats) {
         return (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,7 +156,13 @@ export class GearsetRow extends React.Component<Props, State> {
                         onChange={this.onNameChange}
                     />
                     : <Typography>
-                        {set.name}
+                        {
+                            !(this.props.gearset.solved || this.props.gearset.edited || this.props.gearset.manual) ? (
+                                <Link color="inherit" underline="always" href={this.etroLink} target="_blank">
+                                    {set.name}
+                                </Link>
+                            ) : set.name
+                        }
                     </Typography>
                 }
             </TableCell>

@@ -252,7 +252,8 @@ export class Result extends React.Component<Props, State> {
                     gearset={this.state.activeSolveGearset}
                     simulator={this.simulator}
                     recast={this.recast}
-                    onClose={this.solveGearset}
+                    onSolve={this.solveGearset}
+                    onClose={() => this.setState({ activeSolveGearset: null })}
                 />
             }
 

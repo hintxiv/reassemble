@@ -1,6 +1,5 @@
 import {
     Button,
-    CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
@@ -18,11 +17,11 @@ interface Props {
     gearset: GearsetInfo
     simulator: Simulator
     recast: number
-    onClose: (gearset: Gearset) => void
+    onSolve: (gearset: Gearset) => void
+    onClose: () => void
 }
 
 export function SolveDialog(props: Props): JSX.Element {
-    const [open, setOpen] = useState(true)
     const [recast, setRecast] = useState(props.recast)
 
     const onRecastChange = (validRecast: boolean, recast: number) => {
@@ -33,22 +32,31 @@ export function SolveDialog(props: Props): JSX.Element {
 
     const handleSolve = async () => {
         const gearset = await solveMateria(props.gearset, props.simulator, recast)
-        props.onClose(gearset)
+        props.onSolve(gearset)
     }
 
-    return <Dialog open={open}>
+    return <Dialog open={true}>
         <DialogTitle>
             Solve Melds
         </DialogTitle>
-        <DialogContent style={{ width: '25rem' }}>
-            <Typography>Target GCD</Typography>
-            <RecastSelect recast={props.recast} onChange={onRecastChange} />
+        <DialogContent style={{ width: '15rem' }}>
+            <Typography style={{ textAlign: 'center', marginBottom: '0.5rem' }}>Target GCD</Typography>
+            <RecastSelect
+                inputProps={{
+                    style: {
+                        width: '5rem',
+                        textAlign: 'center',
+                    },
+                }}
+                recast={props.recast}
+                onChange={onRecastChange}
+            />
         </DialogContent>
         <DialogActions>
             <Button autoFocus onClick={handleSolve}>
                 Solve
             </Button>
-            <Button onClick={() => setOpen(false)}>
+            <Button onClick={props.onClose}>
                 Cancel
             </Button>
         </DialogActions>

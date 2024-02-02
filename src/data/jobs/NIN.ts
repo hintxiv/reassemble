@@ -20,7 +20,7 @@ export const NIN_INFO: JobInfo = {
     trait: 100,
     iconPath: '/jobicons/nin.svg',
     latest: {major: 6, minor: 2},
-    bis: 'ff32cb2c-8faa-4b69-9c66-73bd02cc13dd',
+    bis: '6556da3a-4514-439e-b4f4-07e0ccc85e93',
     damageMap: {
         Ability: Attribute.DEX,
         Auto: Attribute.DEX,

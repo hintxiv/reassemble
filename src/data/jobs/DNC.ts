@@ -20,7 +20,7 @@ export const DNC_INFO: JobInfo = {
     trait: 120,
     iconPath: '/jobicons/dnc.svg',
     latest: {major: 6, minor: 2},
-    bis: '803a3d1c-e1b9-468a-973d-32e2cdfe11d7',
+    bis: 'a3d405b8-3bd9-41b1-b039-7a71c4c9f6d2',
     damageMap: {
         Ability: Attribute.DEX,
         Auto: Attribute.DEX,

@@ -23,6 +23,8 @@ with your exact kill time, party composition, and playstyle by leveraging FFLogs
 
 ✔️ Reaper [6.2]
 
+✔️ Samurai [6.4]
+
 ## Contributing
 
 1. Grab the repo with `git clone`

@@ -41,8 +41,24 @@ export const STATUSES = preserve<Status>()({
     SEARING_LIGHT: {
         id: 2703,
     },
-    // AST cards
-    // ...
+    THE_BALANCE: {
+        id: 1882,
+    },
+    THE_BOLE: {
+        id: 1883,
+    },
+    THE_ARROW: {
+        id: 1884,
+    },
+    THE_SPEAR: {
+        id: 1885,
+    },
+    THE_EWER: {
+        id: 1886,
+    },
+    THE_SPIRE: {
+        id: 1887,
+    },
 })
 
 export const DEBUFFS = preserve<Debuff>()({

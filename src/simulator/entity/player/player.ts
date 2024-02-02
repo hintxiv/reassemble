@@ -54,6 +54,12 @@ export abstract class Player extends Entity {
     }
 
     public addCast(event: CastEvent, buffs: Buff[], options: DamageOptions = {}): CastInstance {
+        // TODO zoomed end timestamp check
+        //if (event.timestamp > 70353983) {
+        //    this.casts.delete(this.getCastKey(event))
+        //    return
+        //}
+
         const action = this.data.findAction(event.actionID)
 
         let comboed = false

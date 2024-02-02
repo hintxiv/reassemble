@@ -6,7 +6,7 @@ export const ACTIONS = preserve<Action>()({
     GAUSS_ROUND: {
         id: 2874,
         type: 'Ability',
-        potency: 120,
+        potency: 130,
     },
     SPREAD_SHOT: {
         id: 2870,
@@ -22,7 +22,7 @@ export const ACTIONS = preserve<Action>()({
     RICOCHET: {
         id: 2890,
         type: 'Ability',
-        potency: 120,
+        potency: 130,
         multihit: true,
         falloff: 0.5,
     },
@@ -50,17 +50,17 @@ export const ACTIONS = preserve<Action>()({
         combo: {
             from: 7411,
             duration: 30,
-            potency: 280,
+            potency: 300,
         },
     },
     HEATED_CLEAN_SHOT: {
         id: 7413,
         type: 'Weaponskill',
-        potency: 110,
+        potency: 120,
         combo: {
             from: 7412,
             duration: 30,
-            potency: 360,
+            potency: 380,
         },
     },
     BIOBLASTER: {
