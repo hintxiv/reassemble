@@ -4,9 +4,6 @@
 # build
 /dist
 
-# yarn
-yarn.lock
-
 # local
 .env
 TODO.md
