@@ -24,6 +24,13 @@ export const LEVEL_MODS = preserve<LevelModifier>()({
         DIV: 1900,
         HP: 4400,
     },
+    100: {
+        MP: 10000,
+        MAIN: 440,
+        SUB: 420,
+        DIV: 2780,
+        HP: 4400,
+    },
 })
 
 export type Level = keyof typeof LEVEL_MODS

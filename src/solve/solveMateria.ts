@@ -6,7 +6,7 @@ import { Simulator } from 'simulator/simulator'
  * Do not use this
  */
 
-const STAT_OVERCAP_LIMIT = 4 // allow meld combinations that overcap this much stat
+const STAT_OVERCAP_LIMIT = 53 // allow meld combinations that overcap this much stat
 
 interface Melds {
     stats: Partial<Stats>
@@ -45,8 +45,8 @@ class MeldSet {
 
 function getMeldCombos(gear: Gear, slotsAvailable: number, meldsSoFar: Melds, sksReq: number): Melds[] {
     const meldAmount = gear.gearGroup === 'accessory'
-        ? (slotsAvailable > 2 ? 12 : 36)
-        : (slotsAvailable > 3 ? 12 : 36)
+        ? (slotsAvailable > 2 ? 18 : 54)
+        : (slotsAvailable > 3 ? 18 : 54)
 
     const combos = new MeldSet()
 
@@ -98,11 +98,11 @@ function makeMeldSets(gearset: Gearset, sksReq: number): Melds[][] {
             //    meldSlots = 4
             //}
         } else if (gear.gearGroup === 'weapon') {
-            meldSlots = 0 // override
+            meldSlots = 2 // override
         } else if (gear.name === 'Purgatory Earrings of Aiming' || (gear.gearGroup === 'accessory' && gear.name.startsWith('Voidmoon'))) {
             meldSlots = 1
         } else if (gear.gearGroup === 'accessory') {
-            meldSlots = 2
+            meldSlots = 1
         } else {
             meldSlots = 2
         }

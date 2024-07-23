@@ -1,5 +1,12 @@
 import { Materia } from './materia'
 
+const SAVAGE_AIM_MATERIA_XII: Materia = {
+    id: 41772,
+    name: 'Savage Aim Materia XII',
+    stat: 'critical',
+    amount: 54,
+}
+
 const SAVAGE_AIM_MATERIA_X: Materia = {
     id: 33932,
     name: 'Savage Aim Materia X',
@@ -41,6 +48,7 @@ const SAVAGE_AIM_MATERIA_V: Materia = {
 }
 
 export const CRITICAL_MATERIA = {
+    41772: SAVAGE_AIM_MATERIA_XII,
     33932: SAVAGE_AIM_MATERIA_X,
     33919: SAVAGE_AIM_MATERIA_IX,
     26729: SAVAGE_AIM_MATERIA_VIII,

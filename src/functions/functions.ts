@@ -22,7 +22,7 @@ export function attribute(level: Level, jobMod_att: number) {
 export function fAP(ap: number, level: Level) {
     const lvlMod_main = LEVEL_MODS[level].MAIN
 
-    return Math.floor(195 * (ap - lvlMod_main) / lvlMod_main) + 100
+    return Math.floor(237 * (ap - lvlMod_main) / lvlMod_main) + 100
 }
 
 export function fDET(det: number, level: Level) {

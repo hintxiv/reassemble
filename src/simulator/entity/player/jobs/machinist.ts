@@ -15,6 +15,7 @@ const BATTERY_GEN = {
     [MCH.ACTIONS.HEATED_CLEAN_SHOT.id]: 10,
     [MCH.ACTIONS.AIR_ANCHOR.id]: 20,
     [MCH.ACTIONS.CHAIN_SAW.id]: 20,
+    [MCH.ACTIONS.EXCAVATOR.id]: 20,
 }
 
 const BATTERY_POTENCY_MAP = {
@@ -25,7 +26,7 @@ const BATTERY_POTENCY_MAP = {
 }
 
 // No status for this, need to fake it
-const HYPERCHARGE_DURATION_MS = 8000
+const HYPERCHARGE_DURATION_MS = 10000
 
 export class Machinist extends Player {
     jobInfo = MCH_INFO
@@ -78,7 +79,7 @@ export class Machinist extends Player {
         const buffs = this.activeBuffs
         const options: DamageOptions = {}
 
-        if (this.hasStatus(this.data.statuses.REASSEMBLED.id)) {
+        if (event.actionID === this.data.actions.FULL_METAL_FIELD.id || this.hasStatus(this.data.statuses.REASSEMBLED.id)) {
             options.critType = 'auto'
             options.dhType = 'auto'
         }

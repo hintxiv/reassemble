@@ -19,8 +19,8 @@ export const SAM_INFO: JobInfo = {
     weaponDelay: 2.64,
     trait: 100,
     iconPath: '/jobicons/sam.svg',
-    latest: {major: 6, minor: 4},
-    bis: 'd4b6bfc6-a82f-4732-8e55-7c13e094fc1d',
+    latest: {major: 7, minor: 0},
+    bis: '9d391b8e-a734-4f06-b600-2eff580f0aae',
     damageMap: {
         Ability: Attribute.STR,
         Auto: Attribute.STR,

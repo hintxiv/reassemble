@@ -19,8 +19,8 @@ export const MCH_INFO: JobInfo = {
     weaponDelay: 2.64,
     trait: 120,
     iconPath: '/jobicons/mch.svg',
-    latest: {major: 6, minor: 28},
-    bis: '6b4b1ba5-a821-41a0-b070-b1f50e986f85',
+    latest: {major: 7, minor: 0},
+    bis: 'd0993d6e-4816-4905-9ba6-6a206c073314',
     damageMap: {
         Ability: Attribute.DEX,
         Auto: Attribute.DEX,

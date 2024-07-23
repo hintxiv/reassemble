@@ -11,6 +11,7 @@ export interface DamageOptions
     addedPotency?: number
     critType?: RNGType
     dhType?: RNGType
+    ignoreComboRequirements?: boolean
     /*
     * If specified, this function will be called after
     * the simulator has processed all events to determine

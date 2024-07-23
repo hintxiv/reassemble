@@ -70,6 +70,10 @@ export abstract class Player extends Entity {
             comboed = (event.timestamp - lastUsed < action.combo.duration * 1000)
         }
 
+        if (action.combo && options.ignoreComboRequirements) {
+            comboed = true
+        }
+
         let potency = action.potency
 
         if (comboed) {

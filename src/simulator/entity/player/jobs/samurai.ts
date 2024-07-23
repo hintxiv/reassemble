@@ -12,6 +12,8 @@ const FUGETSU: Buff = {
 const AUTO_CRIT_ACTIONS = [
     SAM.ACTIONS.MIDARE_SETSUGEKKA.id,
     SAM.ACTIONS.KAESHI_SETSUGEKKA.id,
+    SAM.ACTIONS.TENDO_SETSUGEKKA.id,
+    SAM.ACTIONS.TENDO_KAESHI_SETSUGEKKA.id,
     SAM.ACTIONS.OGI_NAMIKIRI.id,
     SAM.ACTIONS.KAESHI_NAMIKIRI.id,
 ]
@@ -40,5 +42,13 @@ export class Samurai extends Player {
 
     private onAutoCrit(event: CastEvent) {
         this.addCast(event, this.activeBuffs, { critType: 'auto' })
+    }
+
+    protected onCast(event: CastEvent) {
+        if (this.hasStatus(this.data.statuses.MEIKYO_SHISUI.id)) {
+            this.addCast(event, this.activeBuffs, { ignoreComboRequirements: true })
+        } else {
+            super.onCast(event)
+        }
     }
 }

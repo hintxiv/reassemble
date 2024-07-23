@@ -1,5 +1,12 @@
 import { Materia } from './materia'
 
+const SAVAGE_MIGHT_MATERIA_XII: Materia = {
+    id: 41773,
+    name: 'Savage Might Materia XII',
+    stat: 'determination',
+    amount: 54,
+}
+
 const SAVAGE_MIGHT_MATERIA_X: Materia = {
     id: 33933,
     name: 'Savage Might Materia X',
@@ -43,6 +50,7 @@ const SAVAGE_MIGHT_MATERIA_V: Materia = {
 }
 
 export const DETERMINATION_MATERIA = {
+    41773: SAVAGE_MIGHT_MATERIA_XII,
     33933: SAVAGE_MIGHT_MATERIA_X,
     33920: SAVAGE_MIGHT_MATERIA_IX,
     26730: SAVAGE_MIGHT_MATERIA_VIII,
