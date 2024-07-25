@@ -7,6 +7,13 @@ const HEAVENS_EYE_MATERIA_XII: Materia = {
     amount: 54,
 }
 
+const HEAVENS_EYE_MATERIA_XI: Materia = {
+    id: 41758,
+    name: "Heavens' Eye Materia XI",
+    stat: 'direct',
+    amount: 18,
+}
+
 const HEAVENS_EYE_MATERIA_X: Materia = {
     id: 33931,
     name: "Heavens' Eye Materia X",
@@ -51,6 +58,7 @@ const HEAVENS_EYE_V: Materia = {
 
 export const DIRECT_MATERIA = {
     41771: HEAVENS_EYE_MATERIA_XII,
+    41758: HEAVENS_EYE_MATERIA_XI,
     33931: HEAVENS_EYE_MATERIA_X,
     33918: HEAVENS_EYE_MATERIA_IX,
     26728: HEAVENS_EYE_VIII,

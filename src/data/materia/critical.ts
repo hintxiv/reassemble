@@ -7,6 +7,13 @@ const SAVAGE_AIM_MATERIA_XII: Materia = {
     amount: 54,
 }
 
+const SAVAGE_AIM_MATERIA_XI: Materia = {
+    id: 41759,
+    name: 'Savage Aim Materia XI',
+    stat: 'critical',
+    amount: 18,
+}
+
 const SAVAGE_AIM_MATERIA_X: Materia = {
     id: 33932,
     name: 'Savage Aim Materia X',
@@ -49,6 +56,7 @@ const SAVAGE_AIM_MATERIA_V: Materia = {
 
 export const CRITICAL_MATERIA = {
     41772: SAVAGE_AIM_MATERIA_XII,
+    41759: SAVAGE_AIM_MATERIA_XI,
     33932: SAVAGE_AIM_MATERIA_X,
     33919: SAVAGE_AIM_MATERIA_IX,
     26729: SAVAGE_AIM_MATERIA_VIII,

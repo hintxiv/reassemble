@@ -7,6 +7,13 @@ const SAVAGE_MIGHT_MATERIA_XII: Materia = {
     amount: 54,
 }
 
+const SAVAGE_MIGHT_MATERIA_XI: Materia = {
+    id: 41760,
+    name: 'Savage Might Materia XI',
+    stat: 'determination',
+    amount: 18,
+}
+
 const SAVAGE_MIGHT_MATERIA_X: Materia = {
     id: 33933,
     name: 'Savage Might Materia X',
@@ -51,6 +58,7 @@ const SAVAGE_MIGHT_MATERIA_V: Materia = {
 
 export const DETERMINATION_MATERIA = {
     41773: SAVAGE_MIGHT_MATERIA_XII,
+    41760: SAVAGE_MIGHT_MATERIA_XI,
     33933: SAVAGE_MIGHT_MATERIA_X,
     33920: SAVAGE_MIGHT_MATERIA_IX,
     26730: SAVAGE_MIGHT_MATERIA_VIII,
